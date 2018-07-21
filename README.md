@@ -23,5 +23,5 @@ See the individual files for more explanations
 
 I have combined [emmet-cli](https://github.com/Delapouite/emmet-cli) with [snippets](https://github.com/shachaf/kak/blob/master/scripts/snippet.kak).
 
-[![asciicast](https://asciinema.org/a/BFUqP7Ho1c0Ts6oManSIUMwqG.png)](https://asciinema.org/a/BFUqP7Ho1c0Ts6oManSIUMwqG)
+[asciicast](https://asciinema.org/a/BFUqP7Ho1c0Ts6oManSIUMwqG)
 
