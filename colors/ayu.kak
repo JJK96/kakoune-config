@@ -1,3 +1,5 @@
+# Ayu colorscheme
+# https://github.com/ayu-theme/ayu-colors
 evaluate-commands %sh{
     bg='rgb:212733'
 	line='rgb:151a1f'

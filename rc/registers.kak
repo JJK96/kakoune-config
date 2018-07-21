@@ -1,3 +1,6 @@
+# View contents of regsters
+# Original source: https://github.com/Delapouite/kakoune-registers/blob/master/registers.kak
+
 def list-registers -docstring 'populate the *registers* buffer with the content of registers' %{
   edit! -scratch *registers*
   %sh{

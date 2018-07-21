@@ -1,0 +1,27 @@
+#!/bin/bash
+# Compile the first main.tex file found in a parent directory
+
+lockfile=/tmp/latex-compile-main.lock
+if [ ! -f $lockfile ]; then
+touch $lockfile
+if [ -z "$1" ]; then
+    path=$(pwd)
+else path="$1"
+fi
+function _find() {
+	file="$(find "$path" -maxdepth 1 -mindepth 1 -name main.tex)"
+}
+while ! [ $file ];
+do
+	_find
+    path="$(readlink -f "$path"/..)"
+done
+cd ${file%main.tex}
+pdflatex --enable-write18 main.tex && \
+pkill -HUP mupdf && \
+bibtex main && \
+pdflatex --enable-write18 main.tex && \
+pdflatex --enable-write18 main.tex && \
+pkill -HUP mupdf
+rm $lockfile
+fi

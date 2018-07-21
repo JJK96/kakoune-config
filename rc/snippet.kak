@@ -1,3 +1,7 @@
+# Snippets
+# Based on: https://github.com/shachaf/kak/blob/master/scripts/snippet.kak
+# Adaptations have been made by me
+
 # TODO: Maybe let snippets use %opt{indentwidth} or something to indent correctly?
 
 declare-option -docstring %{

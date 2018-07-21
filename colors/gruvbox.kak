@@ -1,4 +1,5 @@
 # gruvbox theme
+# Adapted to make the background transparent
 
 evaluate-commands %sh{
     gray="rgb:928374"

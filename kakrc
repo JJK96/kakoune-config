@@ -47,7 +47,6 @@ hook global InsertCompletionHide .* %{
 }
 
 # tabs to spaces
-
 hook global InsertChar \t %{
     exec -draft h@
 }
@@ -63,8 +62,11 @@ alias global e open-in-new-window
 # file types
 hook global BufCreate .*\.xsd %{ set buffer filetype xml }
 
-#connect to kakoune language server
+# kakoune language server
+
+# Depends on https://github.com/ul/kak-lsp
 eval %sh{kak-lsp --kakoune -s $kak_session }
+# Debug output
 #nop %sh{ (kak-lsp1 -s $kak_session -vvv ) > /tmp/kak-lsp.log 2>&1 < /dev/null & }
 lsp-auto-hover-enable
 
@@ -88,25 +90,8 @@ set-option global ui_options ncurses_assistant=off
 
 map global object t -docstring 'xml tag' %{c<lt>.*?<gt>,<lt>/.*?<gt><ret>}
 
-# better indentation
-
-hook global WinSetOption filetype=(p4|php) %[
-    hook -group c-family-indent window ModeChange insert:.* c-family-trim-autoindent
-    hook -group c-family-insert window InsertChar \n c-family-insert-on-newline
-    hook -group c-family-indent window InsertChar \n c-family-indent-on-newline
-    hook -group c-family-indent window InsertChar \{ c-family-indent-on-opening-curly-brace
-    hook -group c-family-indent window InsertChar \} c-family-indent-on-closing-curly-brace
-    hook -group c-family-insert window InsertChar \} c-family-insert-on-closing-curly-brace
-]
-
-# rust
-
-hook global WinSetOption filetype=(rust) %[
-    set-option buffer formatcmd rustfmt
-]
-
 # synonyms
-
+# Depends on http://aiksaurus.sourceforge.net/
 define-command synonyms %{ %sh{
     input=$(aiksaurus "$kak_selection")
     if echo "$input" | grep '\*\*\*.*\*\*\*' 2>&1 > /dev/null; then

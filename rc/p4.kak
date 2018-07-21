@@ -1,3 +1,5 @@
+# Syntax highlighting for p4
+# p4.org
 hook global BufCreate .*\.p4 %{
     set-option buffer filetype p4
 }

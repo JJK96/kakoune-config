@@ -1,4 +1,5 @@
 # Solarized Dark
+# Adapted to make the background transparent
 
 evaluate-commands %sh{
 	base03='rgb:002b36'

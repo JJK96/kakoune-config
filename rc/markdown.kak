@@ -1,3 +1,6 @@
+# Configuration options for markdown
+
+# Compile to pdf or to html
 declare-option bool pdf false
 
 hook global WinSetOption filetype=markdown %{

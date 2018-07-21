@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Read snippets from snippets.yaml.
+# Original source: https://github.com/shachaf/kak/blob/master/scripts/snippet
 
 import sys, yaml
 
