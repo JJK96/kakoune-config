@@ -2,6 +2,11 @@
 
 [Kakoune](https://github.com/mawww/kakoune)
 
+
+# Contact
+
+Feel free to create an issue if you have questions on how to use some stuff
+
 # Files
 
 |File/folder  |Description                    |
@@ -14,6 +19,9 @@
 
 See the individual files for more explanations
 
-# Contact
+# Emmet snippets
 
-Feel free to create an issue if you have questions on how to use some stuff
+I have combined [emmet-cli](https://github.com/Delapouite/emmet-cli) with [snippets](https://github.com/shachaf/kak/blob/master/scripts/snippet.kak).
+
+[asciicast](https://asciinema.org/a/BFUqP7Ho1c0Ts6oManSIUMwqG)
+
