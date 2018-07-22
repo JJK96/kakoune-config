@@ -74,8 +74,7 @@ hook global WinSetOption filetype=(html) %[
     # calls to emmet-cli
     # Depends on ../bin/emmet-call
     define-command emmet %{
-        select-word
-        execute-keys "|%val{config}/bin/emmet-call<ret>"
+        execute-keys "<esc>x|%val{config}/bin/emmet-call<ret>"
         execute-keys "<esc>uU)<a-;> ;: replace-next-hole<ret>"
     }
     map global insert <a-E> ' <esc>;h: try snippet-word catch emmet<ret>'
