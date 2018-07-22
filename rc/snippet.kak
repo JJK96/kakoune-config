@@ -31,14 +31,21 @@ def replace-next-hole %{
     }
   }
 }
+def select-word \
+  -docstring 'select a word which can later be be used to :snippet or :emmet' \
+%{
+    execute-keys '<esc><a-?>\h+|^<ret>'
+}
+
 
 def snippet-word \
-  -docstring ':snippet the word before the cursor' \
+  -docstring ':snippet the selected word' \
   %{
   eval -save-regs 'ab' %{
     try %{
       exec '"aZ'
-      exec 'bhe"by' # select and copy word
+      select-word
+      exec '_"by' # trim and copy word
       exec "$%opt{snippet_program} '%opt{snippet_file}' '%reg{b}'<ret>" # abort if not valid snippet
       exec '<a-d>' # delete snippet name
       snippet "%reg{b}" # If there are multiple cursors, we assume they're all on the same snippet.
@@ -62,6 +69,19 @@ def snippet \
     }
   }
 }
+
+hook global WinSetOption filetype=(html) %[
+    # calls to emmet-cli
+    # Depends on ../bin/emmet-call
+    define-command emmet %{
+        select-word
+        execute-keys "|%val{config}/bin/emmet-call<ret>"
+        execute-keys "<esc>uU)<a-;> ;: replace-next-hole<ret>"
+    }
+    map global insert <a-E> ' <esc>;h: try snippet-word catch emmet<ret>'
+    map global insert <a-e> '<esc>: replace-next-hole<ret>'
+]
+
 
 set global snippet_program "%val{config}/bin/snippet"
 set global snippet_file "%val{config}/snippets.yaml"
