@@ -33,7 +33,7 @@ map global normal x <a-x>
 map global normal <a-x> gi<a-l>
 
 # comment lines
-map global normal <a-m> %{_:comment-block<ret>}
+map global normal <a-m> %{_:try comment-block catch comment-line<ret>}
 
 # tab to select menu item.
 hook global InsertCompletionShow .* %{
@@ -65,9 +65,9 @@ hook global BufCreate .*\.xsd %{ set buffer filetype xml }
 # kakoune language server
 
 # Depends on https://github.com/ul/kak-lsp
-eval %sh{kak-lsp --kakoune -s $kak_session }
+eval %sh{kak-lsp1 --kakoune -s $kak_session }
 # Debug output
-#nop %sh{ (kak-lsp1 -s $kak_session -vvv ) > /tmp/kak-lsp.log 2>&1 < /dev/null & }
+nop %sh{ (kak-lsp1 -s $kak_session -vvv ) > /tmp/kak-lsp.log 2>&1 < /dev/null & }
 lsp-auto-hover-enable
 
 # snippets
@@ -107,6 +107,17 @@ define-command synonyms %{ %sh{
     printf 'menu -auto-single %s' "${menu}"
 }}
 map global user w -docstring 'get synonyms' :synonyms<ret>
+
+# terminal
+define-command terminal -params .. %{
+  shell \
+    -export session \
+    -export client \
+    %sh(echo $TERMINAL) %arg(@) \
+    %sh(test $# = 0 &&
+      echo $SHELL
+    )
+}
 
 # autoload files in rc directory
 
