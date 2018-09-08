@@ -55,6 +55,9 @@ hook global InsertKey <backspace> %{ try %{
   exec -draft hGh<a-k>\A\h+\Z<ret>gihyp<lt>
 }}
 
+# Delete buffer and quit
+define-command dq %{db;q}
+
 # Open file in new window
 define-command open-in-new-window -params 1 -file-completion %{ new edit %arg{@} }
 alias global e open-in-new-window
@@ -71,7 +74,8 @@ nop %sh{ (kak-lsp1 -s $kak_session -vvv ) > /tmp/kak-lsp.log 2>&1 < /dev/null & 
 lsp-auto-hover-enable
 
 # snippets
-map global insert <a-E> '<esc>: try replace-next-hole catch snippet-word<ret>'
+map global insert <a-E> ' <esc>;h: snippet-word<ret>'
+map global insert <a-e> '<esc>: replace-next-hole<ret>'
 
 #spell
 map global user s -docstring 'spell replace' :spell-replace<ret>

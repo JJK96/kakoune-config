@@ -8,6 +8,10 @@ hook global WinSetOption filetype=(json) %[
     set-option buffer formatcmd %{python -m json.tool}
 ]
 
+hook global WinSetOption filetype=(python) %[
+    set-option buffer formatcmd %{yapf}
+]
+
 # better indentation
 hook global WinSetOption filetype=(p4|php) %[
     hook -group c-family-indent window ModeChange insert:.* c-family-trim-autoindent
