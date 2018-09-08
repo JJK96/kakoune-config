@@ -70,7 +70,7 @@ def snippet \
   }
 }
 
-hook global WinSetOption filetype=(html) %[
+hook global WinSetOption filetype=(html|xml) %[
     # calls to emmet-cli
     # Depends on ../bin/emmet-call
     define-command emmet %{
