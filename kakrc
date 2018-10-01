@@ -1,5 +1,3 @@
-colorscheme gruvbox
-
 # relative line numbers
 add-highlighter global/ number-lines -relative
 add-highlighter global/ wrap
@@ -92,7 +90,7 @@ set-option global ui_options ncurses_assistant=off
 
 # XML tags
 
-map global object t -docstring 'xml tag' %{c<lt>.*?<gt>,<lt>/.*?<gt><ret>}
+map -docstring "xml tag object" global object t %{c<lt>([\w.]+)\b[^>]*?(?<lt>!/)>,<lt>/([\w.]+)\b[^>]*?(?<lt>!/)><ret>}
 
 # synonyms
 # Depends on http://aiksaurus.sourceforge.net/
@@ -132,3 +130,7 @@ evaluate-commands %sh{
     }
     autoload_directory ${kak_config}/rc
 }
+
+# plugin config
+colorscheme gruvbox
+set global snippet_files "%val{config}/snippets/snippets.yaml"

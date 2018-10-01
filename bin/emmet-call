@@ -1,12 +1,1 @@
-#!/bin/bash
-# A wrapper around calls to emmet to keep indentation
-# Depends on https://github.com/JJK96/emmet-cli
-
-# Make sure that this points to the correct location
-emmet="node $HOME/git/emmet-cli/index.js"
-input="$(cat)"
-indent="$(echo "$input" | sed -e "s/\(^[[:blank:]]*\).*/\1/")"
-IFS='' #preserve whitespace
-echo "$input" | eval $emmet | while read l; do
-    printf "%s%s\\n" "$indent" "$l"
-done
+/home/jjk/git/kakoune-snippets/bin/emmet-call

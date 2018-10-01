@@ -4,6 +4,10 @@ hook global WinSetOption filetype=(xml) %[
     set-option buffer formatcmd %{xmllint --format -}
 ]
 
+hook global WinSetOption filetype=(xml|html) %[
+    map global insert <a-E> ' <esc>;h: try snippet-word catch emmet<ret>'
+]
+
 hook global WinSetOption filetype=(json) %[
     set-option buffer formatcmd %{python -m json.tool}
 ]
@@ -25,3 +29,8 @@ hook global WinSetOption filetype=(p4|php) %[
 hook global WinSetOption filetype=(rust) %[
     set-option buffer formatcmd rustfmt
 ]
+
+hook global WinSetOption filetype=(markdown|latex) %[
+    set -add buffer snippet_files "%val{config}/snippets/latex.yaml"
+]
+

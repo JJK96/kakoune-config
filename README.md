@@ -18,9 +18,3 @@ Feel free to create an issue if you have questions on how to use some stuff
 |snippets.yaml| snippets used by snippets.kak |
 
 See the individual files for more explanations
-
-# Snippets
-
-I moved the plugin for snippet support to [it's own repository](https://github.com/JJK96/kakoune-snippets)
-
-
