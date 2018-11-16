@@ -21,17 +21,22 @@ map global normal D '<a-l>d' -docstring 'delete to end of line'
 map global normal Y '<a-l>y' -docstring 'yank to end of line'
 map global normal <a-h> Gi
 
-# clipboard interaction
+# user mappings
+
+map global user l -docstring 'lsp' ':enter-user-mode lsp<ret>'
+
+## clipboard interaction
 map global user p -docstring 'paste from clipboard' '!xsel -bo<ret>'
 map global user y -docstring 'copy to clipboard' '<a-|>xsel -bi<ret>; :echo "copied selection to X11 clipboard"<ret>'
 map global user d -docstring 'cut to clipboard' '|xsel -bi<ret>; :echo "copied selection to X11 clipboard"<ret>'
+
+## comment lines
+map global user c -docstring 'toggle comment lines' %{_:try comment-block catch comment-line<ret>}
 
 # other mappings
 map global normal x <a-x>
 map global normal <a-x> gi<a-l>
 
-# comment lines
-map global normal <a-m> %{_:try comment-block catch comment-line<ret>}
 
 # tab to select menu item.
 hook global InsertCompletionShow .* %{
@@ -70,6 +75,7 @@ eval %sh{kak-lsp1 --kakoune -s $kak_session }
 # Debug output
 nop %sh{ (kak-lsp1 -s $kak_session -vvv ) > /tmp/kak-lsp.log 2>&1 < /dev/null & }
 lsp-auto-hover-enable
+lsp-inline-diagnostics-disable
 
 # snippets
 map global insert <a-E> ' <esc>;h: snippet-word<ret>'
@@ -78,11 +84,11 @@ map global insert <a-e> '<esc>: replace-next-hole<ret>'
 #spell
 map global user s -docstring 'spell replace' :spell-replace<ret>
 declare-option str language en-GB
-hook global WinSetOption filetype=(latex|markdown|git-commit) %{
-    hook window BufWritePost .* %{
-        spell %opt{language}
-    }
-}
+# hook global WinSetOption filetype=(latex|markdown|git-commit) %{
+#     hook window BufWritePost .* %{
+#         spell %opt{language}
+#     }
+# }
 
 # Disable clippy
 
@@ -91,6 +97,9 @@ set-option global ui_options ncurses_assistant=off
 # XML tags
 
 map -docstring "xml tag object" global object t %{c<lt>([\w.]+)\b[^>]*?(?<lt>!/)>,<lt>/([\w.]+)\b[^>]*?(?<lt>!/)><ret>}
+
+# modeline
+set-option global modelinefmt %{{Error}%sh{[ $kak_opt_lsp_diagnostic_count -gt 0 ] && echo "$kak_opt_lsp_diagnostic_count"}{Default} %val{bufname} %val{cursor_line}:%val{cursor_char_column} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]}
 
 # synonyms
 # Depends on http://aiksaurus.sourceforge.net/
