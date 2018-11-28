@@ -1,0 +1,1 @@
+/home/jjk/git/kakoune-snippets/rc/emmet.kak

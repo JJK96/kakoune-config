@@ -84,11 +84,13 @@ map global insert <a-e> '<esc>: replace-next-hole<ret>'
 #spell
 map global user s -docstring 'spell replace' :spell-replace<ret>
 declare-option str language en-GB
-# hook global WinSetOption filetype=(latex|markdown|git-commit) %{
-#     hook window BufWritePost .* %{
-#         spell %opt{language}
-#     }
-# }
+define-command spell-enable %{
+    #hook global WinSetOption filetype=(latex|markdown|git-commit) %{
+        hook window BufWritePost .* %{
+            spell %opt{language}
+        }
+    #}
+}
 
 # Disable clippy
 
@@ -132,13 +134,15 @@ define-command terminal -params .. %{
 
 # autoload files in rc directory
 
-evaluate-commands %sh{
-    autoload_directory() {
-        find -L "$1" -type f -name '*\.kak' \
-            -exec printf 'try %%{ source "%s" } catch %%{ echo -debug Autoload: could not load "%s" }\n' '{}' '{}' \;
-    }
-    autoload_directory ${kak_config}/rc
-}
+# evaluate-commands %sh{
+#     autoload_directory() {
+#         find -L "$1" -type f -name '*\.kak' \
+#             -exec printf 'try %%{ source "%s" } catch %%{ echo -debug Autoload: could not load "%s" }\n' '{}' '{}' \;
+#     }
+#     autoload_directory ${kak_config}/rc
+# }
+
+source "%val{config}/plugins/plug.kak/rc/plug.kak"
 
 # plugin config
 colorscheme gruvbox
