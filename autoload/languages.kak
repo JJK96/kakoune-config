@@ -34,3 +34,6 @@ hook global WinSetOption filetype=(markdown|latex) %[
     set -add buffer snippet_files "%val{config}/snippets/latex.yaml"
 ]
 
+hook global WinSetOption filetype=(plain|markdown) %[
+    set buffer lsp_server_configuration languageTool.language="en-GB"
+]
