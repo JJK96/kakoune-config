@@ -15,6 +15,7 @@ evaluate-commands %sh{
     bg2="rgb:504945"
     bg3="rgb:665c54"
     bg4="rgb:7c6f64"
+    bgred="rgb:550000"
 
     fg0="rgb:fbf1c7"
     fg="rgb:ebdbb2"
@@ -65,7 +66,7 @@ evaluate-commands %sh{
         face global Error              ${bg},${red}
         face global LineFlagErrors     ${red}
         face global DiagnosticWarning  default+u
-        face global DiagnosticError    default,${red}
+        face global DiagnosticError    default,${bgred}
         face global StatusLine         ${fg},${bg1}
         face global StatusLineMode     ${yellow}+b
         face global StatusLineInfo     ${purple}

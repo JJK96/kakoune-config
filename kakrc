@@ -1,6 +1,8 @@
 # relative line numbers
-add-highlighter global/ number-lines -relative
+add-highlighter global/ number-lines -relative -hlcursor
 add-highlighter global/ wrap
+
+add-highlighter global/ show-matching
 
 # indentation
 set-option global tabstop     4
@@ -54,9 +56,21 @@ hook global InsertChar \t %{
     exec -draft h@
 }
 
-hook global InsertKey <backspace> %{ try %{
-  exec -draft hGh<a-k>\A\h+\Z<ret>gihyp<lt>
-}}
+# hook global InsertKey <backspace> %{ try %{
+#   exec -draft hGh<a-k>\A\h+\Z<ret>gihyp<lt>
+# }}
+
+# Terminal, used by ide wrapper
+define-command terminal -params .. %{
+  shell \
+    -export session \
+    -export client \
+    %sh(echo $TERMINAL) %arg(@) \
+    %sh(test $# = 0 &&
+      echo $SHELL
+    )
+}
+
 
 # Delete buffer and quit
 define-command dq %{db;q}
@@ -75,7 +89,7 @@ eval %sh{kak-lsp1 --kakoune -s $kak_session }
 # Debug output
 nop %sh{ (kak-lsp1 -s $kak_session -vvv ) > /tmp/kak-lsp.log 2>&1 < /dev/null & }
 lsp-auto-hover-enable
-lsp-inline-diagnostics-disable
+#lsp-inline-diagnostics-disable
 
 # snippets
 map global insert <a-E> ' <esc>;h: snippet-word<ret>'
@@ -121,29 +135,14 @@ define-command synonyms %{ %sh{
 }}
 map global user w -docstring 'get synonyms' :synonyms<ret>
 
-# terminal
-define-command terminal -params .. %{
-  shell \
-    -export session \
-    -export client \
-    %sh(echo $TERMINAL) %arg(@) \
-    %sh(test $# = 0 &&
-      echo $SHELL
-    )
-}
-
-# autoload files in rc directory
-
-# evaluate-commands %sh{
-#     autoload_directory() {
-#         find -L "$1" -type f -name '*\.kak' \
-#             -exec printf 'try %%{ source "%s" } catch %%{ echo -debug Autoload: could not load "%s" }\n' '{}' '{}' \;
-#     }
-#     autoload_directory ${kak_config}/rc
-# }
-
 source "%val{config}/plugins/plug.kak/rc/plug.kak"
+plug "andreyorst/fzf.kak"
 
 # plugin config
 colorscheme gruvbox
 set global snippet_files "%val{config}/snippets/snippets.yaml"
+
+# fzf
+
+map global user f -docstring 'Open fzf mode' %{: fzf-mode<ret>}
+map global fzf g -docstring 'Open vcs mode' %{: fzf-vcs-mode<ret>}
