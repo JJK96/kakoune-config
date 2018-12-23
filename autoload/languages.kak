@@ -35,5 +35,5 @@ hook global WinSetOption filetype=(markdown|latex) %[
 ]
 
 hook global WinSetOption filetype=(plain|markdown) %[
-    set buffer lsp_server_configuration languageTool.language="en-GB"
+    set buffer lsp_server_configuration languageTool.language="en"
 ]

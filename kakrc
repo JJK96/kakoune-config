@@ -88,8 +88,8 @@ hook global BufCreate .*\.xsd %{ set buffer filetype xml }
 eval %sh{kak-lsp1 --kakoune -s $kak_session }
 # Debug output
 nop %sh{ (kak-lsp1 -s $kak_session -vvv ) > /tmp/kak-lsp.log 2>&1 < /dev/null & }
+lsp-enable
 lsp-auto-hover-enable
-#lsp-inline-diagnostics-disable
 
 # snippets
 map global insert <a-E> ' <esc>;h: snippet-word<ret>'
@@ -115,7 +115,7 @@ set-option global ui_options ncurses_assistant=off
 map -docstring "xml tag object" global object t %{c<lt>([\w.]+)\b[^>]*?(?<lt>!/)>,<lt>/([\w.]+)\b[^>]*?(?<lt>!/)><ret>}
 
 # modeline
-set-option global modelinefmt %{{Error}%sh{[ $kak_opt_lsp_diagnostic_count -gt 0 ] && echo "$kak_opt_lsp_diagnostic_count"}{Default} %val{bufname} %val{cursor_line}:%val{cursor_char_column} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]}
+set-option global modelinefmt %{{Error}%sh{[ $kak_opt_lsp_diagnostic_error_count -gt 0 ] && echo "$kak_opt_lsp_diagnostic_error_count"}{Default} %val{bufname} %val{cursor_line}:%val{cursor_char_column} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]}
 
 # synonyms
 # Depends on http://aiksaurus.sourceforge.net/
