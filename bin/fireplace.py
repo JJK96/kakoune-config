@@ -1,0 +1,1 @@
+/home/jjk/git/kakoune-fireplace/fireplace.py
