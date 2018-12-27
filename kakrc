@@ -153,11 +153,11 @@ map global phantom-selection c -docstring "Clear" ": phantom-sel-select-all; pha
 map global phantom-selection a -docstring "Add" ": phantom-sel-add-selection<ret>"
 
 # snippets
-# map global insert <a-E> ' <esc>;h: snippet-word<ret>'
-# map global insert <a-e> '<esc>: replace-next-hole<ret>'
 
 declare-user-mode snippets
 map global user s -docstring "Snippets" ": enter-user-mode snippets<ret>"
 map global snippets n -docstring "Select next placeholder" ": snippets-select-next-placeholders<ret>"
 map global snippets s -docstring "Snippet" ": snippets "
 map global insert <a-e> "<esc>: try snippets-select-next-placeholders catch phantom-sel-iterate-next<ret>i"
+
+source "%val{config}/snippets.kak"

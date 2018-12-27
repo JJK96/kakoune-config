@@ -1,8 +1,0 @@
-begin: "\\begin{$0}\n\\end{$0}"
-matrix: "\\left[\\begin{matrix}\n$0\n\\end{matrix}\\right]"
-header: "-----\nauthor: Jan-Jaap Korpershoek ($0)\ntitle: $1\n-----\n"
-ss: "\\subsection*{$0}\n"
-s: "\\section*{$0}\n"
-align: "\\begin{align*}\n$0\n\\end{align*}"
-mod: "\\text{ mod } $0"
-image: "\\begin{figure}\n\\includegraphics[width=\\textwidth]{$0}\n\\caption{$1}\n\\end{figure}"

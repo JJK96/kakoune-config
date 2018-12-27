@@ -1,6 +1,6 @@
 hook global WinSetOption filetype=(latex) %[
-    set buffer snippets \
-"begin"  %{ snippets-insert %{\begin{$1}
+    set -add buffer snippets \
+"begin"  %{ snippets-insert %{\begin{${1}}
 \end{$1}}} \
 "matrix" %{ snippets-insert %{\left[\begin{matrix}
 $1
@@ -10,9 +10,9 @@ author: Jan-Jaap Korpershoek ($1)
 title: $1
 -----
 }} \
-"ss"     %{ snippets-insert %{\subsection*{$1}
+"subsection"     %{ snippets-insert %{\subsection*{$1}
 }} \
-"s"      %{ snippets-insert %{\section*{$1}
+"section"      %{ snippets-insert %{\section*{$1}
 }} \
 "align"  %{ snippets-insert %{\begin{align*}
 $1
@@ -23,3 +23,8 @@ $1
 \caption{$2}
 \end{figure}}}
 ]
+
+set -add global snippets \
+"for" %{snippets-insert %{for $1; $2; $3 {
+${indent}$0
+}}}

@@ -1,2 +1,0 @@
-test: "this is $0 a test"
-for: "for $1 in $2 {\n\t$0\n}"
