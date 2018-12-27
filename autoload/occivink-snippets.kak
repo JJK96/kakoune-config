@@ -1,0 +1,1 @@
+/home/jjk/.config/kak/plugins/kakoune-snippets/snippets.kak

@@ -91,12 +91,8 @@ nop %sh{ (kak-lsp1 -s $kak_session -vvv ) > /tmp/kak-lsp.log 2>&1 < /dev/null & 
 lsp-enable
 lsp-auto-hover-enable
 
-# snippets
-map global insert <a-E> ' <esc>;h: snippet-word<ret>'
-map global insert <a-e> '<esc>: replace-next-hole<ret>'
-
 #spell
-map global user s -docstring 'spell replace' :spell-replace<ret>
+# map global user s -docstring 'spell replace' :spell-replace<ret>
 declare-option str language en-GB
 define-command spell-enable %{
     #hook global WinSetOption filetype=(latex|markdown|git-commit) %{
@@ -140,9 +136,28 @@ plug "andreyorst/fzf.kak"
 
 # plugin config
 colorscheme gruvbox
-set global snippet_files "%val{config}/snippets/snippets.yaml"
+# set global snippet_files "%val{config}/snippets/snippets.yaml"
 
 # fzf
 
 map global user f -docstring 'Open fzf mode' %{: fzf-mode<ret>}
 map global fzf g -docstring 'Open vcs mode' %{: fzf-vcs-mode<ret>}
+
+# Phantom selections
+
+declare-user-mode phantom-selection
+map global user h -docstring "Phantom selections" ": enter-user-mode phantom-selection<ret>"
+map global phantom-selection n -docstring "Next" ": phantom-sel-iterate-next<ret>"
+map global phantom-selection p -docstring "Previous" ": phantom-sel-iterate-prev<ret>"
+map global phantom-selection c -docstring "Clear" ": phantom-sel-select-all; phantom-sel-clear<ret>"
+map global phantom-selection a -docstring "Add" ": phantom-sel-add-selection<ret>"
+
+# snippets
+# map global insert <a-E> ' <esc>;h: snippet-word<ret>'
+# map global insert <a-e> '<esc>: replace-next-hole<ret>'
+
+declare-user-mode snippets
+map global user s -docstring "Snippets" ": enter-user-mode snippets<ret>"
+map global snippets n -docstring "Select next placeholder" ": snippets-select-next-placeholders<ret>"
+map global snippets s -docstring "Snippet" ": snippets "
+map global insert <a-e> "<esc>: try snippets-select-next-placeholders catch phantom-sel-iterate-next<ret>i"

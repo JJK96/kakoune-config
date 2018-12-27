@@ -1,0 +1,1 @@
+/home/jjk/.config/kak/plugins/kakoune-phantom-selection/phantom-selection.kak
