@@ -1,1 +1,0 @@
-/home/jjk/.config/kak/plugins/kakoune-sudo-write/sudo-write.kak

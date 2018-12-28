@@ -135,33 +135,32 @@ define-command synonyms %{ %sh{
 map global user w -docstring 'get synonyms' :synonyms<ret>
 
 source "%val{config}/plugins/plug.kak/rc/plug.kak"
-plug "andreyorst/fzf.kak"
+plug "andreyorst/fzf.kak" %{
+    map global user f -docstring 'Open fzf mode' %{: fzf-mode<ret>}
+    map global fzf g -docstring 'Open vcs mode' %{: fzf-vcs-mode<ret>}
+}
+plug "occivink/kakoune-phantom-selection" %{
+    declare-user-mode phantom-selection
+    map global user h -docstring "Phantom selections" ": enter-user-mode phantom-selection<ret>"
+    map global phantom-selection n -docstring "Next" ": phantom-sel-iterate-next<ret>"
+    map global phantom-selection p -docstring "Previous" ": phantom-sel-iterate-prev<ret>"
+    map global phantom-selection c -docstring "Clear" ": phantom-sel-select-all; phantom-sel-clear<ret>"
+    map global phantom-selection a -docstring "Add" ": phantom-sel-add-selection<ret>"
+}
+plug "occivink/kakoune-snippets" %{
+    declare-user-mode snippets
+    map global user s -docstring "Snippets" ": enter-user-mode snippets<ret>"
+    map global snippets n -docstring "Select next placeholder" ": snippets-select-next-placeholders<ret>"
+    map global snippets s -docstring "Snippet" ": snippets "
+    map global insert <a-e> "<esc>: try snippets-select-next-placeholders catch phantom-sel-iterate-next<ret>i"
+    add-highlighter global/ ranges snippets_placeholders 
+    source "%val{config}/snippets.kak"
+}
+plug "occivink/kakoune-sudo-write"
+plug "jjk96/kakoune-fireplace"
+plug "lenormf/kakoune-extra" load %{
+    syntastic.kak
+}
 
 # plugin config
 colorscheme gruvbox
-# set global snippet_files "%val{config}/snippets/snippets.yaml"
-
-# fzf
-
-map global user f -docstring 'Open fzf mode' %{: fzf-mode<ret>}
-map global fzf g -docstring 'Open vcs mode' %{: fzf-vcs-mode<ret>}
-
-# Phantom selections
-
-declare-user-mode phantom-selection
-map global user h -docstring "Phantom selections" ": enter-user-mode phantom-selection<ret>"
-map global phantom-selection n -docstring "Next" ": phantom-sel-iterate-next<ret>"
-map global phantom-selection p -docstring "Previous" ": phantom-sel-iterate-prev<ret>"
-map global phantom-selection c -docstring "Clear" ": phantom-sel-select-all; phantom-sel-clear<ret>"
-map global phantom-selection a -docstring "Add" ": phantom-sel-add-selection<ret>"
-
-# snippets
-
-declare-user-mode snippets
-map global user s -docstring "Snippets" ": enter-user-mode snippets<ret>"
-map global snippets n -docstring "Select next placeholder" ": snippets-select-next-placeholders<ret>"
-map global snippets s -docstring "Snippet" ": snippets "
-map global insert <a-e> "<esc>: try snippets-select-next-placeholders catch phantom-sel-iterate-next<ret>i"
-add-highlighter global/ ranges snippets_placeholders 
-
-source "%val{config}/snippets.kak"
