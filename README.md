@@ -14,7 +14,8 @@ Feel free to create an issue if you have questions on how to use some stuff
 |bin          | Scripts                       |
 |colors       | Colorschemes                  |
 |rc           | .kak files sourced by kakrc   |
-|kakrc        | main configuration file       |
+|kakrc        | Main configuration file       |
+|snippets.kak | Snippet definitions           |
 
 See the individual files for more explanations
 

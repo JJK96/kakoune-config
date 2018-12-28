@@ -35,6 +35,9 @@ map global user d -docstring 'cut to clipboard' '|xsel -bi<ret>; :echo "copied s
 ## comment lines
 map global user c -docstring 'toggle comment lines' %{_:try comment-block catch comment-line<ret>}
 
+## Open location
+map global user o -docstring 'open location on current line' ": open-location<ret>"
+
 # other mappings
 map global normal x <a-x>
 map global normal <a-x> gi<a-l>
