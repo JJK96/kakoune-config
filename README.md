@@ -24,3 +24,4 @@ See the individual files for more explanations
 [fzf.kak](https://github.com/andreyorst/fzf.kak)  
 [kakoune-phantom-selection](https://github.com/occivink/kakoune-phantom-selection)  
 [kakoune-snippets](https://github.com/occivink/kakoune-snippets)  
+[kakoune-fireplace](https://github.com/JJK96/kakoune-fireplace)  
