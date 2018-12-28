@@ -159,5 +159,6 @@ map global user s -docstring "Snippets" ": enter-user-mode snippets<ret>"
 map global snippets n -docstring "Select next placeholder" ": snippets-select-next-placeholders<ret>"
 map global snippets s -docstring "Snippet" ": snippets "
 map global insert <a-e> "<esc>: try snippets-select-next-placeholders catch phantom-sel-iterate-next<ret>i"
+add-highlighter global/ ranges snippets_placeholders 
 
 source "%val{config}/snippets.kak"
