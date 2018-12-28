@@ -21,4 +21,7 @@ See the individual files for more explanations
 
 # Plugins
 
-[Snippets](https://github.com/JJK96/kakoune-snippets)
+[plug.kak](https://github.com/andreyorst/plug.kak)  
+[fzf.kak](https://github.com/andreyorst/fzf.kak)  
+[kakoune-phantom-selection](https://github.com/occivink/kakoune-phantom-selection)  
+[kakoune-snippets](https://github.com/occivink/kakoune-snippets)  
