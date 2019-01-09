@@ -12,7 +12,10 @@ set-option global indentwidth 4
 set-option global scrolloff 10,10
 
 # save on pressing enter
-map global normal <ret> :w<ret>
+map global normal <ret> ": w<ret>"
+
+# remap grep-jump
+map global goto <ret> "<esc><ret>"
 
 # Select whole lines when moving selection with J or K
 map global normal J J<a-x>
@@ -34,9 +37,6 @@ map global user d -docstring 'cut to clipboard' '|xsel -bi<ret>; :echo "copied s
 
 ## comment lines
 map global user c -docstring 'toggle comment lines' %{_:try comment-block catch comment-line<ret>}
-
-## Open location
-map global user o -docstring 'open location on current line' ": open-location<ret>"
 
 # other mappings
 map global normal x <a-x>
@@ -64,7 +64,7 @@ hook global InsertChar \t %{
 # }}
 
 # Terminal, used by ide wrapper
-define-command terminal -params .. %{
+define-command -hidden _terminal -params .. %{
   shell \
     -export session \
     -export client \
@@ -74,9 +74,9 @@ define-command terminal -params .. %{
     )
 }
 
-
 # Delete buffer and quit
-define-command dq %{db;q}
+define-command -hidden _q %{db;quit}
+alias global q _q
 
 # Open file in new window
 define-command open-in-new-window -params 1 -file-completion %{ new edit %arg{@} }
@@ -116,25 +116,11 @@ map -docstring "xml tag object" global object t %{c<lt>([\w.]+)\b[^>]*?(?<lt>!/)
 # modeline
 set-option global modelinefmt %{{Error}%sh{[ $kak_opt_lsp_diagnostic_error_count -gt 0 ] && echo "$kak_opt_lsp_diagnostic_error_count"}{Default} %val{bufname} %val{cursor_line}:%val{cursor_char_column} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]}
 
-# synonyms
-# Depends on http://aiksaurus.sourceforge.net/
-define-command synonyms %{ %sh{
-    input=$(aiksaurus "$kak_selection")
-    if echo "$input" | grep '\*\*\*.*\*\*\*' 2>&1 > /dev/null; then
-        echo "info %{" "$(echo "$input" | head -n 2 )" "}"
-    fi
-    menu=$(echo "$input" | sed -e 's/ =/,/g;s/=//g' | \
-    awk -v RS= -v FS=, '{
-            printf "%s", "%{"$1"}" "%{menu -auto-single ";
-            for (i=3; i<=NF; i++)
-                printf "%s", "%{"$i"}" "%{execute-keys -itersel c"$i"<esc>be}";
-            printf "%s", "}";
-        }')
-    printf 'menu -auto-single %s' "${menu}"
-}}
-map global user w -docstring 'get synonyms' :synonyms<ret>
+# Plugins
 
 source "%val{config}/plugins/plug.kak/rc/plug.kak"
+plug "andreyorst/plug.kak" noload
+
 plug "andreyorst/fzf.kak" %{
     map global user f -docstring 'Open fzf mode' %{: fzf-mode<ret>}
     map global fzf g -docstring 'Open vcs mode' %{: fzf-vcs-mode<ret>}
@@ -161,6 +147,13 @@ plug "jjk96/kakoune-fireplace"
 plug "lenormf/kakoune-extra" load %{
     syntastic.kak
 }
+plug "alexherbo2/select.kak" %{
+    plug "alexherbo2/yank-ring.kak"
+}
+plug "Delapouite/kakoune-buffers" %{
+    map global user b ':enter-user-mode -lock buffers<ret>'   -docstring 'buffers (lock)…'
+}
+plug "ul/kak-tree"
 
-# plugin config
+# Overwrites colors defined in kak-lsp
 colorscheme gruvbox

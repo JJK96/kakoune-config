@@ -49,7 +49,8 @@ evaluate-commands %sh{
         ' | sed -e "s/PREFIX/${prefix}/g"
 }
 
-hook -group p4-highlight global WinSetOption filetype=p4 %{ add-highlighter window/ ref p4 }
-hook -group p4-highlight global WinSetOption filetype=(?!p4).* %{ remove-highlighter window/p4 }
-
+hook -group p4-highlight global WinSetOption filetype=p4 %{
+    add-highlighter window/ ref p4
+    hook -once -always window WinSetOption filetype=.* %{ remove-highlighter window/p4 }
+}
 
