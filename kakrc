@@ -4,6 +4,9 @@ add-highlighter global/ wrap
 
 add-highlighter global/ show-matching
 
+# Disable clippy
+set-option global ui_options ncurses_assistant=off
+
 # indentation
 set-option global tabstop     4
 set-option global indentwidth 4
@@ -11,37 +14,36 @@ set-option global indentwidth 4
 # keep space around cursor
 set-option global scrolloff 10,10
 
+# Remove '_' from extra-word-chars
+set-option global extra_word_chars
+
 # save on pressing enter
 map global normal <ret> ": w<ret>"
 
 # remap grep-jump
 map global goto <ret> "<esc><ret>"
 
-# Select whole lines when moving selection with J or K
-map global normal J J<a-x>
-map global normal K K<a-x>
-
 # vim old habits
 map global normal D '<a-l>d' -docstring 'delete to end of line'
 map global normal Y '<a-l>y' -docstring 'yank to end of line'
 map global normal <a-h> Gi
 
-# user mappings
+# calculate
+map global normal = '|calc<ret>'
 
-map global user l -docstring 'lsp' ':enter-user-mode lsp<ret>'
+# Movement mode (depends on case.kak)
+map global user m -docstring "case based movement" ': enter-user-mode -lock movecase<ret>'
+
+# user mappings
+map global user l -docstring 'lsp' ': enter-user-mode lsp<ret>'
 
 ## clipboard interaction
 map global user p -docstring 'paste from clipboard' '!xsel -bo<ret>'
-map global user y -docstring 'copy to clipboard' '<a-|>xsel -bi<ret>; :echo "copied selection to X11 clipboard"<ret>'
-map global user d -docstring 'cut to clipboard' '|xsel -bi<ret>; :echo "copied selection to X11 clipboard"<ret>'
+map global user y -docstring 'copy to clipboard' '<a-|>xsel -bi<ret>; : echo "copied selection to X11 clipboard"<ret>'
+map global user d -docstring 'cut to clipboard' '|xsel -bi<ret>; : echo "copied selection to X11 clipboard"<ret>'
 
 ## comment lines
-map global user c -docstring 'toggle comment lines' %{_:try comment-block catch comment-line<ret>}
-
-# other mappings
-map global normal x <a-x>
-map global normal <a-x> gi<a-l>
-
+map global user c -docstring 'toggle comment lines' %{_: try comment-block catch comment-line<ret>}
 
 # tab to select menu item.
 hook global InsertCompletionShow .* %{
@@ -59,9 +61,8 @@ hook global InsertChar \t %{
     exec -draft h@
 }
 
-# hook global InsertKey <backspace> %{ try %{
-#   exec -draft hGh<a-k>\A\h+\Z<ret>gihyp<lt>
-# }}
+# Use termite
+set global termcmd "termite -e"
 
 # Terminal, used by ide wrapper
 define-command -hidden _terminal -params .. %{
@@ -76,7 +77,10 @@ define-command -hidden _terminal -params .. %{
 
 # Delete buffer and quit
 define-command -hidden _q %{db;quit}
+define-command -hidden _wq %{w;_q}
 alias global q _q
+alias global wq _wq
+map global normal <c-q> ": _q<ret>"
 
 # Open file in new window
 define-command open-in-new-window -params 1 -file-completion %{ new edit %arg{@} }
@@ -105,10 +109,6 @@ define-command spell-enable %{
     #}
 }
 
-# Disable clippy
-
-set-option global ui_options ncurses_assistant=off
-
 # XML tags
 
 map -docstring "xml tag object" global object t %{c<lt>([\w.]+)\b[^>]*?(?<lt>!/)>,<lt>/([\w.]+)\b[^>]*?(?<lt>!/)><ret>}
@@ -120,7 +120,6 @@ set-option global modelinefmt %{{Error}%sh{[ $kak_opt_lsp_diagnostic_error_count
 
 source "%val{config}/plugins/plug.kak/rc/plug.kak"
 plug "andreyorst/plug.kak" noload
-
 plug "andreyorst/fzf.kak" %{
     map global user f -docstring 'Open fzf mode' %{: fzf-mode<ret>}
     map global fzf g -docstring 'Open vcs mode' %{: fzf-vcs-mode<ret>}
@@ -151,9 +150,19 @@ plug "alexherbo2/select.kak" %{
     plug "alexherbo2/yank-ring.kak"
 }
 plug "Delapouite/kakoune-buffers" %{
-    map global user b ':enter-user-mode -lock buffers<ret>'   -docstring 'buffers (lock)…'
+    map global user b ': enter-user-mode -lock buffers<ret>'   -docstring 'buffers (lock)…'
 }
-plug "ul/kak-tree"
+plug "ul/kak-tree" %{
+    declare-user-mode tree
+    map global tree u ': tree-select-parent-node<ret>' -docstring 'parent'
+    map global tree n ': tree-select-next-node<ret>' -docstring 'next'
+    map global tree p ': tree-select-previous-node<ret>' -docstring 'previous'
+    map global tree c ': tree-select-children<ret>' -docstring 'children'
+    map global tree f ': tree-select-first-child<ret>' -docstring 'first child'
+    map global tree t ': tree-node-sexp<ret>' -docstring 'show syntax tree'
+    map global tree . ': enter-user-mode -lock tree<ret>' -docstring 'lock'
+    map global user t ': enter-user-mode tree<ret>' -docstring 'tree-sitter'
+}
 
 # Overwrites colors defined in kak-lsp
 colorscheme gruvbox
