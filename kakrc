@@ -14,9 +14,6 @@ set-option global indentwidth 4
 # keep space around cursor
 set-option global scrolloff 10,10
 
-# Remove '_' from extra-word-chars
-set-option global extra_word_chars
-
 # save on pressing enter
 map global normal <ret> ": w<ret>"
 
@@ -144,7 +141,7 @@ plug "occivink/kakoune-snippets" %{
 plug "occivink/kakoune-sudo-write"
 plug "jjk96/kakoune-fireplace"
 plug "lenormf/kakoune-extra" load %{
-    syntastic.kak
+    #syntastic.kak
 }
 plug "alexherbo2/select.kak" %{
     plug "alexherbo2/yank-ring.kak"
@@ -162,6 +159,13 @@ plug "ul/kak-tree" %{
     map global tree t ': tree-node-sexp<ret>' -docstring 'show syntax tree'
     map global tree . ': enter-user-mode -lock tree<ret>' -docstring 'lock'
     map global user t ': enter-user-mode tree<ret>' -docstring 'tree-sitter'
+}
+plug 'delapouite/kakoune-cd' %{
+  # Suggested aliases
+  alias global cdb change-directory-current-buffer
+  alias global cdr change-directory-project-root
+  alias global ecd edit-current-buffer-directory
+  alias global pwd print-working-directory
 }
 
 # Overwrites colors defined in kak-lsp
