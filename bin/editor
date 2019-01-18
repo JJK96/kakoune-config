@@ -1,0 +1,55 @@
+#!/bin/bash
+# Clear old sessions
+kak -clear
+TEMPDIR="/tmp/kak-temp"
+args=()
+# Open either in a new window or just in a new buffer
+open_command="open-in-new-window"
+# Handle command line arguments
+for arg in "$@"; do
+    if [ "$arg" == "-t" ]; then
+        # In terminal, so no new windows
+        in_terminal=true
+        open_command="edit"
+    else 
+        args+=("$arg")
+    fi
+done 
+# if there is standard input create a new file and open that
+read -r -t 0.01 -d '' input
+if [ -n "$input" ]; then
+    mkdir -p $TEMPDIR
+    temp=$(mktemp -p $TEMPDIR)
+    echo "$input" > "$temp"
+    args+=("$temp")
+fi
+# If no session exists, set the session to the default session
+if [ -z $KAK_SESSION ]; then
+    KAK_SESSION="default"
+    # if no default session exists create one
+    if ! kak -l | grep default > /dev/null 2>&1; then
+        kak -s $KAK_SESSION -d
+    fi
+fi
+if [ $KAK_CLIENT ] && [ ! $in_terminal ]; then
+    # Focus the current client window to spawn a new window in the correct location (useful for i3)
+    command="x11-focus $KAK_CLIENT;"
+fi
+# If no files to edit open a scratch buffer
+if [ ${#args[@]} == 0 ]; then
+   # Open in new window if not in_terminal
+   if [ -z $in_terminal ]; then
+        command="$command new "
+   fi
+   command="$command edit -scratch *scratch*;"
+fi 
+# Build the command to give to kakoune
+for file in "${args[@]}"; do
+    command="$command $open_command $(realpath "$file");"
+done
+# Connect to the session
+if [ $in_terminal ]; then
+    kak -c $KAK_SESSION -e "$command"
+else
+    echo "eval '$command'" | kak -p $KAK_SESSION
+fi
