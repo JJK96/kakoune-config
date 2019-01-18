@@ -26,3 +26,10 @@ See the individual files for more explanations
 [kakoune-phantom-selection](https://github.com/occivink/kakoune-phantom-selection)  
 [kakoune-snippets](https://github.com/occivink/kakoune-snippets)  
 [kakoune-fireplace](https://github.com/JJK96/kakoune-fireplace)  
+[kakoune-sudo-write](https://github.com/occivink/kakoune-sudo-write)  
+[select.kak](https://github.com/alexherbo2/select.kak)  
+[yank-ring.kak](https://github.com/alexherbo2/yank-ring.kak)  
+[kakoune-buffers](https://github.com/Delapouite/kakoune-buffers)  
+[kak-tree](https://github.com/ul/kak-tree)  
+[kakoune-cd](https://github.com/delapouite/kakoune-cd)  
+
