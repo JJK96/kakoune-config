@@ -27,7 +27,7 @@ fi
 if [ -z $KAK_SESSION ]; then
     KAK_SESSION="default"
     # if no default session exists create one
-    if ! kak -l | grep default > /dev/null 2>&1; then
+    if ! kak -l | grep "$KAK_SESSION" > /dev/null 2>&1; then
         kak -s $KAK_SESSION -d
     fi
 fi
