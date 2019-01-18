@@ -26,10 +26,10 @@ fi
 # If no session exists, set the session to the default session
 if [ -z $KAK_SESSION ]; then
     KAK_SESSION="default"
-    # if no default session exists create one
-    if ! kak -l | grep "$KAK_SESSION" > /dev/null 2>&1; then
-        kak -s $KAK_SESSION -d
-    fi
+fi
+# if no session with name $KAK_SESSION does not exist create one
+if ! kak -l | grep "$KAK_SESSION" > /dev/null 2>&1; then
+    kak -s $KAK_SESSION -d
 fi
 if [ $KAK_CLIENT ] && [ ! $in_terminal ]; then
     # Focus the current client window to spawn a new window in the correct location (useful for i3)
