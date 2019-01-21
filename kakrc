@@ -130,14 +130,17 @@ plug "occivink/kakoune-phantom-selection" %{
     map global phantom-selection a -docstring "Add" ": phantom-sel-add-selection<ret>"
 }
 plug "occivink/kakoune-snippets" %{
+    set-option global snippets_auto_expand false
     declare-user-mode snippets
     map global user s -docstring "Snippets" ": enter-user-mode snippets<ret>"
     map global snippets n -docstring "Select next placeholder" ": snippets-select-next-placeholders<ret>"
     map global snippets s -docstring "Snippet" ": snippets "
+    map global snippets i -docstring "Info" ": snippets-info<ret>"
     map global insert <a-e> "<esc>: try snippets-select-next-placeholders catch phantom-sel-iterate-next<ret>i"
     add-highlighter global/ ranges snippets_placeholders 
     source "%val{config}/snippets.kak"
 }
+    
 plug "occivink/kakoune-sudo-write"
 plug "jjk96/kakoune-fireplace"
 plug "lenormf/kakoune-extra" load %{
