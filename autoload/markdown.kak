@@ -10,16 +10,19 @@ hook global WinSetOption filetype=markdown %{
 hook window -group markdown-compile BufWritePost .* %{ nop %sh{ (
 if $kak_opt_markdown_tmp; then
     dir="/tmp"
+    filename="output"
 else
-    dir="${kak_buffile%/*}/"
+    dir="${kak_buffile%/*}"
+    filename="${kak_buffile##*/}"
+    filename="${filename%.*}"
 fi
 if $kak_opt_markdown_pdf; then
-    pandoc -o $dir/output.pdf $kak_buffile && \
+    pandoc -o $dir/"$filename".pdf $kak_buffile && \
     pkill -HUP mupdf 
 else
-	pandoc -o $dir/output.html $kak_buffile 
+	pandoc -o $dir/"$filename".html $kak_buffile 
 fi
-) > /dev/null 2>&1 < /dev/null &}}
+) > /dev/null < /dev/null &}}
 
 }
 

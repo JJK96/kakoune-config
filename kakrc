@@ -25,6 +25,9 @@ map global normal D '<a-l>d' -docstring 'delete to end of line'
 map global normal Y '<a-l>y' -docstring 'yank to end of line'
 map global normal <a-h> Gi
 
+# case insensitive search
+map global prompt <a-i> "<home>(?i)<end>"
+
 # calculate
 map global normal = '|calc<ret>'
 
@@ -80,7 +83,7 @@ alias global wq _wq
 map global normal <c-q> ": _q<ret>"
 
 # Open file in new window
-define-command open-in-new-window -params 1 -file-completion %{ new edit %arg{@} }
+define-command open-in-new-window -params .. -file-completion %{ new edit %arg{@} }
 alias global e open-in-new-window
 
 # file types
@@ -147,7 +150,10 @@ plug "lenormf/kakoune-extra" load %{
     #syntastic.kak
 }
 plug "alexherbo2/select.kak" %{
-    plug "alexherbo2/yank-ring.kak"
+    plug "alexherbo2/yank-ring.kak" %{
+        map global normal <c-p> ":<space>yank-ring-previous<ret>"
+        map global normal <c-n> ":<space>yank-ring-next<ret>"
+    }
 }
 plug "Delapouite/kakoune-buffers" %{
     map global user b ': enter-user-mode -lock buffers<ret>'   -docstring 'buffers (lock)…'
@@ -164,11 +170,15 @@ plug "ul/kak-tree" %{
     map global user t ': enter-user-mode tree<ret>' -docstring 'tree-sitter'
 }
 plug 'delapouite/kakoune-cd' %{
-  # Suggested aliases
-  alias global cdb change-directory-current-buffer
-  alias global cdr change-directory-project-root
-  alias global ecd edit-current-buffer-directory
-  alias global pwd print-working-directory
+    # Suggested aliases
+    alias global cdb change-directory-current-buffer
+    alias global cdr change-directory-project-root
+    alias global ecd edit-current-buffer-directory
+    alias global pwd print-working-directory
+}
+plug 'Delapouite/kakoune-mirror' %{
+    map global user o -docstring 'mirror' ': enter-user-mode mirror<ret>'
+    map global mirror . ': enter-user-mode -lock mirror<ret>'
 }
 
 # Overwrites colors defined in kak-lsp
