@@ -31,6 +31,13 @@ ${indent}$0
 }}}
 ]
 
+hook global WinSetOption filetype=rust %[
+    set -add buffer snippets \
+    "comment" "/*" %{snippets-insert %{/*
+ * $1
+ */}}
+]
+
 # Tab expand configuration by andreyorst (https://github.com/occivink/kakoune-snippets/issues/9#issuecomment-455810125)
 map global insert '<tab>' "z<a-;>: snippets-expand-or-jump 'tab'<ret>"
 

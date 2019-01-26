@@ -17,16 +17,17 @@ map global normal J J<a-x>
 map global normal K K<a-x>
 
 # Swap escape and comma
-map global normal <space> ,
+# map global normal "'" ,
 map global normal , <space>
+map global normal <space> ,
 map global normal <backspace> <space>
 map global normal <a-backspace> <a-space>
 
 # Give []{} a useful purpose
-map global normal [ <c-u>
-map global normal ] <c-d>
-map global normal { 10k
-map global normal } 10j
+# map global normal [ <c-u>
+# map global normal ] <c-d>
+# map global normal { 10k
+# map global normal } 10j
 
 # Better x
 map global normal x <a-x>

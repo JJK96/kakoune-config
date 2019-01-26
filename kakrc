@@ -29,18 +29,18 @@ map global normal <a-h> Gi
 map global prompt <a-i> "<home>(?i)<end>"
 
 # calculate
-map global normal = '|calc<ret>'
+map global normal = '|bc<ret>'
 
 # Movement mode (depends on case.kak)
-map global user m -docstring "case based movement" ': enter-user-mode -lock movecase<ret>'
+map global user m -docstring "case based movement" ': enter-user-mode movecase<ret>'
 
 # user mappings
 map global user l -docstring 'lsp' ': enter-user-mode lsp<ret>'
 
 ## clipboard interaction
 map global user p -docstring 'paste from clipboard' '!xsel -bo<ret>'
-map global user y -docstring 'copy to clipboard' '<a-|>xsel -bi<ret>; : echo "copied selection to X11 clipboard"<ret>'
-map global user d -docstring 'cut to clipboard' '|xsel -bi<ret>; : echo "copied selection to X11 clipboard"<ret>'
+map global user y -docstring 'copy to clipboard' '<a-|>xsel -bi<ret>'
+map global user d -docstring 'cut to clipboard' '|xsel -bi<ret>'
 
 ## comment lines
 map global user c -docstring 'toggle comment lines' %{_: try comment-block catch comment-line<ret>}

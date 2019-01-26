@@ -1,3 +1,4 @@
+# Not using this because counts are not forwarded, see https://github.com/mawww/kakoune/issues/2635
 declare-user-mode leader
 
 map global leader %{0}    %{<a-0>}
@@ -94,3 +95,4 @@ map global leader %{~}    %{<a-~>}
 
 map global normal <space> ': enter-user-mode leader<ret>'
 map global leader <space> '<esc><space>'
+map global leader . ': enter-user-mode -lock leader<ret>'

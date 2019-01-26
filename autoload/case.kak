@@ -12,7 +12,7 @@ def snakecase %{
   exec '<a-:><a-;>s-|[a-z][A-Z]<ret>;a<space><esc>s[-\s]+<ret>c_<esc><a-i>w`'
 }
 
-# fooBar → foo-bar
+# fooBarTest → foo-bar
 # foo_bar → foo-bar
 # foo bar → foo-bar
 def kebabcase %{
@@ -33,7 +33,8 @@ def -hidden extend-next-word-part %{
 }
 
 declare-user-mode movecase
-map global movecase w -docstring 'move to next camelcase' ': select-next-word-part<ret>'
-map global movecase W -docstring 'extend to next camelcase' ': extend-next-word-part<ret>'
-map global movecase b -docstring 'move to previous camelcase' ': select-prev-word-part<ret>'
-map global movecase B -docstring 'extend to previous camelcase' ': extend-prev-word-part<ret>'
+map global movecase w -docstring 'move to next word-part' ': select-next-word-part<ret>'
+map global movecase W -docstring 'extend to next word-part' ': extend-next-word-part<ret>'
+map global movecase b -docstring 'move to previous word-part' ': select-prev-word-part<ret>'
+map global movecase B -docstring 'extend to previous word-part' ': extend-prev-word-part<ret>'
+map global movecase . -docstring 'lock' ': enter-user-mode -lock movecase<ret>'
