@@ -147,13 +147,13 @@ plug "occivink/kakoune-snippets" %{
 plug "occivink/kakoune-sudo-write"
 plug "jjk96/kakoune-fireplace"
 plug "lenormf/kakoune-extra" load %{
-    #syntastic.kak
+    syntastic.kak
+} %{
+    lint-disable
 }
-plug "alexherbo2/select.kak" %{
-    plug "alexherbo2/yank-ring.kak" %{
-        map global normal <c-p> ":<space>yank-ring-previous<ret>"
-        map global normal <c-n> ":<space>yank-ring-next<ret>"
-    }
+plug "alexherbo2/yank-ring.kak" %{
+    map global normal <c-p> ':<space>yank-ring<ret><c-p>'
+    map global normal <c-n> ':<space>yank-ring<ret><c-n>'
 }
 plug "Delapouite/kakoune-buffers" %{
     map global user b ': enter-user-mode -lock buffers<ret>'   -docstring 'buffers (lock)…'
