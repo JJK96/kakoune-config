@@ -13,7 +13,7 @@ Feel free to create an issue if you have questions on how to use some stuff
 |-------------|-------------------------------|
 |bin          | Scripts                       |
 |colors       | Colorschemes                  |
-|rc           | .kak files sourced by kakrc   |
+|autoload     | .kak files sourced by kakrc   |
 |kakrc        | Main configuration file       |
 |snippets.kak | Snippet definitions           |
 
