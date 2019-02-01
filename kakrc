@@ -45,17 +45,6 @@ map global user d -docstring 'cut to clipboard' '|xsel -bi<ret>'
 ## comment lines
 map global user c -docstring 'toggle comment lines' %{_: try comment-block catch comment-line<ret>}
 
-# tab to select menu item.
-hook global InsertCompletionShow .* %{
-    map window insert <tab> <c-n>
-    map window insert <s-tab> <c-p>
-}
-
-hook global InsertCompletionHide .* %{
-    unmap window insert <tab> <c-n>
-    unmap window insert <s-tab> <c-p>
-}
-
 # tabs to spaces
 hook global InsertChar \t %{
     exec -draft h@
@@ -133,7 +122,7 @@ plug "occivink/kakoune-phantom-selection" %{
     map global phantom-selection a -docstring "Add" ": phantom-sel-add-selection<ret>"
 }
 plug "occivink/kakoune-snippets" %{
-    set-option global snippets_auto_expand false
+    set-option global snippets_auto_expand true
     declare-user-mode snippets
     map global user s -docstring "Snippets" ": enter-user-mode snippets<ret>"
     map global snippets n -docstring "Select next placeholder" ": snippets-select-next-placeholders<ret>"
@@ -148,9 +137,7 @@ plug "occivink/kakoune-sudo-write"
 plug "jjk96/kakoune-fireplace"
 plug "lenormf/kakoune-extra" load %{
     syntastic.kak
-} %{
-    lint-disable
-}
+} 
 plug "alexherbo2/yank-ring.kak" %{
     map global normal <c-p> ':<space>yank-ring<ret><c-p>'
     map global normal <c-n> ':<space>yank-ring<ret><c-n>'
@@ -178,6 +165,7 @@ plug 'delapouite/kakoune-cd' %{
 }
 plug 'Delapouite/kakoune-mirror' %{
     map global user o -docstring 'mirror' ': enter-user-mode mirror<ret>'
+    map global mirror * -docstring 'stars (markdown bold)' 'i**<esc>a**<esc>'
     map global mirror . ': enter-user-mode -lock mirror<ret>'
 }
 

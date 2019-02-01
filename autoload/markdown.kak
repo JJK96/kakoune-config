@@ -1,7 +1,7 @@
 # Configuration options for markdown
 
 # Compile to pdf or to html
-declare-option -docstring "compile to pdf" bool markdown_pdf false
+declare-option -docstring "compile to pdf" bool markdown_pdf true
 declare-option -docstring "store in tmp directory" bool markdown_tmp true
 
 hook global WinSetOption filetype=markdown %{
@@ -22,11 +22,14 @@ if $kak_opt_markdown_pdf; then
 else
 	pandoc -o $dir/"$filename".html $kak_buffile 
 fi
-) > /dev/null < /dev/null &}}
+) > /dev/null < /dev/null 2>&1 &}}
 
-}
-
-hook global WinSetOption filetype=(?!markdown).* %{
+hook -once global WinSetOption filetype=(?!markdown).* %{
     remove-hooks window markdown-compile
 }
+
+map global insert <c-b> "****<esc>hhi"
+
+}
+
 

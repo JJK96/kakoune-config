@@ -16,9 +16,15 @@
 map global normal J J<a-x>
 map global normal K K<a-x>
 
+# Make I insert before every line
+map global normal I "<a-s>I"
+# Make A insert after every line
+map global normal A "<a-s>A"
+
 # Swap escape and comma
 # map global normal "'" ,
 map global normal , <space>
+map global normal <a-,> <a-space>
 map global normal <space> ,
 map global normal <backspace> <space>
 map global normal <a-backspace> <a-space>
