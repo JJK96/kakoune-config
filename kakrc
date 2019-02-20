@@ -29,7 +29,7 @@ map global normal <a-h> Gi
 map global prompt <a-i> "<home>(?i)<end>"
 
 # calculate
-map global normal = '|bc<ret>'
+map global normal = '|calc<ret>'
 
 # Movement mode (depends on case.kak)
 map global user m -docstring "case based movement" ': enter-user-mode movecase<ret>'

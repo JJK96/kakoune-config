@@ -24,7 +24,7 @@ $1
 ]
 
 hook global WinSetOption filetype=(c|cpp) %[
-set -add global snippets \
+set -add buffer snippets \
 "for" "for" %{snippets-insert %{for $1; $2; $3 {
 	$0
 }}}

@@ -1,5 +1,11 @@
 # Small configurations for different languages
 
+define-command php_format %{
+    nop %sh{
+        php-cs-fixer fix --rules=@PSR2 $kak_buffile
+    }
+}
+
 hook global WinSetOption filetype=(xml) %[
     set-option buffer formatcmd %{xmllint --format -}
 ]
@@ -17,13 +23,26 @@ hook global WinSetOption filetype=(python) %[
 ]
 
 # better indentation
-hook global WinSetOption filetype=(p4|php) %[
-    hook -group c-family-indent window ModeChange insert:.* c-family-trim-autoindent
-    hook -group c-family-insert window InsertChar \n c-family-insert-on-newline
-    hook -group c-family-indent window InsertChar \n c-family-indent-on-newline
-    hook -group c-family-indent window InsertChar \{ c-family-indent-on-opening-curly-brace
-    hook -group c-family-indent window InsertChar \} c-family-indent-on-closing-curly-brace
-    hook -group c-family-insert window InsertChar \} c-family-insert-on-closing-curly-brace
+hook global WinSetOption filetype=(p4|php|solidity) %[
+    hook -group "%val{hook_param_capture_1}-trim-indent" window ModeChange insert:.* c-family-trim-indent
+    hook -group "%val{hook_param_capture_1}-insert" window InsertChar \n c-family-insert-on-newline
+    hook -group "%val{hook_param_capture_1}-indent" window InsertChar \n c-family-indent-on-newline
+    hook -group "%val{hook_param_capture_1}-indent" window InsertChar \{ c-family-indent-on-opening-curly-brace
+    hook -group "%val{hook_param_capture_1}-indent" window InsertChar \} c-family-indent-on-closing-curly-brace
+    hook -group "%val{hook_param_capture_1}-insert" window InsertChar \} c-family-insert-on-closing-curly-brace
+
+    hook -once -always window WinSetOption filetype=.* "
+        remove-hooks window %val{hook_param_capture_1}-.+
+    "
+
+]
+
+hook global WinSetOption filetype=(php) %[
+    alias window format php_format
+
+    hook -once -always window WinSetOption filetype=.* %{
+        unalias window format
+    }
 ]
 
 hook global WinSetOption filetype=(rust) %[

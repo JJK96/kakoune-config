@@ -22,7 +22,6 @@ map global normal I "<a-s>I"
 map global normal A "<a-s>A"
 
 # Swap escape and comma
-# map global normal "'" ,
 map global normal , <space>
 map global normal <a-,> <a-space>
 map global normal <space> ,
