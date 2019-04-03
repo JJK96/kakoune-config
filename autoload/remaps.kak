@@ -37,4 +37,3 @@ map global normal <a-backspace> <a-space>
 # Better x
 map global normal x <a-x>
 map global normal <a-x> gi<a-l>
-
