@@ -49,9 +49,10 @@ if [ ${#args[@]} == 0 ]; then
 fi 
 # Build the command to give to kakoune
 for file in "${args[@]}"; do
-    command="$command $open_command $(realpath "$file");"
+    command="$command $open_command %{"$(realpath "$file")"};"
 done
 # Connect to the session
+# echo $command
 if [ $in_terminal ]; then
     kak -c $KAK_SESSION -e "$command"
 else

@@ -72,7 +72,7 @@ alias global wq _wq
 map global normal <c-q> ": _q<ret>"
 
 # Open file in new window
-define-command open-in-new-window -params .. -file-completion %{ new edit %arg{@} }
+define-command open-in-new-window -params .. -file-completion %{ new edit "%arg{@}" }
 alias global e open-in-new-window
 
 # file types
