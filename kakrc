@@ -65,14 +65,10 @@ define-command -hidden _terminal -params .. %{
 }
 
 # Delete buffer and quit
-define-command -hidden _q %{db;quit}
-define-command -hidden _wq %{w;_q}
-alias global q _q
-alias global wq _wq
-map global normal <c-q> ": _q<ret>"
+map global normal <c-q> ":db;q<ret>"
 
 # Open file in new window
-define-command open-in-new-window -params .. -file-completion %{ new edit "%arg{@}" }
+define-command open-in-new-window -params .. -file-completion %{ new edit "%arg{@}"}
 alias global e open-in-new-window
 
 # file types
@@ -83,7 +79,7 @@ hook global BufCreate .*\.xsd %{ set buffer filetype xml }
 # Depends on https://github.com/ul/kak-lsp
 eval %sh{kak-lsp1 --kakoune -s $kak_session }
 # Debug output
-nop %sh{ (kak-lsp1 -s $kak_session -vvv ) > /tmp/kak-lsp.log 2>&1 < /dev/null & }
+# nop %sh{ (kak-lsp1 -s $kak_session -vvv ) > /tmp/kak-lsp.log 2>&1 < /dev/null & }
 lsp-enable
 lsp-auto-hover-enable
 
@@ -122,7 +118,7 @@ plug "occivink/kakoune-phantom-selection" %{
     map global phantom-selection a -docstring "Add" ": phantom-sel-add-selection<ret>"
 }
 plug "occivink/kakoune-snippets" %{
-    set-option global snippets_auto_expand true
+    set-option global snippets_auto_expand false
     declare-user-mode snippets
     map global user s -docstring "Snippets" ": enter-user-mode snippets<ret>"
     map global snippets n -docstring "Select next placeholder" ": snippets-select-next-placeholders<ret>"
@@ -130,9 +126,11 @@ plug "occivink/kakoune-snippets" %{
     map global snippets i -docstring "Info" ": snippets-info<ret>"
     map global insert <a-e> "<esc>: try snippets-select-next-placeholders catch phantom-sel-iterate-next<ret>i"
     add-highlighter global/ ranges snippets_placeholders 
+    set-option global snippets_directories "%opt{plug_install_dir}/kakoune-snippet-collection/snippets"
     source "%val{config}/snippets.kak"
 }
-    
+plug "andreyorst/kakoune-snippet-collection"
+
 plug "occivink/kakoune-sudo-write"
 plug "jjk96/kakoune-fireplace"
 plug "lenormf/kakoune-extra" load %{
@@ -167,6 +165,9 @@ plug 'Delapouite/kakoune-mirror' %{
     map global user o -docstring 'mirror' ': enter-user-mode mirror<ret>'
     map global mirror * -docstring 'stars (markdown bold)' 'i**<esc>a**<esc>'
     map global mirror . ': enter-user-mode -lock mirror<ret>'
+}
+plug 'alexherbo2/split-object.kak' %{
+    map global normal <a-L> ': enter-user-mode split-object<ret>'
 }
 
 # Overwrites colors defined in kak-lsp

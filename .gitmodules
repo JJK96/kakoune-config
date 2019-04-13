@@ -37,3 +37,9 @@
 [submodule "plugins/kakoune-text-objects"]
 	path = plugins/kakoune-text-objects
 	url = https://github.com/Delapouite/kakoune-text-objects
+[submodule "plugins/split-object.kak"]
+	path = plugins/split-object.kak
+	url = https://github.com/alexherbo2/split-object.kak
+[submodule "plugins/kakoune-snippet-collection"]
+	path = plugins/kakoune-snippet-collection
+	url = https://github.com/andreyorst/kakoune-snippet-collection
