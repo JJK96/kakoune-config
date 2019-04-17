@@ -1,33 +1,10 @@
 hook global WinSetOption filetype=(latex|markdown) %[
     set -add buffer snippets \
-"begin" "\\begin" %{ snippets-insert %{\begin{${1}}
-\end{$1}}} \
-"matrix" "\\matrix" %{ snippets-insert %{\left[\begin{matrix}
-$1
-\end{matrix}\right]}} \
 "header" "^header" %{ snippets-insert %{---
 author: Jan-Jaap Korpershoek (s1726900)
 title: $1
 ---
-}} \
-"subsection" "^ss " %{ snippets-insert %{\subsection*{$1}}} \
-"section" "^s " %{ snippets-insert %{\section*{$1}}} \
-"align" "\\align" %{ snippets-insert %{\begin{align*}
-$1
-\end{align*}}} \
-"mod" "\\mod" %{ snippets-insert %{\text{ mod } $1}} \
-"image" "^\h*image" %{ snippets-insert %{\begin{figure}
-\includegraphics[width=\textwidth]{$1}
-\caption{$2}
-\end{figure}}} \
-"fraction" "\\frac" %{ snippets-insert %{\frac{$1}{$2}$0}}
-]
-
-hook global WinSetOption filetype=(c|cpp) %[
-set -add buffer snippets \
-"for" "for" %{snippets-insert %{for $1; $2; $3 {
-	$0
-}}}
+}}
 ]
 
 hook global WinSetOption filetype=(rust|c|cpp|java) %[

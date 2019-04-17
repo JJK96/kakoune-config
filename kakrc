@@ -38,7 +38,7 @@ map global user m -docstring "case based movement" ': enter-user-mode movecase<r
 map global user l -docstring 'lsp' ': enter-user-mode lsp<ret>'
 
 ## clipboard interaction
-map global user p -docstring 'paste from clipboard' '!xsel -bo<ret>'
+map global user p -docstring 'paste from clipboard' '!xsel -bo<ret>uU'
 map global user y -docstring 'copy to clipboard' '<a-|>xsel -bi<ret>'
 map global user d -docstring 'cut to clipboard' '|xsel -bi<ret>'
 
@@ -117,6 +117,11 @@ plug "occivink/kakoune-phantom-selection" %{
     map global phantom-selection c -docstring "Clear" ": phantom-sel-select-all; phantom-sel-clear<ret>"
     map global phantom-selection a -docstring "Add" ": phantom-sel-add-selection<ret>"
 }
+# plug "alexherbo2/phantom.kak" %{
+#     hook global WinCreate .* %{
+#         phantom-enable -with-maps
+#     }
+# }
 plug "occivink/kakoune-snippets" %{
     set-option global snippets_auto_expand false
     declare-user-mode snippets
