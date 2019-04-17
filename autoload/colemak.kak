@@ -14,8 +14,13 @@ map global normal J N
 map global normal l i
 map global normal <a-l> <a-i>
 map global normal <a-L> <a-I>
+
 map global normal k e
 map global normal K E
+map global normal <a-e> <a-k>
+map global normal <a-k> <a-e>
+map global normal <a-E> <a-K>
+map global normal <a-K> <a-E>
 
 # Select whole lines when moving selection with J or K
 map global normal N J<a-x>
