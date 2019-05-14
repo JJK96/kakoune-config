@@ -5,7 +5,7 @@ define-command emmet %{
         execute-keys -save-regs "" d
         evaluate-commands %sh{
             eval set -- "$kak_reg_dquote"
-            snippet=$(echo "$@" | emmet -p | sed -e "s/\t/\$\{indent\}/g")
+            snippet=$(echo "$@" | emmet -p )
             echo "snippets-insert %{$snippet}"
         }
     }
