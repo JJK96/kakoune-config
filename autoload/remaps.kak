@@ -28,6 +28,10 @@ map global normal <space> ,
 map global normal <backspace> <space>
 map global normal <a-backspace> <a-space>
 
+# swap f and d
+map global normal <c-d> <c-f>
+map global normal <c-f> <c-d>
+
 # Give []{} a useful purpose
 # map global normal [ <c-u>
 # map global normal ] <c-d>
