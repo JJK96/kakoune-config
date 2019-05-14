@@ -51,6 +51,7 @@ hook global InsertChar \t %{
 }
 
 # Use termite
+require-module x11
 set global termcmd "termite -e"
 
 # Terminal, used by ide wrapper
