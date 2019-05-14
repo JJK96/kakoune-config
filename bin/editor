@@ -45,12 +45,13 @@ if [ ${#args[@]} == 0 ]; then
    if [ -z $in_terminal ]; then
         command="$command new "
    fi
-   command="$command buffer *scratch*;"
+   command="$command edit -scratch *scratch*;"
 fi 
 # Build the command to give to kakoune
 for file in "${args[@]}"; do
     command="$command $open_command %{"$(realpath "$file")"};"
 done
+command="$command " # cd to directory of buffer using delapouite/kakoune-cd 
 # Connect to the session
 # echo $command
 if [ $in_terminal ]; then
