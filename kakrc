@@ -28,9 +28,6 @@ map global normal <a-h> Gi
 # case insensitive search
 map global prompt <a-i> "<home>(?i)<end>"
 
-# calculate
-map global normal = '|calc<ret>'
-
 # Movement mode (depends on case.kak)
 map global user m -docstring "case based movement" ': enter-user-mode movecase<ret>'
 
@@ -81,8 +78,8 @@ hook global BufCreate .*\.xsd %{ set buffer filetype xml }
 eval %sh{kak-lsp1 --kakoune -s $kak_session }
 # Debug output
 # nop %sh{ (kak-lsp1 -s $kak_session -vvv ) > /tmp/kak-lsp.log 2>&1 < /dev/null & }
-lsp-enable
-lsp-auto-hover-enable
+# lsp-enable
+# lsp-auto-hover-enable
 
 #spell
 # map global user s -docstring 'spell replace' :spell-replace<ret>
@@ -106,17 +103,13 @@ set-option global modelinefmt %{{Error}%sh{[ $kak_opt_lsp_diagnostic_error_count
 
 source "%val{config}/plugins/plug.kak/rc/plug.kak"
 plug "andreyorst/plug.kak" noload
-plug "andreyorst/fzf.kak" %{
-    map global user f -docstring 'Open fzf mode' %{: fzf-mode<ret>}
-    map global fzf g -docstring 'Open vcs mode' %{: fzf-vcs-mode<ret>}
-}
 plug "occivink/kakoune-phantom-selection" %{
     declare-user-mode phantom-selection
     map global user h -docstring "Phantom selections" ": enter-user-mode phantom-selection<ret>"
-    map global phantom-selection n -docstring "Next" ": phantom-sel-iterate-next<ret>"
-    map global phantom-selection p -docstring "Previous" ": phantom-sel-iterate-prev<ret>"
-    map global phantom-selection c -docstring "Clear" ": phantom-sel-select-all; phantom-sel-clear<ret>"
-    map global phantom-selection a -docstring "Add" ": phantom-sel-add-selection<ret>"
+    map global phantom-selection n -docstring "Next" ": phantom-selection-iterate-next<ret>"
+    map global phantom-selection p -docstring "Previous" ": phantom-selection-iterate-prev<ret>"
+    map global phantom-selection c -docstring "Clear" ": phantom-selection-select-all; phantom-selection-clear<ret>"
+    map global phantom-selection a -docstring "Add" ": phantom-selection-add-selection<ret>"
 }
 # plug "alexherbo2/phantom.kak" %{
 #     hook global WinCreate .* %{
@@ -130,7 +123,7 @@ plug "occivink/kakoune-snippets" %{
     map global snippets n -docstring "Select next placeholder" ": snippets-select-next-placeholders<ret>"
     map global snippets s -docstring "Snippet" ": snippets "
     map global snippets i -docstring "Info" ": snippets-info<ret>"
-    map global insert <a-e> "<esc>: try snippets-select-next-placeholders catch phantom-sel-iterate-next<ret>i"
+    map global insert <a-e> "<esc>: try snippets-select-next-placeholders catch phantom-selection-iterate-next<ret>i"
     add-highlighter global/ ranges snippets_placeholders 
     set-option global snippets_directories "%opt{plug_install_dir}/kakoune-snippet-collection/snippets"
     source "%val{config}/snippets.kak"
@@ -143,8 +136,8 @@ plug "lenormf/kakoune-extra" load %{
     syntastic.kak
 } 
 plug "alexherbo2/yank-ring.kak" %{
-    map global normal <c-p> ':<space>yank-ring<ret><c-p>'
-    map global normal <c-n> ':<space>yank-ring<ret><c-n>'
+    map global normal <c-p> ': yank-ring<ret><c-p>'
+    map global normal <c-n> ': yank-ring<ret><c-n>'
 }
 plug "Delapouite/kakoune-buffers" %{
     map global user b ': enter-user-mode -lock buffers<ret>'   -docstring 'buffers (lock)…'
@@ -170,10 +163,17 @@ plug 'delapouite/kakoune-cd' %{
 plug 'Delapouite/kakoune-mirror' %{
     map global user o -docstring 'mirror' ': enter-user-mode mirror<ret>'
     map global mirror * -docstring 'stars (markdown bold)' 'i**<esc>a**<esc>'
+    map global mirror $ -docstring '$ (latex math)' 'i$<esc>a$<esc>'
     map global mirror . ': enter-user-mode -lock mirror<ret>'
 }
 plug 'alexherbo2/split-object.kak' %{
     map global normal <a-L> ': enter-user-mode split-object<ret>'
+}
+plug 'eraserhd/kak-ansi'
+plug 'jjk96/kakoune-emmet'
+plug 'jjk96/kakoune-python-bridge' %{
+    # calculate
+    map global normal = ':python-bridge-send<ret>'
 }
 
 # Overwrites colors defined in kak-lsp

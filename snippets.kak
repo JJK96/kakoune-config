@@ -7,6 +7,15 @@ title: $1
 }}
 ]
 
+hook global WinSetOption filetype=python %[
+    set -add buffer snippets \
+"interact" "interact" %{ snippets-insert %{def interact():
+    import code
+    code.InteractiveConsole(locals=globals()).interact()
+}}
+]
+
+
 hook global WinSetOption filetype=(rust|c|cpp|java) %[
     set -add buffer snippets \
     "comment" "/\*" %{snippets-insert %{/*
