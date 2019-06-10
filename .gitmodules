@@ -49,3 +49,12 @@
 [submodule "plugins/plug.kak"]
 	path = plugins/plug.kak
 	url = https://github.com/andreyorst/plug.kak
+[submodule "plugins/kak-ansi"]
+	path = plugins/kak-ansi
+	url = https://github.com/eraserhd/kak-ansi
+[submodule "plugins/kakoune-emmet"]
+	path = plugins/kakoune-emmet
+	url = git@github.com:JJK96/kakoune-emmet.git
+[submodule "plugins/kakoune-python-bridge"]
+	path = plugins/kakoune-python-bridge
+	url = git@github.com:JJK96/kakoune-python-bridge.git
