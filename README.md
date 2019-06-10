@@ -15,6 +15,7 @@ Feel free to create an issue if you have questions on how to use some stuff
 |colors       | Colorschemes                  |
 |autoload     | .kak files sourced by kakrc   |
 |kakrc        | Main configuration file       |
+|plugins      | Plugins that I use(d)        |
 |snippets.kak | Snippet definitions           |
 
 See the individual files for more explanations
