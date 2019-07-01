@@ -12,7 +12,7 @@ set-option global tabstop     4
 set-option global indentwidth 4
 
 # keep space around cursor
-set-option global scrolloff 10,10
+# set-option global scrolloff 10,10
 
 # save on pressing enter
 map global normal <ret> ": w<ret>"
@@ -39,8 +39,12 @@ map global user p -docstring 'paste from clipboard' '!xsel -bo<ret>uU'
 map global user y -docstring 'copy to clipboard' '<a-|>xsel -bi<ret>'
 map global user d -docstring 'cut to clipboard' '|xsel -bi<ret>'
 
+define-command comment %{
+    try comment-block catch comment-line
+}
+
 ## comment lines
-map global user c -docstring 'toggle comment lines' %{_: try comment-block catch comment-line<ret>}
+map global user c -docstring 'comment lines' %{_: comment<ret>}
 
 # tabs to spaces
 hook global InsertChar \t %{
@@ -63,7 +67,7 @@ define-command -hidden _terminal -params .. %{
 }
 
 # Delete buffer and quit
-map global normal <c-q> ":db;q<ret>"
+map global normal <c-q> ": db;q<ret>"
 
 # Open file in new window
 define-command open-in-new-window -params .. -file-completion %{ new edit "%arg{@}"}
@@ -78,8 +82,8 @@ hook global BufCreate .*\.xsd %{ set buffer filetype xml }
 eval %sh{kak-lsp1 --kakoune -s $kak_session }
 # Debug output
 # nop %sh{ (kak-lsp1 -s $kak_session -vvv ) > /tmp/kak-lsp.log 2>&1 < /dev/null & }
-# lsp-enable
-# lsp-auto-hover-enable
+lsp-enable
+lsp-auto-hover-enable
 
 #spell
 # map global user s -docstring 'spell replace' :spell-replace<ret>
@@ -173,8 +177,12 @@ plug 'eraserhd/kak-ansi'
 plug 'jjk96/kakoune-emmet'
 plug 'jjk96/kakoune-python-bridge' %{
     # calculate
-    map global normal = ':python-bridge-send<ret>'
+    map global normal = ': python-bridge-send<ret>'
+    python-bridge-send %{
+from math import *
+    }
 }
+# plug 'danr/neptyne'
 
 # Overwrites colors defined in kak-lsp
 colorscheme gruvbox

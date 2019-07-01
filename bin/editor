@@ -45,7 +45,7 @@ if [ ${#args[@]} == 0 ]; then
    if [ -z $in_terminal ]; then
         command="$command new "
    fi
-   command="$command edit -scratch *scratch*;"
+   command="$command edit -scratch;"
 fi 
 # Build the command to give to kakoune
 for file in "${args[@]}"; do

@@ -58,3 +58,6 @@
 [submodule "plugins/kakoune-python-bridge"]
 	path = plugins/kakoune-python-bridge
 	url = git@github.com:JJK96/kakoune-python-bridge.git
+[submodule "plugins/neptyne"]
+	path = plugins/neptyne
+	url = https://github.com/danr/neptyne
