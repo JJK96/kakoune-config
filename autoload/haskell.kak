@@ -1,10 +1,10 @@
 # haskell bridge for executing things interactively
 
-declare-option -hidden str haskell_bridge_folder %sh{echo /tmp/kakoune_haskell_bridge/$kak_session}
-declare-option -hidden str haskell_bridge_in %sh{echo $kak_opt_haskell_bridge_folder/in}
-declare-option -hidden str haskell_bridge_out %sh{echo $kak_opt_haskell_bridge_folder/out}
-declare-option -hidden str haskell_bridge_fifo %sh{echo $kak_opt_haskell_bridge_folder/fifo}
-declare-option -hidden str haskell_bridge_source %sh{printf '%s' "${kak_source%/*}"}
+declare-option -hidden str haskell_bridge_folder "/tmp/kakoune_haskell_bridge/%val{session}"
+declare-option -hidden str haskell_bridge_in "%opt{haskell_bridge_folder}/in"
+declare-option -hidden str haskell_bridge_out "%opt{haskell_bridge_folder}/out"
+declare-option -hidden str haskell_bridge_fifo "%opt{haskell_bridge_folder}/fifo"
+declare-option -hidden str haskell_bridge_source %sh{echo "${kak_source%/*}"}
 declare-option bool haskell_bridge_fifo_enabled false
 declare-option -hidden bool haskell_bridge_running false
 declare-option -hidden str-list haskell_bridge_output
