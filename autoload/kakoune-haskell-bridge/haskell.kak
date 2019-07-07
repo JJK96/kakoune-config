@@ -29,8 +29,21 @@ haskell-bridge-start %{
             mkdir -p $kak_opt_haskell_bridge_folder
             mkfifo $kak_opt_haskell_bridge_in
             mkfifo $kak_opt_haskell_bridge_out
-            ( tail -f $kak_opt_haskell_bridge_in | ghci -interactive-print myprint -dynamic ~/Documents/programming/haskell/repl.hs) >/dev/null 2>&1 </dev/null &
-            echo ":set args $kak_opt_haskell_bridge_out" > $kak_opt_haskell_bridge_in
+            ( python $kak_opt_haskell_bridge_source/haskell-repl.py \
+            $kak_opt_haskell_bridge_in          \
+            $kak_opt_haskell_bridge_out         \
+            ghci                                \
+            "Prelude> "                         \
+            ":set prompt [PEXPECT_PROMPT>"      \
+            ":set prompt-cont [PEXPECT_PROMPT+"  
+            ) >/dev/null 2>&1 </dev/null &
+            # ( python $kak_opt_haskell_bridge_source/haskell-repl.py \
+            # $kak_opt_haskell_bridge_in          \
+            # $kak_opt_haskell_bridge_out         \
+            # python                                \
+            # ">>> "                                 \
+            # "import sys; sys.ps1={!r};sys.ps2={!r}"
+            # ) >/dev/null 2>&1 </dev/null &
         fi
     }
     set-option global haskell_bridge_running true
