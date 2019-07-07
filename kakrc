@@ -177,7 +177,7 @@ plug 'eraserhd/kak-ansi'
 plug 'jjk96/kakoune-emmet'
 plug 'jjk96/kakoune-python-bridge' %{
     # calculate
-    map global normal = ': python-bridge-send<ret>'
+    map global normal = ': python-bridge-send<ret>R'
     python-bridge-send %{
 from math import *
     }

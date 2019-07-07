@@ -7,6 +7,7 @@ declare-option -hidden str haskell_bridge_fifo %sh{echo $kak_opt_haskell_bridge_
 declare-option -hidden str haskell_bridge_source %sh{printf '%s' "${kak_source%/*}"}
 declare-option bool haskell_bridge_fifo_enabled false
 declare-option -hidden bool haskell_bridge_running false
+declare-option -hidden str-list haskell_bridge_output
 
 hook global GlobalSetOption haskell_bridge_fifo_enabled=true %{
     nop %sh{
@@ -49,24 +50,28 @@ haskell-bridge-stop %{
     set-option global haskell_bridge_running false
 }
 
-define-command -docstring 'Evaluate selections or argument using haskell-bridge' \
+define-command -docstring 'Evaluate selections or argument using haskell-bridge return result in " register' \
 haskell-bridge-send -params 0..1 %{
     haskell-bridge-start
+    set-option global haskell_bridge_output
     evaluate-commands %sh{
         cat_command="cat $kak_opt_haskell_bridge_out"
         if $kak_opt_haskell_bridge_fifo_enabled; then
             cat_command="$cat_command | tee -a $kak_opt_haskell_bridge_fifo"
         fi
 
-        if [ $# -gt 0 ]; then
-            input=$(eval $cat_command) && echo "info %{$input}" &
+        if [ $# -eq 0 ]; then
+            eval set -- "$kak_quoted_selections"
+        fi
+        out=""
+        while [ $# -gt 0 ]; do
+            output=$(eval $cat_command) && echo "set-option -add global haskell_bridge_output $output" &
             echo "$1" > $kak_opt_haskell_bridge_in &
             wait
-        else
-            echo "set-register | %{ input=\$(cat); eval $cat_command & echo \"\$input\" > $kak_opt_haskell_bridge_in & wait}"
-            echo 'execute-keys -itersel "|<ret>"'
-        fi
+            shift
+        done
     }
+    set-register dquote %opt{haskell_bridge_output}
 }
 
 define-command haskell-bridge -params 1.. -shell-script-candidates %{

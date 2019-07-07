@@ -24,6 +24,8 @@ hook global WinSetOption filetype=(python) %[
 
 # better indentation
 hook global WinSetOption filetype=(p4|php|solidity) %[
+    require-module c-family
+
     hook -group "%val{hook_param_capture_1}-trim-indent" window ModeChange insert:.* c-family-trim-indent
     hook -group "%val{hook_param_capture_1}-insert" window InsertChar \n c-family-insert-on-newline
     hook -group "%val{hook_param_capture_1}-indent" window InsertChar \n c-family-indent-on-newline
@@ -53,6 +55,6 @@ hook global WinSetOption filetype=(rust) %[
 #     set -add buffer snippet_files "%val{config}/snippets/latex.yaml"
 # ]
 
-hook global WinSetOption filetype=(plain|markdown) %[
-    set buffer lsp_server_configuration languageTool.language="en"
-]
+# hook global WinSetOption filetype=(plain|markdown) %[
+#     set buffer lsp_server_configuration languageTool.language="en"
+# ]
