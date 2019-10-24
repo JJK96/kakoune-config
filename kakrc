@@ -51,7 +51,7 @@ hook global InsertChar \t %{
     exec -draft h@
 }
 
-# Use termite
+# # Use termite
 require-module x11
 set global termcmd "termite -e"
 
@@ -66,6 +66,10 @@ define-command -hidden _terminal -params .. %{
     )
 }
 
+# this has to be executed first
+require-module x11-repl
+alias global repl _terminal
+
 # Delete buffer and quit
 map global normal <c-q> ": db;q<ret>"
 
@@ -79,11 +83,16 @@ hook global BufCreate .*\.xsd %{ set buffer filetype xml }
 # kakoune language server
 
 # Depends on https://github.com/ul/kak-lsp
-eval %sh{kak-lsp1 --kakoune -s $kak_session }
+eval %sh{kak-lsp --kakoune -s $kak_session }
 # Debug output
 # nop %sh{ (kak-lsp1 -s $kak_session -vvv ) > /tmp/kak-lsp.log 2>&1 < /dev/null & }
-lsp-enable
-lsp-auto-hover-enable
+# lsp-enable
+hook global WinSetOption filetype=(rust|python|php|haskell|c|cpp) %{
+    lsp-enable-window
+    lsp-auto-hover-enable
+    set global lsp_hover_anchor true
+}
+hook -group lsp global KakEnd .* lsp-exit
 
 #spell
 # map global user s -docstring 'spell replace' :spell-replace<ret>
@@ -137,7 +146,7 @@ plug "andreyorst/kakoune-snippet-collection"
 plug "occivink/kakoune-sudo-write"
 plug "jjk96/kakoune-fireplace"
 plug "lenormf/kakoune-extra" load %{
-    syntastic.kak
+    #syntastic.kak
 } 
 plug "alexherbo2/yank-ring.kak" %{
     map global normal <c-p> ': yank-ring<ret><c-p>'
@@ -182,6 +191,8 @@ plug 'jjk96/kakoune-python-bridge' %{
 from math import *
     }
 }
+plug 'jjk96/kakoune-repl-bridge'
+# plug 'occivink/kakoune-roguelight'
 # plug 'danr/neptyne'
 
 # Overwrites colors defined in kak-lsp

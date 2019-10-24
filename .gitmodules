@@ -61,3 +61,9 @@
 [submodule "plugins/neptyne"]
 	path = plugins/neptyne
 	url = https://github.com/danr/neptyne
+[submodule "plugins/kakoune-repl-bridge"]
+	path = plugins/kakoune-repl-bridge
+	url = git@github.com:JJK96/kakoune-repl-bridge.git
+[submodule "plugins/kakoune-roguelight"]
+	path = plugins/kakoune-roguelight
+	url = https://github.com/occivink/kakoune-roguelight

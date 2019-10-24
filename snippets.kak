@@ -26,7 +26,7 @@ hook global WinSetOption filetype=(rust|c|cpp|java) %[
 hook global WinSetOption filetype=(php) %[
     set -add buffer snippets \
     "print_r" "print_r" %{snippets-insert %{echo '<pre>';
-print_r($result);
+print_r($1);
 echo '</pre>';
 exit;}}
 
