@@ -39,11 +39,14 @@ map global user p -docstring 'paste from clipboard' '!xsel -bo<ret>uU'
 map global user y -docstring 'copy to clipboard' '<a-|>xsel -bi<ret>'
 map global user d -docstring 'cut to clipboard' '|xsel -bi<ret>'
 
+# format
+map global user f -docstring 'format buffer' ':format<ret>'
+
 define-command comment %{
     try comment-block catch comment-line
 }
 
-## comment lines
+# comment lines
 map global user c -docstring 'comment lines' %{_: comment<ret>}
 
 # tabs to spaces
@@ -104,10 +107,6 @@ define-command spell-enable %{
         }
     #}
 }
-
-# XML tags
-
-map -docstring "xml tag object" global object t %{c<lt>([\w.]+)\b[^>]*?(?<lt>!/)>,<lt>/([\w.]+)\b[^>]*?(?<lt>!/)><ret>}
 
 # modeline
 set-option global modelinefmt %{{Error}%sh{[ $kak_opt_lsp_diagnostic_error_count -gt 0 ] && echo "$kak_opt_lsp_diagnostic_error_count"}{Default} %val{bufname} %val{cursor_line}:%val{cursor_char_column} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]}
