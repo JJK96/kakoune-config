@@ -16,8 +16,8 @@ define-command -hidden html-auto-close-tag %{
 }
 
 hook global WinSetOption filetype=(xml|html|php) %{
+    # Credits to mawww for this mapping
     map -docstring "xml tag object" global object t %{c<lt>([\w.]+)\b[^>]*?(?<lt>!/)>,<lt>/([\w.]+)\b[^>]*?(?<lt>!/)><ret>}
-
     hook window InsertChar '/' html-auto-close-tag
 
 }
