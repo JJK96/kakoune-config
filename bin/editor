@@ -46,10 +46,17 @@ if [ ${#args[@]} == 0 ]; then
         command="$command new "
    fi
    command="$command edit -scratch;"
-fi 
+fi
+
+
 # Build the command to give to kakoune
 for file in "${args[@]}"; do
-    command="$command $open_command %{"$(realpath "$file")"};"
+    filepath="$(realpath "$file")"
+    if [ -z $in_terminal ]; then
+        # Extra escape
+        filepath="\"$filepath\""
+    fi
+    command="$command $open_command %{$filepath};"
 done
 command="$command " # cd to directory of buffer using delapouite/kakoune-cd 
 # Connect to the session
@@ -57,5 +64,5 @@ command="$command " # cd to directory of buffer using delapouite/kakoune-cd
 if [ $in_terminal ]; then
     kak -c $KAK_SESSION -e "$command"
 else
-    echo "eval '$command'" | kak -p $KAK_SESSION
+    echo "eval '$command'" | tee /tmp/output | kak -p $KAK_SESSION
 fi
