@@ -67,3 +67,9 @@
 [submodule "plugins/kakoune-roguelight"]
 	path = plugins/kakoune-roguelight
 	url = https://github.com/occivink/kakoune-roguelight
+[submodule "plugins/kakoune-dbgp"]
+	path = plugins/kakoune-dbgp
+	url = git@github.com:JJK96/kakoune_dbgp.git
+[submodule "plugins/kakoune-gdb"]
+	path = plugins/kakoune-gdb
+	url = https://github.com/occivink/kakoune-gdb
