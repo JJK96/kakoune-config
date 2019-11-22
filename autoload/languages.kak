@@ -51,6 +51,10 @@ hook global WinSetOption filetype=(rust) %[
     set-option buffer formatcmd rustfmt
 ]
 
+hook global WinSetOption filetype=(js) %[
+    set-option buffer lintcmd eslint 
+]
+
 # hook global WinSetOption filetype=(markdown|latex) %[
 #     set -add buffer snippet_files "%val{config}/snippets/latex.yaml"
 # ]
