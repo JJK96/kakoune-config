@@ -6,7 +6,7 @@ define-command -hidden html-auto-close-tag %{
             # Get tag
             execute-keys Z[
             execute-keys -with-maps t
-            execute-keys lt<gt>"ay
+            execute-keys e"ay
             # Paste tag
             execute-keys zh"a<a-p>
             # Close tag
