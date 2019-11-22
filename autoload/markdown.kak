@@ -43,7 +43,7 @@ hook window -group markdown-compile BufWritePost .* %{ nop %sh{ (
     if [ $kak_opt_markdown_filetype == "pdf" ]; then
         eval $kak_opt_markdown_pdf_reset
     fi
-    ) > /dev/null < /dev/null &
+    ) > /dev/null 2>&1 < /dev/null &
 }}
 
 hook -once global WinSetOption filetype=(?!markdown).* %{
