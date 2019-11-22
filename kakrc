@@ -7,6 +7,11 @@ add-highlighter global/ show-matching
 # Disable clippy
 set-option global ui_options ncurses_assistant=off
 
+# Set jumpclient
+set-option global jumpclient jump
+# Set toolsclient
+set-option global toolsclient tools
+
 # indentation
 set-option global tabstop     4
 set-option global indentwidth 4
@@ -15,7 +20,7 @@ set-option global indentwidth 4
 # set-option global scrolloff 10,10
 
 # save on pressing enter
-map global normal <ret> ": w<ret>"
+hook global NormalKey <ret> w
 
 # remap grep-jump
 map global goto <ret> "<esc><ret>"
@@ -109,7 +114,7 @@ define-command spell-enable %{
 }
 
 # modeline
-set-option global modelinefmt %{{Error}%sh{[ $kak_opt_lsp_diagnostic_error_count -gt 0 ] && echo "$kak_opt_lsp_diagnostic_error_count"}{Default} %val{bufname} %val{cursor_line}:%val{cursor_char_column} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]}
+set-option global modelinefmt %{{Error}%sh{[ $kak_opt_lsp_diagnostic_error_count -gt 0 ] && echo "$kak_opt_lsp_diagnostic_error_count"}{StatusLineInfo} %sh{ echo $kak_opt_dbgp_indicator } {StatusLine}%val{bufname} %val{cursor_line}:%val{cursor_char_column} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]}
 
 # Plugins
 
@@ -182,15 +187,25 @@ plug 'alexherbo2/split-object.kak' %{
     map global normal <a-L> ': enter-user-mode split-object<ret>'
 }
 plug 'eraserhd/kak-ansi'
-plug 'jjk96/kakoune-emmet'
+plug 'jjk96/kakoune-emmet' %{
+    hook global WinSetOption filetype=(xml|html) %{
+        emmet-enable-autocomplete
+    }
+}
 plug 'jjk96/kakoune-python-bridge' %{
     # calculate
     map global normal = ': python-bridge-send<ret>R'
+    map global normal <backspace> ': python-bridge-send<ret>'
     python-bridge-send %{
 from math import *
     }
 }
 plug 'jjk96/kakoune-repl-bridge'
+plug 'jjk96/kakoune-dbgp' %{
+    map global user x -docstring 'dbgp' ': enter-user-mode dbgp<ret>'
+    dbgp-enable-autojump
+}
+plug 'occivink/kakoune-gdb'
 # plug 'occivink/kakoune-roguelight'
 # plug 'danr/neptyne'
 
