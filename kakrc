@@ -75,11 +75,11 @@ hook global BufCreate .*\.xsd %{ set buffer filetype xml }
 # kakoune language server
 
 # Depends on https://github.com/ul/kak-lsp
-eval %sh{kak-lsp1 --kakoune -s $kak_session }
+eval %sh{kak-lsp --kakoune -s $kak_session }
 # Debug output
 # nop %sh{ (kak-lsp1 -s $kak_session -vvv ) > /tmp/kak-lsp.log 2>&1 < /dev/null & }
-# lsp-enable
-# lsp-auto-hover-enable
+lsp-enable
+lsp-auto-hover-enable
 
 #spell
 # map global user s -docstring 'spell replace' :spell-replace<ret>
