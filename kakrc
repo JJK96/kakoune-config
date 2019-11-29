@@ -103,56 +103,56 @@ set-option global modelinefmt %{{Error}%sh{[ $kak_opt_lsp_diagnostic_error_count
 
 source "%val{config}/plugins/plug.kak/rc/plug.kak"
 plug "andreyorst/plug.kak" noload
-plug "occivink/kakoune-phantom-selection" %{
-    declare-user-mode phantom-selection
-    map global user h -docstring "Phantom selections" ": enter-user-mode phantom-selection<ret>"
-    map global phantom-selection n -docstring "Next" ": phantom-selection-iterate-next<ret>"
-    map global phantom-selection p -docstring "Previous" ": phantom-selection-iterate-prev<ret>"
-    map global phantom-selection c -docstring "Clear" ": phantom-selection-select-all; phantom-selection-clear<ret>"
-    map global phantom-selection a -docstring "Add" ": phantom-selection-add-selection<ret>"
-}
+# plug "occivink/kakoune-phantom-selection" %{
+#     declare-user-mode phantom-selection
+#     map global user h -docstring "Phantom selections" ": enter-user-mode phantom-selection<ret>"
+#     map global phantom-selection n -docstring "Next" ": phantom-selection-iterate-next<ret>"
+#     map global phantom-selection p -docstring "Previous" ": phantom-selection-iterate-prev<ret>"
+#     map global phantom-selection c -docstring "Clear" ": phantom-selection-select-all; phantom-selection-clear<ret>"
+#     map global phantom-selection a -docstring "Add" ": phantom-selection-add-selection<ret>"
+# }
 # plug "alexherbo2/phantom.kak" %{
 #     hook global WinCreate .* %{
 #         phantom-enable -with-maps
 #     }
 # }
-plug "occivink/kakoune-snippets" %{
-    set-option global snippets_auto_expand false
-    declare-user-mode snippets
-    map global user s -docstring "Snippets" ": enter-user-mode snippets<ret>"
-    map global snippets n -docstring "Select next placeholder" ": snippets-select-next-placeholders<ret>"
-    map global snippets s -docstring "Snippet" ": snippets "
-    map global snippets i -docstring "Info" ": snippets-info<ret>"
-    map global insert <a-e> "<esc>: try snippets-select-next-placeholders catch phantom-selection-iterate-next<ret>i"
-    add-highlighter global/ ranges snippets_placeholders 
-    set-option global snippets_directories "%opt{plug_install_dir}/kakoune-snippet-collection/snippets"
-    source "%val{config}/snippets.kak"
-}
-plug "andreyorst/kakoune-snippet-collection"
+# plug "occivink/kakoune-snippets" %{
+#     set-option global snippets_auto_expand false
+#     declare-user-mode snippets
+#     map global user s -docstring "Snippets" ": enter-user-mode snippets<ret>"
+#     map global snippets n -docstring "Select next placeholder" ": snippets-select-next-placeholders<ret>"
+#     map global snippets s -docstring "Snippet" ": snippets "
+#     map global snippets i -docstring "Info" ": snippets-info<ret>"
+#     map global insert <a-e> "<esc>: try snippets-select-next-placeholders catch phantom-selection-iterate-next<ret>i"
+#     add-highlighter global/ ranges snippets_placeholders 
+#     set-option global snippets_directories "%opt{plug_install_dir}/kakoune-snippet-collection/snippets"
+#     source "%val{config}/snippets.kak"
+# }
+# plug "andreyorst/kakoune-snippet-collection"
 
 plug "occivink/kakoune-sudo-write"
-plug "jjk96/kakoune-fireplace"
-plug "lenormf/kakoune-extra" load %{
-    syntastic.kak
-} 
-plug "alexherbo2/yank-ring.kak" %{
-    map global normal <c-p> ': yank-ring<ret><c-p>'
-    map global normal <c-n> ': yank-ring<ret><c-n>'
-}
-plug "Delapouite/kakoune-buffers" %{
-    map global user b ': enter-user-mode -lock buffers<ret>'   -docstring 'buffers (lock)…'
-}
-plug "ul/kak-tree" %{
-    declare-user-mode tree
-    map global tree u ': tree-select-parent-node<ret>' -docstring 'parent'
-    map global tree n ': tree-select-next-node<ret>' -docstring 'next'
-    map global tree p ': tree-select-previous-node<ret>' -docstring 'previous'
-    map global tree c ': tree-select-children<ret>' -docstring 'children'
-    map global tree f ': tree-select-first-child<ret>' -docstring 'first child'
-    map global tree t ': tree-node-sexp<ret>' -docstring 'show syntax tree'
-    map global tree . ': enter-user-mode -lock tree<ret>' -docstring 'lock'
-    map global user t ': enter-user-mode tree<ret>' -docstring 'tree-sitter'
-}
+# plug "jjk96/kakoune-fireplace"
+# plug "lenormf/kakoune-extra" load %{
+#     syntastic.kak
+# } 
+# plug "alexherbo2/yank-ring.kak" %{
+#     map global normal <c-p> ': yank-ring<ret><c-p>'
+#     map global normal <c-n> ': yank-ring<ret><c-n>'
+# }
+# plug "Delapouite/kakoune-buffers" %{
+#     map global user b ': enter-user-mode -lock buffers<ret>'   -docstring 'buffers (lock)…'
+# }
+# plug "ul/kak-tree" %{
+#     declare-user-mode tree
+#     map global tree u ': tree-select-parent-node<ret>' -docstring 'parent'
+#     map global tree n ': tree-select-next-node<ret>' -docstring 'next'
+#     map global tree p ': tree-select-previous-node<ret>' -docstring 'previous'
+#     map global tree c ': tree-select-children<ret>' -docstring 'children'
+#     map global tree f ': tree-select-first-child<ret>' -docstring 'first child'
+#     map global tree t ': tree-node-sexp<ret>' -docstring 'show syntax tree'
+#     map global tree . ': enter-user-mode -lock tree<ret>' -docstring 'lock'
+#     map global user t ': enter-user-mode tree<ret>' -docstring 'tree-sitter'
+# }
 plug 'delapouite/kakoune-cd' %{
     # Suggested aliases
     alias global cdb change-directory-current-buffer
@@ -166,15 +166,15 @@ plug 'Delapouite/kakoune-mirror' %{
     map global mirror $ -docstring '$ (latex math)' 'i$<esc>a$<esc>'
     map global mirror . ': enter-user-mode -lock mirror<ret>'
 }
-plug 'alexherbo2/split-object.kak' %{
-    map global normal <a-L> ': enter-user-mode split-object<ret>'
-}
-plug 'eraserhd/kak-ansi'
-plug 'jjk96/kakoune-emmet'
-plug 'jjk96/kakoune-python-bridge' %{
-    # calculate
-    map global normal = ':python-bridge-send<ret>'
-}
+# plug 'alexherbo2/split-object.kak' %{
+#     map global normal <a-L> ': enter-user-mode split-object<ret>'
+# }
+# plug 'eraserhd/kak-ansi'
+# plug 'jjk96/kakoune-emmet'
+# plug 'jjk96/kakoune-python-bridge' %{
+#     # calculate
+#     map global normal = ':python-bridge-send<ret>'
+# }
 
 # Overwrites colors defined in kak-lsp
 colorscheme gruvbox
