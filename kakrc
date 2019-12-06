@@ -236,4 +236,4 @@ plug 'delapouite/kakoune-palette'
 # plug 'danr/neptyne'
 
 # Overwrites colors defined in kak-lsp
-colorscheme gruvbox
+colorscheme nofrils-gruvbox
