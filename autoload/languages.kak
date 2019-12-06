@@ -20,6 +20,11 @@ hook global WinSetOption filetype=(json) %[
 
 hook global WinSetOption filetype=(python) %[
     set-option buffer formatcmd %{yapf}
+    set global lsp_server_configuration pyls.plugins.jedi_completion.include_params=true
+    alias window comment comment-line
+    hook -once -always window WinSetOption filetype=.* %{
+        unalias window comment
+    }
 ]
 
 # better indentation
