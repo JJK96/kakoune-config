@@ -11,6 +11,12 @@ set-option global ui_options ncurses_assistant=off
 set-option global jumpclient jump
 # Set toolsclient
 set-option global toolsclient tools
+# Create client with name
+define-command -docstring "Open a new client with the given name" \
+new-client -params 1 %{
+    new rename-client %arg{1}
+}
+
 
 # indentation
 set-option global tabstop     4
@@ -93,14 +99,14 @@ hook global BufCreate .*\.xsd %{ set buffer filetype xml }
 # Depends on https://github.com/ul/kak-lsp
 eval %sh{kak-lsp --kakoune -s $kak_session }
 # Debug output
-# nop %sh{ (kak-lsp1 -s $kak_session -vvv ) > /tmp/kak-lsp.log 2>&1 < /dev/null & }
+#nop %sh{ (kak-lsp1 -s $kak_session -vvv ) > /tmp/kak-lsp.log 2>&1 < /dev/null & }
 # lsp-enable
 hook global WinSetOption filetype=(rust|python|php|haskell|c|cpp) %{
     lsp-enable-window
     lsp-auto-hover-enable
     set global lsp_hover_anchor true
+    # set global lsp_snippet_callback snippets-insert
 }
-hook -group lsp global KakEnd .* lsp-exit
 
 #spell
 # map global user s -docstring 'spell replace' :spell-replace<ret>
