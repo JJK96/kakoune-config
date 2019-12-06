@@ -14,7 +14,7 @@ for arg in "$@"; do
     if [ "$arg" == "-t" ]; then
         # In terminal, so no new windows
         in_terminal=true
-        open_command="edit"
+        open_command="edit-or-dir"
     else 
         args+=("$arg")
     fi

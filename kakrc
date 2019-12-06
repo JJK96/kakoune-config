@@ -82,7 +82,7 @@ alias global repl _terminal
 map global normal <c-q> ": db;q<ret>"
 
 # Open file in new window
-define-command open-in-new-window -params .. -file-completion %{ new edit "%arg{@}"}
+define-command open-in-new-window -params .. -file-completion %{ new edit-or-dir "%arg{@}"}
 alias global e open-in-new-window
 
 # file types
