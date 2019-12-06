@@ -200,12 +200,38 @@ plug 'jjk96/kakoune-python-bridge' %{
 from math import *
     }
 }
-plug 'jjk96/kakoune-repl-bridge'
+plug 'jjk96/kakoune-repl-bridge' %{
+    hook global BufSetOption filetype=haskell %{
+        map buffer normal = ': repl-bridge haskell send<ret>R'
+        map buffer normal <backspace> ': repl-bridge haskell send<ret>'
+    }
+}
 plug 'jjk96/kakoune-dbgp' %{
     map global user x -docstring 'dbgp' ': enter-user-mode dbgp<ret>'
     dbgp-enable-autojump
 }
 plug 'occivink/kakoune-gdb'
+plug "eraserhd/parinfer-rust" do %{
+        cargo install --force --path .
+} config %{
+    hook global WinSetOption filetype=(clojure|lisp|scheme|racket) %{
+        parinfer-enable-window -smart
+    }
+}
+plug "kakoune-repl-send" %{
+    hook global BufSetOption filetype=scheme %{
+        map buffer normal <backspace> ': repl-send<ret>'
+        set buffer repl_send_command "stdbuf -o0 chicken-csi"
+        set buffer repl_send_exit_command "(exit)"
+    }
+}
+plug "https://gitlab.com/fsub/kakoune-mark" %{
+    declare-user-mode mark
+    map global mark -docstring "mark word" m ": mark-word<ret>"
+    map global mark -docstring "clear marks" c ": mark-clear<ret>"
+    map global user -docstring "mark" a ": enter-user-mode mark<ret>"
+}
+plug 'delapouite/kakoune-palette'
 # plug 'occivink/kakoune-roguelight'
 # plug 'danr/neptyne'
 
