@@ -39,9 +39,6 @@ map global normal <a-h> Gi
 # case insensitive search
 map global prompt <a-i> "<home>(?i)<end>"
 
-# Movement mode (depends on case.kak)
-map global user m -docstring "case based movement" ': enter-user-mode movecase<ret>'
-
 # user mappings
 map global user l -docstring 'lsp' ': enter-user-mode lsp<ret>'
 
@@ -242,7 +239,7 @@ plug "https://gitlab.com/fsub/kakoune-mark" %{
     declare-user-mode mark
     map global mark -docstring "mark word" m ": mark-word<ret>"
     map global mark -docstring "clear marks" c ": mark-clear<ret>"
-    map global user -docstring "mark" a ": enter-user-mode mark<ret>"
+    map global user -docstring "mark" m ": enter-user-mode mark<ret>"
 }
 plug 'delapouite/kakoune-palette'
 plug 'TeddyDD/kakoune-edit-or-dir'
