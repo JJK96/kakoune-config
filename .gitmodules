@@ -85,3 +85,9 @@
 [submodule "plugins/kakoune-palette"]
 	path = plugins/kakoune-palette
 	url = https://github.com/delapouite/kakoune-palette
+[submodule "plugins/kakoune-edit-or-dir"]
+	path = plugins/kakoune-edit-or-dir
+	url = https://github.com/TeddyDD/kakoune-edit-or-dir
+[submodule "plugins/kakoune-debug"]
+	path = plugins/kakoune-debug
+	url = git@github.com:JJK96/kakoune-debug.git

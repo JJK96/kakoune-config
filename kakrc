@@ -120,7 +120,7 @@ define-command spell-enable %{
 }
 
 # modeline
-set-option global modelinefmt %{{Error}%sh{[ $kak_opt_lsp_diagnostic_error_count -gt 0 ] && echo "$kak_opt_lsp_diagnostic_error_count"}{StatusLineInfo} %sh{ echo $kak_opt_dbgp_indicator } {StatusLine}%val{bufname} %val{cursor_line}:%val{cursor_char_column} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]}
+set-option global modelinefmt %{{Error}%sh{[ $kak_opt_lsp_diagnostic_error_count -gt 0 ] && echo "$kak_opt_lsp_diagnostic_error_count"}{StatusLineInfo} %sh{ echo $kak_opt_debugger_indicator } {StatusLine}%val{bufname} %val{cursor_line}:%val{cursor_char_column} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]}
 
 # Plugins
 
@@ -212,11 +212,18 @@ plug 'jjk96/kakoune-repl-bridge' %{
         map buffer normal <backspace> ': repl-bridge haskell send<ret>'
     }
 }
-plug 'jjk96/kakoune-dbgp' %{
-    map global user x -docstring 'dbgp' ': enter-user-mode dbgp<ret>'
-    dbgp-enable-autojump
+plug 'jjk96/kakoune-debug' %{
+    hook global WinSetOption filetype=php %{
+        set global debugger dbgp
+        debugger-enable-autojump
+        map global user x -docstring 'debugger' ': enter-user-mode debugger<ret>'
+    }
+    hook global WinSetOption filetype=(c|cpp) %{
+        set global debugger gdb
+        debugger-enable-autojump
+    }
 }
-plug 'occivink/kakoune-gdb'
+# plug 'occivink/kakoune-gdb'
 plug "eraserhd/parinfer-rust" do %{
         cargo install --force --path .
 } config %{
@@ -238,6 +245,7 @@ plug "https://gitlab.com/fsub/kakoune-mark" %{
     map global user -docstring "mark" a ": enter-user-mode mark<ret>"
 }
 plug 'delapouite/kakoune-palette'
+plug 'TeddyDD/kakoune-edit-or-dir'
 # plug 'occivink/kakoune-roguelight'
 # plug 'danr/neptyne'
 
