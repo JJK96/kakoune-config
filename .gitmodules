@@ -79,9 +79,6 @@
 [submodule "plugins/kakoune-repl-send"]
 	path = plugins/kakoune-repl-send
 	url = git@github.com:JJK96/kakoune-repl-send.git
-[submodule "plugins/kakoune-mark"]
-	path = plugins/kakoune-mark
-	url = https://gitlab.com/fsub/kakoune-mark
 [submodule "plugins/kakoune-palette"]
 	path = plugins/kakoune-palette
 	url = https://github.com/delapouite/kakoune-palette
