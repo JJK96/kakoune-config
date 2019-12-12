@@ -91,3 +91,6 @@
 [submodule "plugins/kakoune-debug"]
 	path = plugins/kakoune-debug
 	url = git@github.com:JJK96/kakoune-debug.git
+[submodule "plugins/kakoune-rainbow"]
+	path = plugins/kakoune-rainbow
+	url = git@github.com:JJK96/kakoune-rainbow.git

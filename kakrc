@@ -11,6 +11,8 @@ set-option global ui_options ncurses_assistant=off
 set-option global jumpclient jump
 # Set toolsclient
 set-option global toolsclient tools
+# Set docsclient
+set-option global docsclient docs
 # Create client with name
 define-command -docstring "Open a new client with the given name" \
 new-client -params 1 %{
@@ -209,16 +211,17 @@ plug 'jjk96/kakoune-repl-bridge' %{
         map buffer normal <backspace> ': repl-bridge haskell send<ret>'
     }
 }
+plug 'jjk96/kakoune-dbgp'
 plug 'jjk96/kakoune-debug' %{
     hook global WinSetOption filetype=php %{
         set global debugger dbgp
         debugger-enable-autojump
-        map global user x -docstring 'debugger' ': enter-user-mode debugger<ret>'
     }
     hook global WinSetOption filetype=(c|cpp) %{
         set global debugger gdb
         debugger-enable-autojump
     }
+    map global user x -docstring 'debugger' ': enter-user-mode debugger<ret>'
 }
 # plug 'occivink/kakoune-gdb'
 plug "eraserhd/parinfer-rust" do %{
@@ -243,6 +246,7 @@ plug "https://gitlab.com/fsub/kakoune-mark" %{
 }
 plug 'delapouite/kakoune-palette'
 plug 'TeddyDD/kakoune-edit-or-dir'
+plug 'jjk96/kakoune-rainbow'
 # plug 'occivink/kakoune-roguelight'
 # plug 'danr/neptyne'
 
