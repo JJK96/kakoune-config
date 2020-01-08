@@ -60,9 +60,9 @@ hook global WinSetOption filetype=(js) %[
     set-option buffer lintcmd eslint 
 ]
 
-# hook global WinSetOption filetype=(markdown|latex) %[
-#     set -add buffer snippet_files "%val{config}/snippets/latex.yaml"
-# ]
+hook global WinSetOption filetype=sql %[
+    set window incsearch false
+]
 
 # hook global WinSetOption filetype=(plain|markdown) %[
 #     set buffer lsp_server_configuration languageTool.language="en"
