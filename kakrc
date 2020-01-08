@@ -53,11 +53,14 @@ map global user d -docstring 'cut to clipboard' '|xsel -bi<ret>'
 map global user f -docstring 'format buffer' ':format<ret>'
 
 define-command comment %{
-    try comment-block catch comment-line
+    try %{
+        execute-keys _
+        comment-block
+    } catch comment-line
 }
 
 # comment lines
-map global user c -docstring 'comment lines' %{_: comment<ret>}
+map global user c -docstring 'comment lines' %{: comment<ret>}
 
 # tabs to spaces
 hook global InsertChar \t %{
@@ -120,6 +123,9 @@ define-command spell-enable %{
 
 # modeline
 set-option global modelinefmt %{{Error}%sh{[ $kak_opt_lsp_diagnostic_error_count -gt 0 ] && echo "$kak_opt_lsp_diagnostic_error_count"}{StatusLineInfo} %sh{ echo $kak_opt_debugger_indicator } {StatusLine}%val{bufname} %val{cursor_line}:%val{cursor_char_column} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]}
+
+# Disable sql highlighting
+set global disabled_hooks sql-highlight
 
 # Plugins
 
