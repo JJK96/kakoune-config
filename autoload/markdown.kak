@@ -40,8 +40,8 @@ hook window WinSetOption markdown_filetype=.* %{
 # compile markdown in background on save.
 hook window -group markdown-compile BufWritePost .* %{ nop %sh{ (
     pandoc -o $kak_opt_markdown_out_file $kak_buffile && \
-    if [ $kak_opt_markdown_filetype == "pdf" ]; then
-        eval $kak_opt_markdown_pdf_reset
+    if [ "$kak_opt_markdown_filetype" = "pdf" ]; then
+        eval "$kak_opt_markdown_pdf_reset"
     fi
     ) > /dev/null 2>&1 < /dev/null &
 }}
