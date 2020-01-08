@@ -1,6 +1,6 @@
 #!/bin/bash
 # Compile the first main.tex file found in a parent directory
-
+reader=llpp
 lockfile=/tmp/latex-compile-main.lock
 if [ ! -f $lockfile ]; then
 touch $lockfile
@@ -19,9 +19,9 @@ done
 cd ${file%main.tex}
 pdflatex --enable-write18 main.tex && \
 pdflatex --enable-write18 main.tex && \
-pkill -HUP mupdf && \
+pkill -HUP $reader && \
 bibtex main && \
 pdflatex --enable-write18 main.tex && \
-pkill -HUP mupdf
+pkill -HUP $reader
 rm $lockfile
 fi
