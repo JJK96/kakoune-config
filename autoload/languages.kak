@@ -64,6 +64,10 @@ hook global WinSetOption filetype=sql %[
     set window incsearch false
 ]
 
+hook global WinSetOption filetype=c %[
+    map global goto a -docstring "alternative file" %{<esc>: c-alternative-file<ret>}
+]
+
 # hook global WinSetOption filetype=(plain|markdown) %[
 #     set buffer lsp_server_configuration languageTool.language="en"
 # ]
