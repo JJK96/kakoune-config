@@ -24,6 +24,11 @@ new-client -params 1 %{
 set-option global tabstop     4
 set-option global indentwidth 4
 
+# # tabs to spaces
+hook global InsertChar \t %{
+    exec -draft h@
+}
+
 # keep space around cursor
 # set-option global scrolloff 10,10
 
@@ -50,7 +55,7 @@ map global user y -docstring 'copy to clipboard' '<a-|>xsel -bi<ret>'
 map global user d -docstring 'cut to clipboard' '|xsel -bi<ret>'
 
 # format
-map global user f -docstring 'format buffer' ':format<ret>'
+# map global user f -docstring 'format buffer' ':format<ret>'
 
 define-command comment %{
     try %{
@@ -62,10 +67,8 @@ define-command comment %{
 # comment lines
 map global user c -docstring 'comment lines' %{: comment<ret>}
 
-# tabs to spaces
-hook global InsertChar \t %{
-    exec -draft h@
-}
+# search with c tags
+map global goto s -docstring 'search ctags' %{<esc><a-i>w: ctags-search<ret>}
 
 # # Use termite
 require-module x11
@@ -160,12 +163,15 @@ plug "andreyorst/kakoune-snippet-collection"
 
 plug "occivink/kakoune-sudo-write"
 plug "jjk96/kakoune-fireplace"
-plug "lenormf/kakoune-extra" load %{
-    #syntastic.kak
-} 
-plug "alexherbo2/yank-ring.kak" %{
-    map global normal <c-p> ': yank-ring<ret><c-p>'
-    map global normal <c-n> ': yank-ring<ret><c-n>'
+# plug "lenormf/kakoune-extra" load %{
+#     #syntastic.kak
+# }
+plug "alexherbo2/prelude.kak" %{
+    plug "alexherbo2/connect.kak" %{
+        plug "alexherbo2/yank-ring.kak" %{
+            map global user Y ': yank-ring<ret>'
+        }
+    }
 }
 plug "Delapouite/kakoune-buffers" %{
     map global user b ': enter-user-mode -lock buffers<ret>'   -docstring 'buffers (lock)…'
@@ -217,19 +223,24 @@ plug 'jjk96/kakoune-repl-bridge' %{
         map buffer normal <backspace> ': repl-bridge haskell send<ret>'
     }
 }
-plug 'jjk96/kakoune-dbgp'
-plug 'jjk96/kakoune-debug' %{
+plug 'jjk96/kakoune-dbgp' %{
     hook global WinSetOption filetype=php %{
-        set global debugger dbgp
-        debugger-enable-autojump
+        dbgp-enable-autojump
+        map global user x -docstring 'debugger' ': enter-user-mode dbgp<ret>'
     }
-    hook global WinSetOption filetype=(c|cpp) %{
-        set global debugger gdb
-        debugger-enable-autojump
-    }
-    map global user x -docstring 'debugger' ': enter-user-mode debugger<ret>'
 }
-# plug 'occivink/kakoune-gdb'
+# plug 'jjk96/kakoune-debug' %{
+#     hook global WinSetOption filetype=php %{
+#         set global debugger dbgp
+#         debugger-enable-autojump
+#     }
+#     hook global WinSetOption filetype=(c|cpp) %{
+#         set global debugger gdb
+#         debugger-enable-autojump
+#     }
+#     map global user x -docstring 'debugger' ': enter-user-mode debugger<ret>'
+# }
+plug 'occivink/kakoune-gdb'
 plug "eraserhd/parinfer-rust" do %{
         cargo install --force --path .
 } config %{
@@ -244,17 +255,47 @@ plug "kakoune-repl-send" %{
         set buffer repl_send_exit_command "(exit)"
     }
 }
-plug "https://gitlab.com/fsub/kakoune-mark" %{
+plug "fsub/kakoune-mark" domain gitlab %{
     declare-user-mode mark
     map global mark -docstring "mark word" m ": mark-word<ret>"
     map global mark -docstring "clear marks" c ": mark-clear<ret>"
     map global user -docstring "mark" m ": enter-user-mode mark<ret>"
 }
+plug "andreyorst/tagbar.kak" defer "tagbar" %{
+    set-option global tagbar_sort false
+    set-option global tagbar_size 40
+    set-option global tagbar_display_anon false
+    set-option global tagbar_display_anon true
+} config %{
+    # if you have wrap highlighter enamled in you configuration
+    # files it's better to turn it off for tagbar, using this hook:
+    hook global WinSetOption filetype=tagbar %{
+        remove-highlighter window/wrap
+        # you can also disable rendering whitespaces here, line numbers, and
+        # matching characters
+    }
+}
 plug 'delapouite/kakoune-palette'
 plug 'TeddyDD/kakoune-edit-or-dir'
 plug 'jjk96/kakoune-rainbow'
+plug 'occivink/kakoune-find'
+plug 'kak-spell' %{
+    set-option global spell_lang en
+    declare-user-mode spell
+    map global spell -docstring "Enable" e ': spell %opt{spell_lang}<ret>'
+    map global spell -docstring "Lint" u ': lint-buffer<ret>'
+    map global spell -docstring "Next" n ': lint-next-message<ret>'
+    map global spell -docstring "Replace" r ': spell-replace<ret>'
+    map global spell -docstring "Clear" c ': spell-clear<ret>'
+}
+plug "listentolist/kakoune-table" domain "gitlab.com" config %{
+}
+plug "andreyorst/fzf.kak" domain "gitlab.com" config %{
+    map global user f -docstring "fzf" ': fzf-mode<ret>'
+}
+
 # plug 'occivink/kakoune-roguelight'
 # plug 'danr/neptyne'
 
 # Overwrites colors defined in kak-lsp
-colorscheme nofrils-gruvbox
+colorscheme gruvbox
