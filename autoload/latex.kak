@@ -11,6 +11,7 @@ hook window -group latex-compile BufWritePost .* %{ nop %sh{ (
 
 hook global WinSetOption filetype=(?!latex).* %{
     remove-hooks global latex-compile
+
 }
 
 }
