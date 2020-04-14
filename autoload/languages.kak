@@ -68,6 +68,10 @@ hook global WinSetOption filetype=c %[
     map global goto a -docstring "alternative file" %{<esc>: c-alternative-file<ret>}
 ]
 
+hook global WinCreate .*\.grep %[
+    set-option window filetype=grep
+]
+
 # hook global WinSetOption filetype=(plain|markdown) %[
 #     set buffer lsp_server_configuration languageTool.language="en"
 # ]
