@@ -279,19 +279,40 @@ plug 'delapouite/kakoune-palette'
 plug 'TeddyDD/kakoune-edit-or-dir'
 plug 'jjk96/kakoune-rainbow'
 plug 'occivink/kakoune-find'
-plug 'kak-spell' %{
-    set-option global spell_lang en
-    declare-user-mode spell
-    map global spell -docstring "Enable" e ': spell %opt{spell_lang}<ret>'
-    map global spell -docstring "Lint" u ': lint-buffer<ret>'
-    map global spell -docstring "Next" n ': lint-next-message<ret>'
-    map global spell -docstring "Replace" r ': spell-replace<ret>'
-    map global spell -docstring "Clear" c ': spell-clear<ret>'
-}
+# plug 'kak-spell' %{
+#     set-option global spell_lang en
+#     declare-user-mode spell
+#     map global spell -docstring "Enable" e ': spell %opt{spell_lang}<ret>'
+#     map global spell -docstring "Lint" u ': lint-buffer<ret>'
+#     map global spell -docstring "Next" n ': lint-next-message<ret>'
+#     map global spell -docstring "Replace" r ': spell-replace<ret>'
+#     map global spell -docstring "Clear" c ': spell-clear<ret>'
+# }
 plug "listentolist/kakoune-table" domain "gitlab.com" config %{
 }
 plug "andreyorst/fzf.kak" domain "gitlab.com" config %{
     map global user f -docstring "fzf" ': fzf-mode<ret>'
+}
+plug chambln/kakoune-kit config %{
+    map global user g ': git status -bs<ret>' -docstring 'git status'
+    hook global WinSetOption filetype=git-status %{
+        map window normal c ': git commit --verbose '
+        map window normal l ': git log --oneline --graph<ret>'
+        map window normal d ': -- %val{selections}<a-!><home> git diff '
+        map window normal D ': -- %val{selections}<a-!><home> git diff --cached '
+        map window normal a ': -- %val{selections}<a-!><home> git add '
+        map window normal A ': -- %val{selections}<a-!><home> repl git add -p '
+        map window normal r ': -- %val{selections}<a-!><home> git reset '
+        map window normal R ': -- %val{selections}<a-!><home> repl git reset -p '
+        map window normal o ': -- %val{selections}<a-!><home> git checkout '
+    }
+    hook global WinSetOption filetype=git-log %{
+        map window normal d     ': %val{selections}<a-!><home> git diff '
+        map window normal <ret> ': %val{selections}<a-!><home> git show '
+        map window normal r     ': %val{selections}<a-!><home> git reset '
+        map window normal R     ': %val{selections}<a-!><home> repl git reset -p '
+        map window normal o     ': %val{selections}<a-!><home> git checkout '
+    }
 }
 
 # plug 'occivink/kakoune-roguelight'

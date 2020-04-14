@@ -106,3 +106,6 @@
 [submodule "plugins/prelude.kak"]
 	path = plugins/prelude.kak
 	url = https://github.com/alexherbo2/prelude.kak
+[submodule "plugins/kakoune-kit"]
+	path = plugins/kakoune-kit
+	url = https://github.com/chambln/kakoune-kit
