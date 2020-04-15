@@ -19,7 +19,7 @@ done
 cd ${file%main.tex}
 pdflatex --enable-write18 main.tex && \
 pdflatex --enable-write18 main.tex && \
-pkill -HUP $reader && \
+pkill -HUP $reader
 bibtex main && \
 pdflatex --enable-write18 main.tex && \
 pkill -HUP $reader
