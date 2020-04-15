@@ -72,6 +72,10 @@ hook global WinCreate .*\.grep %[
     set-option window filetype=grep
 ]
 
+hook global WinCreate /tmp/neomutt.* %[
+    set-option window filetype=mail
+]
+
 # hook global WinSetOption filetype=(plain|markdown) %[
 #     set buffer lsp_server_configuration languageTool.language="en"
 # ]
