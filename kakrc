@@ -114,7 +114,13 @@ hook global WinSetOption filetype=(rust|python|php|haskell|c|cpp) %{
 }
 
 #spell
-# map global user s -docstring 'spell replace' :spell-replace<ret>
+declare-user-mode spell
+map global spell a -docstring 'add to dictionary' ": spell-add<ret>" 
+map global spell e -docstring 'enable'  ": spell-enable<ret>"
+map global spell r -docstring 'replace' ": spell-replace<ret>"
+map global spell n -docstring 'next'    ": spell-next<ret>"
+map global spell c -docstring 'clear'   ": spell-clear<ret>"
+map global user s -docstring 'spell' ": enter-user-mode -lock spell<ret>"
 declare-option str language en-GB
 define-command spell-enable %{
     #hook global WinSetOption filetype=(latex|markdown|git-commit) %{
@@ -150,7 +156,7 @@ plug "occivink/kakoune-phantom-selection" %{
 plug "occivink/kakoune-snippets" %{
     set-option global snippets_auto_expand false
     declare-user-mode snippets
-    map global user s -docstring "Snippets" ": enter-user-mode snippets<ret>"
+    #map global user s -docstring "Snippets" ": enter-user-mode snippets<ret>"
     map global snippets n -docstring "Select next placeholder" ": snippets-select-next-placeholders<ret>"
     map global snippets s -docstring "Snippet" ": snippets "
     map global snippets i -docstring "Info" ": snippets-info<ret>"
