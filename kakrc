@@ -70,26 +70,11 @@ map global user c -docstring 'comment lines' %{: comment<ret>}
 # search with c tags
 map global goto s -docstring 'search ctags' %{<esc><a-i>w: ctags-search<ret>}
 
-# Terminal, used by ide wrapper
-define-command -hidden _terminal -params .. %{
-  shell \
-    -export session \
-    -export client \
-    %sh(echo $TERMINAL) %arg(@) \
-    %sh(test $# = 0 &&
-      echo $SHELL
-    )
-}
-
-# this has to be executed first
-require-module x11-repl
-alias global repl _terminal
-
 # Delete buffer and quit
 map global normal <c-q> ": db;q<ret>"
 
 # Open file in new window
-define-command open-in-new-window -params .. -file-completion %{ new edit-or-dir "%arg{@}"}
+define-command open-in-new-window -params .. -file-completion %{ new edit "%arg{@}"}
 alias global e open-in-new-window
 
 # file types
