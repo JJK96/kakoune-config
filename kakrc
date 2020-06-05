@@ -70,10 +70,6 @@ map global user c -docstring 'comment lines' %{: comment<ret>}
 # search with c tags
 map global goto s -docstring 'search ctags' %{<esc><a-i>w: ctags-search<ret>}
 
-# # Use termite
-require-module x11
-set global termcmd "termite -e"
-
 # Terminal, used by ide wrapper
 define-command -hidden _terminal -params .. %{
   shell \
