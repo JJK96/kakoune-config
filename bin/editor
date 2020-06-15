@@ -14,7 +14,7 @@ for arg in "$@"; do
     if [ "$arg" == "-t" ]; then
         # In terminal, so no new windows
         in_terminal=true
-        open_command="edit-or-dir"
+        open_command="edit"
     else 
         args+=("$arg")
     fi
@@ -28,16 +28,16 @@ if [ -n "$input" ]; then
     args+=("$temp")
 fi
 # If no session exists, set the session to the default session
-if [ -z $KAK_SESSION ]; then
-    KAK_SESSION="default"
+if [ -z $kak_session ]; then
+    kak_session="default"
 fi
-# if no session with name $KAK_SESSION does not exist create one
-if ! kak -l | grep "$KAK_SESSION" > /dev/null 2>&1; then
-    kak -s $KAK_SESSION -d
+# if no session with name $kak_session does not exist create one
+if ! kak -l | grep "$kak_session" > /dev/null 2>&1; then
+    kak -s $kak_session -d
 fi
-if [ $KAK_CLIENT ] && [ ! $in_terminal ]; then
+if [ $kak_client ] && [ ! $in_terminal ]; then
     # Focus the current client window to spawn a new window in the correct location (useful for i3)
-    command="x11-focus $KAK_CLIENT;"
+    command="x11-focus $kak_client;"
 fi
 # If no files to edit open a scratch buffer
 if [ ${#args[@]} == 0 ]; then
@@ -62,7 +62,7 @@ command="$command " # cd to directory of buffer using delapouite/kakoune-cd
 # Connect to the session
 # echo $command
 if [ $in_terminal ]; then
-    kak -c $KAK_SESSION -e "$command"
+    kak -c $kak_session -e "$command"
 else
-    echo "eval '$command'" | tee /tmp/output | kak -p $KAK_SESSION
+    echo "eval '$command'" | tee /tmp/output | kak -p $kak_session
 fi
