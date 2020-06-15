@@ -1,5 +1,6 @@
 define-command ide %{
     nop %sh{
+        #kak_client, kak_session
         (
         alacritty -t Ranger -e ranger --cmd="set preview_files!" &
         alacritty -t Terminal &
