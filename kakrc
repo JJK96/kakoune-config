@@ -97,8 +97,8 @@ hook global WinSetOption filetype=(rust|python|php|haskell|c|cpp|latex) %{
 set-option global lsp_server_configuration latex.build.onSave=true
 set-option -add global lsp_server_configuration latex.build.args=["-pdf","-interaction\=nonstopmode","-synctex\=1","%f"]
 set-option -add global lsp_server_configuration latex.build.forwardSearchAfter=true
-set-option -add global lsp_server_configuration latex.forwardSearch.executable="zathura"
-set-option -add global lsp_server_configuration latex.forwardSearch.args=["--synctex-forward","%l:1:%f","%p"]
+set-option -add global lsp_server_configuration latex.forwardSearch.executable="okular"
+set-option -add global lsp_server_configuration latex.forwardSearch.args=["--noraise","--unique","file:%p#src:%l%f"]
 
 #spell
 declare-user-mode spell
