@@ -147,7 +147,7 @@ plug "occivink/kakoune-snippets" %{
     map global snippets n -docstring "Select next placeholder" ": snippets-select-next-placeholders<ret>"
     map global snippets s -docstring "Snippet" ": snippets "
     map global snippets i -docstring "Info" ": snippets-info<ret>"
-    map global insert <a-e> "<esc>: try snippets-select-next-placeholders catch phantom-selection-iterate-next<ret>i"
+
     add-highlighter global/ ranges snippets_placeholders 
     set-option global snippets_directories "%opt{plug_install_dir}/kakoune-snippet-collection/snippets"
     source "%val{config}/snippets.kak"

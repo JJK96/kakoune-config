@@ -52,7 +52,9 @@ define-command snippets-expand-or-jump -params 1 %{
             exec 'hGhs<ret>'
         }
     } catch %{
-        snippets-select-next-placeholders
+        try lsp-snippets-select-next-placeholders catch %{
+            try snippets-select-next-placeholders catch phantom-selection-iterate-next
+        }
     } catch %sh{
         case $1 in
             ret|tab)
