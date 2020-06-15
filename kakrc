@@ -83,16 +83,22 @@ hook global BufCreate .*\.xsd %{ set buffer filetype xml }
 # kakoune language server
 
 # Depends on https://github.com/ul/kak-lsp
-eval %sh{kak-lsp --kakoune -s $kak_session }
+eval %sh{kak-lsp1 --kakoune -s $kak_session }
 # Debug output
 #nop %sh{ (kak-lsp1 -s $kak_session -vvv ) > /tmp/kak-lsp.log 2>&1 < /dev/null & }
 # lsp-enable
-hook global WinSetOption filetype=(rust|python|php|haskell|c|cpp) %{
+hook global WinSetOption filetype=(rust|python|php|haskell|c|cpp|latex) %{
     lsp-enable-window
     lsp-auto-hover-enable
     set global lsp_hover_anchor true
     # set global lsp_snippet_callback snippets-insert
 }
+
+set-option global lsp_server_configuration latex.build.onSave=true
+set-option -add global lsp_server_configuration latex.build.args=["-pdf","-interaction\=nonstopmode","-synctex\=1","%f"]
+set-option -add global lsp_server_configuration latex.build.forwardSearchAfter=true
+set-option -add global lsp_server_configuration latex.forwardSearch.executable="zathura"
+set-option -add global lsp_server_configuration latex.forwardSearch.args=["--synctex-forward","%l:1:%f","%p"]
 
 #spell
 declare-user-mode spell
