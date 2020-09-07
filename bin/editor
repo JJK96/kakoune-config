@@ -33,7 +33,7 @@ if [ -z $kak_session ]; then
 fi
 # if no session with name $kak_session does not exist create one
 if ! kak -l | grep "$kak_session" > /dev/null 2>&1; then
-    kak -s $kak_session -d
+    { kak -s $kak_session -d & } >/dev/null 2>&1 </dev/null
 fi
 if [ $kak_client ] && [ ! $in_terminal ]; then
     # Focus the current client window to spawn a new window in the correct location (useful for i3)
