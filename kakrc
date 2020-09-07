@@ -83,7 +83,7 @@ hook global BufCreate .*\.xsd %{ set buffer filetype xml }
 # kakoune language server
 
 # Depends on https://github.com/ul/kak-lsp
-eval %sh{kak-lsp1 --kakoune -s $kak_session }
+eval %sh{kak-lsp --kakoune -s $kak_session }
 # Debug output
 #nop %sh{ (kak-lsp1 -s $kak_session -vvv ) > /tmp/kak-lsp.log 2>&1 < /dev/null & }
 # lsp-enable
@@ -95,7 +95,7 @@ hook global WinSetOption filetype=(rust|python|php|haskell|c|cpp|latex) %{
 }
 
 set-option global lsp_server_configuration latex.build.onSave=true
-set-option -add global lsp_server_configuration latex.build.args=["-pdf","-interaction\=nonstopmode","-synctex\=1","%f"]
+set-option -add global lsp_server_configuration latex.build.args=["-pdf","-pdflatex\=lualatex","-interaction\=nonstopmode","-synctex\=1","%f"]
 set-option -add global lsp_server_configuration latex.build.forwardSearchAfter=true
 set-option -add global lsp_server_configuration latex.forwardSearch.executable="okular"
 set-option -add global lsp_server_configuration latex.forwardSearch.args=["--noraise","--unique","file:%p#src:%l%f"]
@@ -121,7 +121,7 @@ define-command spell-enable %{
 set-option global modelinefmt %{{Error}%sh{[ $kak_opt_lsp_diagnostic_error_count -gt 0 ] && echo "$kak_opt_lsp_diagnostic_error_count"}{StatusLineInfo} %sh{ echo $kak_opt_debugger_indicator } {StatusLine}%val{bufname} %val{cursor_line}:%val{cursor_char_column} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]}
 
 # Disable sql highlighting and php indent
-set global disabled_hooks 'sql-highlight php-indent'
+set global disabled_hooks '(sql-highlight|php-indent)'
 
 # Plugins
 
@@ -159,6 +159,7 @@ plug "jjk96/kakoune-fireplace"
 # plug "lenormf/kakoune-extra" load %{
 #     #syntastic.kak
 # }
+plug "jjk96/kakoune-extra-filetypes"
 plug "alexherbo2/prelude.kak" %{
     plug "alexherbo2/connect.kak" %{
         plug "alexherbo2/yank-ring.kak" %{
