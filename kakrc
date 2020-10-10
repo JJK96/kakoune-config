@@ -123,6 +123,9 @@ set-option global modelinefmt %{{Error}%sh{[ $kak_opt_lsp_diagnostic_error_count
 # Disable sql highlighting
 set global disabled_hooks '(sql-highlight|php-indent|php-trim-indent|php-insert)'
 
+# Use ripgrep instead of grep
+set global grepcmd 'rg -n'
+
 # Plugins
 
 source "%val{config}/plugins/plug.kak/rc/plug.kak"
