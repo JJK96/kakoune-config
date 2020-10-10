@@ -77,6 +77,20 @@ map global normal <c-q> ": db;q<ret>"
 define-command open-in-new-window -params .. -file-completion %{ new edit "%arg{@}"}
 alias global e open-in-new-window
 
+# Terminal, used by ide wrapper
+define-command _terminal -params .. %{
+  shell \
+    -export session \
+    -export client \
+    %sh(echo $TERMINAL) -e %arg(@) \
+    %sh(test $# = 0 &&
+      echo $SHELL
+    )
+}
+
+require-module x11
+alias global term _terminal
+
 # file types
 hook global BufCreate .*\.xsd %{ set buffer filetype xml }
 
@@ -168,6 +182,7 @@ plug "alexherbo2/prelude.kak" %{
         plug "alexherbo2/yank-ring.kak" %{
             map global user Y ': yank-ring<ret>'
         }
+        require-module connect
     }
 }
 plug "Delapouite/kakoune-buffers" %{
