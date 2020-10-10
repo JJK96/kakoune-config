@@ -32,12 +32,12 @@ hook global WinSetOption filetype=(python) %[
 hook global WinSetOption filetype=(p4|php|solidity) %[
     require-module c-family
 
-    hook -group "%val{hook_param_capture_1}-trim-indent" window ModeChange insert:.* c-family-trim-indent
-    hook -group "%val{hook_param_capture_1}-insert" window InsertChar \n c-family-insert-on-newline
-    hook -group "%val{hook_param_capture_1}-indent" window InsertChar \n c-family-indent-on-newline
-    hook -group "%val{hook_param_capture_1}-indent" window InsertChar \{ c-family-indent-on-opening-curly-brace
-    hook -group "%val{hook_param_capture_1}-indent" window InsertChar \} c-family-indent-on-closing-curly-brace
-    hook -group "%val{hook_param_capture_1}-insert" window InsertChar \} c-family-insert-on-closing-curly-brace
+    hook -group "%val{hook_param_capture_1}-my-trim-indent" window ModeChange insert:.* c-family-trim-indent
+    hook -group "%val{hook_param_capture_1}-my-insert" window InsertChar \n c-family-insert-on-newline
+    hook -group "%val{hook_param_capture_1}-my-indent" window InsertChar \n c-family-indent-on-newline
+    hook -group "%val{hook_param_capture_1}-my-indent" window InsertChar \{ c-family-indent-on-opening-curly-brace
+    hook -group "%val{hook_param_capture_1}-my-indent" window InsertChar \} c-family-indent-on-closing-curly-brace
+    hook -group "%val{hook_param_capture_1}-my-insert" window InsertChar \} c-family-insert-on-closing-curly-brace
 
     hook -once -always window WinSetOption filetype=.* "
         remove-hooks window %val{hook_param_capture_1}-.+
@@ -47,6 +47,7 @@ hook global WinSetOption filetype=(p4|php|solidity) %[
 
 hook global WinSetOption filetype=(php) %[
     alias window format php_format
+    lsp-auto-hover-disable
 
     hook -once -always window WinSetOption filetype=.* %{
         unalias window format
@@ -63,6 +64,7 @@ hook global WinSetOption filetype=(js) %[
 
 hook global WinSetOption filetype=sql %[
     set window incsearch false
+    set-option buffer formatcmd "sqlformat --reindent --keywords upper --identifiers lower /dev/stdin"
 ]
 
 hook global WinSetOption filetype=c %[

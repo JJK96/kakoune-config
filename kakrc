@@ -120,8 +120,8 @@ define-command spell-enable %{
 # modeline
 set-option global modelinefmt %{{Error}%sh{[ $kak_opt_lsp_diagnostic_error_count -gt 0 ] && echo "$kak_opt_lsp_diagnostic_error_count"}{StatusLineInfo} %sh{ echo $kak_opt_debugger_indicator } {StatusLine}%val{bufname} %val{cursor_line}:%val{cursor_char_column} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]}
 
-# Disable sql highlighting and php indent
-set global disabled_hooks '(sql-highlight|php-indent)'
+# Disable sql highlighting
+set global disabled_hooks '(sql-highlight|php-indent|php-trim-indent|php-insert)'
 
 # Plugins
 
