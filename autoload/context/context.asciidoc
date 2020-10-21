@@ -1,0 +1,6 @@
+= context
+
+A very crude proof of concept implementation of a context plugin
+This shows the context in a separate window
+
+Probably a replace-range highlighter would be better

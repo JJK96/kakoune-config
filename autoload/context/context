@@ -1,0 +1,20 @@
+#!/bin/bash
+
+function get_indent_level {
+    printf "%s" "$1" | grep -Po '^\s+' | tr -d '\n' | wc -c
+}
+
+prev_indent=0
+IFS=''
+tac /dev/stdin | while read line; do
+    if [ ! -z "$line" ]; then
+        indent_level=$(get_indent_level "$line")
+        if [ $prev_indent -eq 0 ] || [ $indent_level -lt $prev_indent ]; then
+            prev_indent=$indent_level
+            printf "%s\n" "$line"
+        fi
+        if [ $indent_level -eq 0 ]; then
+            exit
+        fi
+    fi
+done | tac
