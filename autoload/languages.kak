@@ -21,7 +21,7 @@ hook global WinSetOption filetype=(json) %[
 hook global WinSetOption filetype=(python) %[
     set-option buffer formatcmd %{yapf}
     lsp-auto-hover-disable
-    set global lsp_server_configuration pyls.plugins.jedi_completion.include_params=true
+    set window lsp_server_configuration pyls.plugins.jedi_completion.include_params=true pyls.plugins.pycodestyle.enabled=false pyls.plugins.pyflakes.enabled=false pyls.plugins.flake8.enabled=true
     alias window comment comment-line
     hook -once -always window WinSetOption filetype=.* %{
         unalias window comment
