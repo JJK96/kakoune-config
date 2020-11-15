@@ -64,11 +64,18 @@ define-command comment %{
     } catch comment-line
 }
 
+define-command -hidden ctags-search-word %{
+    try %{
+        execute-keys <a-i>w
+    }
+    execute-keys ": ctags-search "
+}
+
 # comment lines
 map global user c -docstring 'comment lines' %{: comment<ret>}
 
 # search with c tags
-map global goto s -docstring 'search ctags' %{<esc><a-i>w: ctags-search<ret>}
+map global goto s -docstring 'search ctags' %{<esc>: ctags-search-word<ret>}
 
 # Delete buffer and quit
 map global normal <c-q> ": db;q<ret>"
@@ -91,6 +98,11 @@ define-command _terminal -params .. %{
 require-module x11
 alias global term _terminal
 
+# Define mappings for when x11-repl is used
+define-command x11-repl-mappings %{
+    map buffer normal <backspace> ": x11-send-text<ret>"
+}
+
 # file types
 hook global BufCreate .*\.xsd %{ set buffer filetype xml }
 
@@ -99,7 +111,7 @@ hook global BufCreate .*\.xsd %{ set buffer filetype xml }
 # Depends on https://github.com/ul/kak-lsp
 eval %sh{kak-lsp --kakoune -s $kak_session }
 # Debug output
-#nop %sh{ (kak-lsp1 -s $kak_session -vvv ) > /tmp/kak-lsp.log 2>&1 < /dev/null & }
+nop %sh{ (kak-lsp -s $kak_session -vvv ) > /tmp/kak-lsp.log 2>&1 < /dev/null & }
 # lsp-enable
 hook global WinSetOption filetype=(rust|python|php|haskell|c|cpp|latex) %{
     lsp-enable-window
@@ -217,9 +229,9 @@ plug 'alexherbo2/split-object.kak' %{
 }
 plug 'eraserhd/kak-ansi'
 plug 'jjk96/kakoune-emmet' %{
-    hook global WinSetOption filetype=(xml|html) %{
-        emmet-enable-autocomplete
-    }
+    # hook global WinSetOption filetype=(xml|html|svelte) %{
+    #     emmet-enable-autocomplete
+    # }
 }
 plug 'jjk96/kakoune-python-bridge' %{
     # calculate
@@ -256,7 +268,7 @@ plug 'occivink/kakoune-gdb'
 plug "eraserhd/parinfer-rust" do %{
         cargo install --force --path .
 } config %{
-    hook global WinSetOption filetype=(clojure|lisp|scheme|racket) %{
+    hook global WinSetOption filetype=(clojure|lisp|scheme|racket|pollen) %{
         parinfer-enable-window -smart
     }
 }
@@ -326,6 +338,11 @@ plug chambln/kakoune-kit config %{
         map window normal o     ': %val{selections}<a-!><home> git checkout '
     }
 }
+plug "KJ_Duncan/kakoune-kotlin.kak" domain "bitbucket.org"
+plug "danr/kakoune-easymotion" config %{
+    map global user e ': enter-user-mode easymotion<ret>'
+}
+plug "listentolist/kakoune-replicate"
 
 # plug 'occivink/kakoune-roguelight'
 # plug 'danr/neptyne'
