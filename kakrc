@@ -268,7 +268,7 @@ plug 'occivink/kakoune-gdb'
 plug "eraserhd/parinfer-rust" do %{
         cargo install --force --path .
 } config %{
-    hook global WinSetOption filetype=(clojure|lisp|scheme|racket|pollen) %{
+    hook global WinSetOption filetype=(clojure|lisp|scheme|racket|pollen|scribble) %{
         parinfer-enable-window -smart
     }
 }
