@@ -4,6 +4,13 @@
 # Also has some other tricks like opening standard input as a tmp file.
 #
 # Clear old sessions
+
+if [ ! -z "$KAKOUNE_CLIENT" ]; then
+    kak_client="$KAKOUNE_CLIENT"
+fi
+if [ ! -z "$KAKOUNE_SESSION" ]; then
+    kak_session="$KAKOUNE_SESSION"
+fi
 kak -clear
 TEMPDIR="/tmp/kak-temp"
 args=()
