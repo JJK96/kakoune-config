@@ -190,12 +190,16 @@ plug "jjk96/kakoune-fireplace"
 #     #syntastic.kak
 # }
 plug "jjk96/kakoune-extra-filetypes"
-plug "alexherbo2/prelude.kak" %{
-    plug "alexherbo2/connect.kak" %{
+plug "robertmeta/prelude.kak" %{
+    plug "robertmeta/connect.kak" %{
         plug "alexherbo2/yank-ring.kak" %{
             map global user Y ': yank-ring<ret>'
         }
         require-module connect
+        require-module connect-broot
+        #set-option global connect_environment %{
+            #export EDITOR=:e
+        #}
     }
 }
 plug "Delapouite/kakoune-buffers" %{
