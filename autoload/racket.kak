@@ -30,3 +30,13 @@ hook global BufCreate .*\.([^\.]+)\.(pp|scrbl) %{
         map buffer insert <c-s> $char"
     }
 }
+
+hook global WinSetOption filetype=racket %{
+    set window tabstop 2
+    set window indentwidth 2
+}
+
+# hook global WinCreate .*\.rkt %{
+#     set buffer filetype lisp
+#     set buffer indentwidth 2
+# }
