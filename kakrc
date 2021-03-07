@@ -344,10 +344,12 @@ plug chambln/kakoune-kit config %{
     }
 }
 plug "KJ_Duncan/kakoune-kotlin.kak" domain "bitbucket.org"
-plug "danr/kakoune-easymotion" config %{
-    map global user e ': enter-user-mode easymotion<ret>'
-}
+plug "KJ_Duncan/kakoune-racket.kak" domain "bitbucket.org"
+# plug "danr/kakoune-easymotion" config %{
+#     map global user e ': enter-user-mode easymotion<ret>'
+# }
 plug "listentolist/kakoune-replicate"
+plug "h-youhei/kakoune-surround"
 
 # plug 'occivink/kakoune-roguelight'
 # plug 'danr/neptyne'
