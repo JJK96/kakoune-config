@@ -95,12 +95,16 @@ define-command _terminal -params .. %{
     )
 }
 
-require-module x11
+try %{
+    require-module x11
+    require-module tmux
+}
 alias global term _terminal
 
-# Define mappings for when x11-repl is used
-define-command x11-repl-mappings %{
-    map buffer normal <backspace> ": x11-send-text<ret>"
+# Define mappings for when repl is used
+define-command repl-mappings -params .. %{
+    map buffer normal <backspace> ": repl-send-text<ret>"
+    repl-new %arg{@}
 }
 
 # file types
