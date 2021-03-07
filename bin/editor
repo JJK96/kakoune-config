@@ -64,5 +64,5 @@ command="$command " # cd to directory of buffer using delapouite/kakoune-cd
 if [ $in_terminal ]; then
     kak -c $kak_session -e "$command"
 else
-    echo "eval '$command'" | tee /tmp/output | kak -p $kak_session
+    echo "eval '$command'" | kak -p $kak_session
 fi
