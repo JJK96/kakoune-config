@@ -59,7 +59,8 @@ hook global WinSetOption filetype=(rust) %[
 ]
 
 hook global WinSetOption filetype=(js) %[
-    set-option buffer lintcmd eslint 
+    set-option buffer lintcmd eslint
+    set-option buffer formatcmd js-beautify
 ]
 
 hook global WinSetOption filetype=sql %[
