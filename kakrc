@@ -113,16 +113,16 @@ hook global BufCreate .*\.xsd %{ set buffer filetype xml }
 # kakoune language server
 
 # Depends on https://github.com/ul/kak-lsp
-# eval %sh{kak-lsp --kakoune -s $kak_session }
+eval %sh{kak-lsp --kakoune -s $kak_session }
 # Debug output
-nop %sh{ (kak-lsp -s $kak_session -vvv ) > /tmp/kak-lsp.log 2>&1 < /dev/null & }
+#nop %sh{ (kak-lsp -s $kak_session -vvv ) > /tmp/kak-lsp.log 2>&1 < /dev/null & }
 # lsp-enable
-#hook global WinSetOption filetype=(rust|python|php|haskell|c|cpp|latex) %{
-    #lsp-enable-window
-    #lsp-auto-hover-enable
-    #set global lsp_hover_anchor true
-    # set global lsp_snippet_callback snippets-insert
-#}
+hook global WinSetOption filetype=(rust|python|php|haskell|c|cpp|latex) %{
+    lsp-enable-window
+    lsp-auto-hover-enable
+    set global lsp_hover_anchor true
+    set global lsp_snippet_callback snippets-insert
+}
 
 #set-option global lsp_server_configuration latex.build.onSave=true
 #set-option -add global lsp_server_configuration latex.build.args=["-pdf","-pdflatex\=lualatex","-interaction\=nonstopmode","-synctex\=1","%f"]
@@ -148,8 +148,8 @@ define-command spell-enable %{
 }
 
 # modeline
-#set-option global modelinefmt %{{Error}%sh{[ $kak_opt_lsp_diagnostic_error_count -gt 0 ] && echo "$kak_opt_lsp_diagnostic_error_count"}{StatusLineInfo} %sh{ echo $kak_opt_debugger_indicator } {StatusLine}%val{bufname} %val{cursor_line}:%val{cursor_char_column} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]}
-set-option global modelinefmt %{ %sh{ echo $kak_opt_debugger_indicator } {StatusLine}%val{bufname} %val{cursor_line}:%val{cursor_char_column} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]}
+set-option global modelinefmt %{{Error}%sh{[ $kak_opt_lsp_diagnostic_error_count -gt 0 ] && echo "$kak_opt_lsp_diagnostic_error_count"}{StatusLineInfo} %sh{ echo $kak_opt_debugger_indicator } {StatusLine}%val{bufname} %val{cursor_line}:%val{cursor_char_column} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]}
+#set-option global modelinefmt %{ %sh{ echo $kak_opt_debugger_indicator } {StatusLine}%val{bufname} %val{cursor_line}:%val{cursor_char_column} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]}
 
 # Disable sql highlighting
 set global disabled_hooks '(sql-highlight|php-indent|php-trim-indent|php-insert)'
