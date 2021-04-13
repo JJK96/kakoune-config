@@ -50,7 +50,7 @@ map global prompt <a-i> "<home>(?i)<end>"
 map global user l -docstring 'lsp' ': enter-user-mode lsp<ret>'
 
 ## clipboard interaction
-# map global user p -docstring 'paste from clipboard' '!xsel -bo<ret>uU'
+map global user p -docstring 'paste from clipboard' '!pbpaste<ret>uU'
 map global user y -docstring 'copy to clipboard' '<a-|>pbcopy<ret>'
 map global user d -docstring 'cut to clipboard' '|pbcopy<ret>'
 
