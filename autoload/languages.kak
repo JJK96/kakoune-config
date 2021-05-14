@@ -58,7 +58,7 @@ hook global WinSetOption filetype=(rust) %[
     set-option buffer formatcmd rustfmt
 ]
 
-hook global WinSetOption filetype=(js) %[
+hook global WinSetOption filetype=(javascript) %[
     set-option buffer lintcmd eslint
     set-option buffer formatcmd js-beautify
 ]
