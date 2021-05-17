@@ -6,8 +6,15 @@ define-command php_format %{
     }
 }
 
+declare-option str formatcmd_json "python -m json.tool"
+declare-option str formatcmd_xml "xmllint --format -"
+declare-option str formatcmd_python "yapf"
+declare-option str formatcmd_rust "rustfmt"
+declare-option str formatcmd_javascript "js-beautify"
+declare-option str formatcmd_sql "sqlformat --reindent --keywords upper --identifiers lower /dev/stdin"
+
 hook global WinSetOption filetype=(xml) %[
-    set-option buffer formatcmd %{xmllint --format -}
+    set-option buffer formatcmd %opt{formatcmd_xml}
 ]
 
 # hook global WinSetOption filetype=(xml|html) %[
@@ -15,11 +22,11 @@ hook global WinSetOption filetype=(xml) %[
 # ]
 
 hook global WinSetOption filetype=(json) %[
-    set-option buffer formatcmd %{python -m json.tool}
+    set-option buffer formatcmd %opt{formatcmd_json}
 ]
 
 hook global WinSetOption filetype=(python) %[
-    set-option buffer formatcmd %{yapf}
+    set-option buffer formatcmd %opt{formatcmd_python}
     lsp-auto-hover-disable
     set window lsp_server_configuration pyls.plugins.pycodestyle.enabled=false pyls.plugins.pyflakes.enabled=false pyls.plugins.flake8.enabled=true
     alias window comment comment-line
@@ -55,17 +62,17 @@ hook global WinSetOption filetype=(php) %[
 ]
 
 hook global WinSetOption filetype=(rust) %[
-    set-option buffer formatcmd rustfmt
+    set-option buffer formatcmd %opt{formatcmd_rust}
 ]
 
 hook global WinSetOption filetype=(javascript) %[
     set-option buffer lintcmd eslint
-    set-option buffer formatcmd js-beautify
+    set-option buffer formatcmd %opt{formatcmd_javascript}
 ]
 
 hook global WinSetOption filetype=sql %[
     set window incsearch false
-    set-option buffer formatcmd "sqlformat --reindent --keywords upper --identifiers lower /dev/stdin"
+    set-option buffer formatcmd %opt{formatcmd_sql}
 ]
 
 hook global WinSetOption filetype=c %[
@@ -83,3 +90,10 @@ hook global WinCreate /tmp/neomutt.* %[
 # hook global WinSetOption filetype=(plain|markdown) %[
 #     set buffer lsp_server_configuration languageTool.language="en"
 # ]
+
+define-command format-selections1 -params 1 %{
+    evaluate-commands -draft %sh{
+        echo "set-option window formatcmd %opt{formatcmd_$1}"
+        echo "format-selections"
+    }
+}
