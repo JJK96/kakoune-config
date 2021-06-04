@@ -1,3 +1,8 @@
+hook global WinSetOption filetype=.* %[
+    set -add buffer snippets \
+        "Jan-Jaap Korpershoek" "JJK" %{ snippets-insert "Jan-Jaap Korpershoek"}
+]
+
 hook global WinSetOption filetype=(latex|markdown) %[
     set -add buffer snippets \
 "header" "^header" %{ snippets-insert %{---
