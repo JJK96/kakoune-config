@@ -109,3 +109,6 @@
 [submodule "plugins/kakoune-kit"]
 	path = plugins/kakoune-kit
 	url = https://github.com/chambln/kakoune-kit
+[submodule "plugins/northwave"]
+	path = plugins/northwave
+	url = git@github.com:JJK96/kakoune-northwave.git
