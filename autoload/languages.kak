@@ -92,8 +92,9 @@ hook global WinCreate /tmp/neomutt.* %[
 # ]
 
 define-command format-selections1 -params 1 %{
-    evaluate-commands -draft %sh{
+    evaluate-commands %sh{
         echo "set-option window formatcmd %opt{formatcmd_$1}"
         echo "format-selections"
+        echo "set-option window formatcmd %{$kak_opt_formatcmd}"
     }
 }
