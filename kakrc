@@ -183,7 +183,7 @@ plug "occivink/kakoune-snippets" %{
     map global snippets i -docstring "Info" ": snippets-info<ret>"
 
     add-highlighter global/ ranges snippets_placeholders 
-    set-option global snippets_directories "%opt{plug_install_dir}/kakoune-snippet-collection/snippets"
+    set-option global snippets_directories "%opt{plug_install_dir}kakoune-snippet-collection/snippets" "%opt{plug_install_dir}northwave/snippets"
     source "%val{config}/snippets.kak"
 }
 plug "andreyorst/kakoune-snippet-collection"
@@ -357,6 +357,7 @@ plug "h-youhei/kakoune-surround"
 
 # plug 'occivink/kakoune-roguelight'
 # plug 'danr/neptyne'
+plug 'northwave'
 
 # Overwrites colors defined in kak-lsp
 colorscheme gruvbox
