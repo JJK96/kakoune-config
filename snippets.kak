@@ -15,7 +15,11 @@ title: $1
 hook global WinSetOption filetype=python %[
     set -add buffer snippets \
 "interact" "interact" %{ snippets-insert %{import code
-code.interact(local=dict(globals(), **locals()))}}
+code.interact(local=dict(globals(), **locals()))}} \
+"argparse" "argparse" %{ snippets-insert %{import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument($1)
+args = parser.parse_args()}}
 ]
 
 
