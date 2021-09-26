@@ -24,7 +24,7 @@
 	url = https://github.com/Delapouite/kakoune-buffers
 [submodule "plugins/kak-tree"]
 	path = plugins/kak-tree
-	url = https://github.com/ul/kak-tree.git
+	url = https://github.com/ul/kak-tree
 [submodule "plugins/kakoune-cd"]
 	path = plugins/kakoune-cd
 	url = https://github.com/delapouite/kakoune-cd
@@ -112,3 +112,6 @@
 [submodule "plugins/northwave"]
 	path = plugins/northwave
 	url = git@github.com:JJK96/kakoune-northwave.git
+[submodule "plugins/kaktree"]
+	path = plugins/kaktree
+	url = git@github.com:JJK96/kaktree.git
