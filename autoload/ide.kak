@@ -4,7 +4,8 @@ declare-option -docstring 'File picker command' str ide_file_picker "broot"
 
 define-command ide %{
     ide-background
-    connect ide-file-picker %opt{ide_file_picker}
+    # connect ide-file-picker %opt{ide_file_picker}
+    kaktree-toggle
     connect ide-terminal
 }
 

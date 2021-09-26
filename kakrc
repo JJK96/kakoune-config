@@ -1,6 +1,8 @@
 # relative line numbers
-add-highlighter global/ number-lines -relative -hlcursor
-add-highlighter global/ wrap
+hook global BufCreate .* %[
+    add-highlighter buffer/ number-lines -relative -hlcursor
+    add-highlighter buffer/ wrap
+]
 
 add-highlighter global/ show-matching
 
@@ -354,6 +356,37 @@ plug "KJ_Duncan/kakoune-racket.kak" domain "bitbucket.org"
 # }
 plug "listentolist/kakoune-replicate"
 plug "h-youhei/kakoune-surround"
+plug "andreyorst/kaktree" config %{
+    define-command kaktree--left-action %{
+        evaluate-commands -save-regs "/" %{
+            # Check if the current directory is open
+            set-register "/" %opt{kaktree_dir_icon_open}
+            try %{
+                execute-keys xs<ret>
+            } catch %{
+                execute-keys <a-[>ik
+            }
+            kaktree--tab-action
+        }
+    }
+    hook global WinSetOption filetype=kaktree %{
+        remove-highlighter buffer/numbers
+        remove-highlighter buffer/matching
+        remove-highlighter buffer/wrap
+        remove-highlighter buffer/show-whitespaces
+        # t toggles keeping focus
+        map buffer normal t ': set buffer kaktree_keep_focus %sh{[ "$kak_opt_kaktree_keep_focus" = true ] && echo false || echo true ]}<ret>'
+        map buffer normal <left> ': kaktree--left-action<ret>'
+        map buffer normal <right> ': kaktree--tab-action<ret>'
+    }
+    kaktree-enable
+    set-option global kaktree_double_click_duration '0.5'
+    set-option global kaktree_indentation 2
+    set-option global kaktree_dir_icon_open  '▾ 📂'
+    set-option global kaktree_dir_icon_close '▸ 📁'
+    set-option global kaktree_file_icon      '⠀⠀📄'
+    set-option global kaktree_tab_open_file true
+}
 
 # plug 'occivink/kakoune-roguelight'
 # plug 'danr/neptyne'
