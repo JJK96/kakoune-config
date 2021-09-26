@@ -51,8 +51,29 @@ map global prompt <a-i> "<home>(?i)<end>"
 # user mappings
 map global user l -docstring 'lsp' ': enter-user-mode lsp<ret>'
 
+define-command paste %{
+    evaluate-commands -save-regs ^ %{
+        #Paste
+        execute-keys "!pbpaste<ret>"
+        #Select 
+        execute-keys uU
+        #Save selection
+        execute-keys -save-regs "" Z
+        try %{
+            #Remove cariage return before newline
+            execute-keys "s\r\n<ret>hd"
+        }
+        try %{
+            #Replace cariage return elsewhere with newline
+            execute-keys "zs\r<ret>r<return>"
+        }
+        #Restore selection
+        execute-keys z
+    }
+}
+
 ## clipboard interaction
-map global user p -docstring 'paste from clipboard' '!pbpaste<ret>uU'
+map global user p -docstring 'paste from clipboard' ': paste<ret>'
 map global user y -docstring 'copy to clipboard' '<a-|>pbcopy<ret>'
 map global user d -docstring 'cut to clipboard' '|pbcopy<ret>'
 
