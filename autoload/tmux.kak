@@ -2,10 +2,12 @@ hook global ModuleLoaded tmux %[
 
     define-command tmux-next-vertical %{
         alias global terminal tmux-terminal-vertical
+        alias global repl-new tmux-repl-vertical
     }
 
     define-command tmux-next-horizontal %{
         alias global terminal tmux-terminal-horizontal
+        alias global repl-new tmux-repl-horizontal
     }
 
     define-command tmux-new-horizontal -params .. %{
