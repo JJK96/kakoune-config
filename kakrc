@@ -140,11 +140,20 @@ eval %sh{kak-lsp --kakoune -s $kak_session }
 # Debug output
 #nop %sh{ (kak-lsp -s $kak_session -vvv ) > /tmp/kak-lsp.log 2>&1 < /dev/null & }
 # lsp-enable
-hook global WinSetOption filetype=(rust|python|php|haskell|c|cpp|latex|c#) %{
+
+lsp-inlay-diagnostics-enable global
+
+hook global WinSetOption filetype=(rust|python|php|haskell|c|cpp|latex|c#|racket) %{
     lsp-enable-window
     lsp-auto-hover-enable
     set global lsp_hover_anchor true
-    set global lsp_snippet_callback snippets-insert
+
+    hook window -group semantic-tokens BufReload .* lsp-semantic-tokens
+    hook window -group semantic-tokens NormalIdle .* lsp-semantic-tokens
+    hook window -group semantic-tokens InsertIdle .* lsp-semantic-tokens
+    hook -once -always window WinSetOption filetype=.* %{
+        remove-hooks window semantic-tokens
+    }
 }
 
 set-option global lsp_server_configuration latex.build.onSave=true
@@ -311,7 +320,7 @@ plug "kakoune-repl-send" %{
         set buffer repl_send_exit_command "(exit)"
     }
 }
-plug "fsub/kakoune-mark" domain gitlab %{
+plug "https://gitlab.com/fsub/kakoune-mark" %{
     declare-user-mode mark
     map global mark -docstring "mark word" m ": mark-word<ret>"
     map global mark -docstring "clear marks" c ": mark-clear<ret>"
@@ -344,9 +353,9 @@ plug 'occivink/kakoune-find'
 #     map global spell -docstring "Replace" r ': spell-replace<ret>'
 #     map global spell -docstring "Clear" c ': spell-clear<ret>'
 # }
-plug "listentolist/kakoune-table" domain "gitlab.com" config %{
+plug "https://gitlab.com/listentolist/kakoune-table" config %{
 }
-plug "andreyorst/fzf.kak" domain "gitlab.com" config %{
+plug "andreyorst/fzf.kak" config %{
     map global user f -docstring "fzf" ': fzf-mode<ret>'
 }
 plug chambln/kakoune-kit config %{
@@ -370,8 +379,7 @@ plug chambln/kakoune-kit config %{
         map window normal o     ': %val{selections}<a-!><home> git checkout '
     }
 }
-plug "KJ_Duncan/kakoune-kotlin.kak" domain "bitbucket.org"
-plug "KJ_Duncan/kakoune-racket.kak" domain "bitbucket.org"
+plug "https://bitbucket.org/KJ_Duncan/kakoune-racket.kak"
 # plug "danr/kakoune-easymotion" config %{
 #     map global user e ': enter-user-mode easymotion<ret>'
 # }
