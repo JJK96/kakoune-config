@@ -138,10 +138,8 @@ hook global BufCreate .*\.xsd %{ set buffer filetype xml }
 # Depends on https://github.com/ul/kak-lsp
 eval %sh{kak-lsp --kakoune -s $kak_session }
 # Debug output
-#nop %sh{ (kak-lsp -s $kak_session -vvv ) > /tmp/kak-lsp.log 2>&1 < /dev/null & }
+# nop %sh{ (kak-lsp -s $kak_session -vvv ) > /tmp/kak-lsp.log 2>&1 < /dev/null & }
 # lsp-enable
-
-lsp-inlay-diagnostics-enable global
 
 hook global WinSetOption filetype=(rust|python|php|haskell|c|cpp|latex|c#|racket) %{
     lsp-enable-window
