@@ -189,235 +189,208 @@ set global grepcmd 'rg -n'
 
 # Plugins
 
-source "%val{config}/plugins/plug.kak/rc/plug.kak"
-plug "andreyorst/plug.kak" noload
-plug "occivink/kakoune-phantom-selection" %{
-    declare-user-mode phantom-selection
-    map global user h -docstring "Phantom selections" ": enter-user-mode phantom-selection<ret>"
-    map global phantom-selection n -docstring "Next" ": phantom-selection-iterate-next<ret>"
-    map global phantom-selection p -docstring "Previous" ": phantom-selection-iterate-prev<ret>"
-    map global phantom-selection c -docstring "Clear" ": phantom-selection-select-all; phantom-selection-clear<ret>"
-    map global phantom-selection a -docstring "Add" ": phantom-selection-add-selection<ret>"
-}
-# plug "alexherbo2/phantom.kak" %{
-#     hook global WinCreate .* %{
-#         phantom-enable -with-maps
-#     }
-# }
-plug "occivink/kakoune-snippets" %{
-    set-option global snippets_auto_expand false
-    declare-user-mode snippets
-    #map global user s -docstring "Snippets" ": enter-user-mode snippets<ret>"
-    map global snippets n -docstring "Select next placeholder" ": snippets-select-next-placeholders<ret>"
-    map global snippets s -docstring "Snippet" ": snippets "
-    map global snippets i -docstring "Info" ": snippets-info<ret>"
+source "%val{config}/plugins/kak-bundle/rc/kak-bundle.kak"
+set-option global bundle_path "%val{config}/plugins"
 
-    add-highlighter global/ ranges snippets_placeholders 
-    set-option global snippets_directories "%opt{plug_install_dir}kakoune-snippet-collection/snippets" "%opt{plug_install_dir}northwave/snippets"
-    source "%val{config}/snippets.kak"
-}
-plug "andreyorst/kakoune-snippet-collection"
+set-option global bundle_do_install_hooks true
+set-option global bundle_install_hooks %{
+  cd $kak_config/plugins/kak-lsp
+  cargo install --locked --force --path .
 
-plug "occivink/kakoune-sudo-write"
-plug "jjk96/kakoune-fireplace"
-# plug "lenormf/kakoune-extra" load %{
-#     #syntastic.kak
-# }
-plug "jjk96/kakoune-extra-filetypes"
-plug "robertmeta/prelude.kak" %{
-    plug "robertmeta/connect.kak" %{
-        plug "alexherbo2/yank-ring.kak" %{
-            map global user Y ': yank-ring<ret>'
-        }
+  cd $kak_config/plugins/parinfer-rust
+  cargo install --locked --force --path .
+}
+
+bundle-register-and-load \
+    "https://codeberg.org/jdugan6240/kak-bundle" %{} \
+    "https://github.com/occivink/kakoune-phantom-selection" %{
+        declare-user-mode phantom-selection
+        map global user h -docstring "Phantom selections" ": enter-user-mode phantom-selection<ret>"
+        map global phantom-selection n -docstring "Next" ": phantom-selection-iterate-next<ret>"
+        map global phantom-selection p -docstring "Previous" ": phantom-selection-iterate-prev<ret>"
+        map global phantom-selection c -docstring "Clear" ": phantom-selection-select-all; phantom-selection-clear<ret>"
+        map global phantom-selection a -docstring "Add" ": phantom-selection-add-selection<ret>"
+    } \
+    "https://github.com/occivink/kakoune-snippets" %{
+        set-option global snippets_auto_expand false
+        declare-user-mode snippets
+        #map global user s -docstring "Snippets" ": enter-user-mode snippets<ret>"
+        map global snippets n -docstring "Select next placeholder" ": snippets-select-next-placeholders<ret>"
+        map global snippets s -docstring "Snippet" ": snippets "
+        map global snippets i -docstring "Info" ": snippets-info<ret>"
+
+        add-highlighter global/ ranges snippets_placeholders 
+        set-option global snippets_directories "%opt{bundle_path}kakoune-snippet-collection/snippets" "%opt{bundle_path}northwave/snippets"
+        source "%val{config}/snippets.kak"
+    } \
+    "https://github.com/andreyorst/kakoune-snippet-collection" %{} \
+    "https://github.com/occivink/kakoune-sudo-write" %{} \
+    "https://github.com/jjk96/kakoune-fireplace" %{} \
+    "https://github.com/jjk96/kakoune-extra-filetypes" %{} \
+    "https://github.com/robertmeta/prelude.kak" %{} \
+    "https://github.com/robertmeta/connect.kak" %{
+        # depends on prelude.kak
         require-module connect
         require-module connect-broot
         #set-option global connect_environment %{
             #export EDITOR=:e
         #}
-    }
-}
-plug "Delapouite/kakoune-buffers" %{
-    map global user b ': enter-user-mode -lock buffers<ret>'   -docstring 'buffers (lock)…'
-}
-plug "ul/kak-tree" %{
-    declare-user-mode tree
-    map global tree u ': tree-select-parent-node<ret>' -docstring 'parent'
-    map global tree n ': tree-select-next-node<ret>' -docstring 'next'
-    map global tree p ': tree-select-previous-node<ret>' -docstring 'previous'
-    map global tree c ': tree-select-children<ret>' -docstring 'children'
-    map global tree f ': tree-select-first-child<ret>' -docstring 'first child'
-    map global tree t ': tree-node-sexp<ret>' -docstring 'show syntax tree'
-    map global tree . ': enter-user-mode -lock tree<ret>' -docstring 'lock'
-    map global user t ': enter-user-mode tree<ret>' -docstring 'tree-sitter'
-}
-plug 'delapouite/kakoune-cd' %{
-    # Suggested aliases
-    alias global cdb change-directory-current-buffer
-    alias global cdr change-directory-project-root
-    alias global ecd edit-current-buffer-directory
-    alias global pwd print-working-directory
-}
-plug 'Delapouite/kakoune-mirror' %{
-    map global user o -docstring 'mirror' ': enter-user-mode mirror<ret>'
-    map global mirror * -docstring 'stars (markdown bold)' 'i**<esc>a**<esc>'
-    map global mirror $ -docstring '$ (latex math)' 'i$<esc>a$<esc>'
-    map global mirror . ': enter-user-mode -lock mirror<ret>'
-}
-plug 'alexherbo2/split-object.kak' %{
-    map global normal <a-L> ': enter-user-mode split-object<ret>'
-}
-plug 'eraserhd/kak-ansi'
-plug 'jjk96/kakoune-emmet' %{
-    # hook global WinSetOption filetype=(xml|html|svelte) %{
-    #     emmet-enable-autocomplete
-    # }
-}
-plug 'jjk96/kakoune-python-bridge' %{
-    # calculate
-    map global normal = ': python-bridge-send<ret>R'
-    map global normal <backspace> ': python-bridge-send<ret>'
-    python-bridge-send %{
-from math import *
-    }
-}
-plug 'jjk96/kakoune-repl-bridge' %{
-    hook global BufSetOption filetype=haskell %{
-        map buffer normal = ': repl-bridge haskell send<ret>R'
-        map buffer normal <backspace> ': repl-bridge haskell send<ret>'
-    }
-}
-plug 'jjk96/kakoune-dbgp' %{
-    hook global WinSetOption filetype=php %{
-        dbgp-enable-autojump
-        map global user x -docstring 'debugger' ': enter-user-mode dbgp<ret>'
-    }
-}
-# plug 'jjk96/kakoune-debug' %{
-#     hook global WinSetOption filetype=php %{
-#         set global debugger dbgp
-#         debugger-enable-autojump
-#     }
-#     hook global WinSetOption filetype=(c|cpp) %{
-#         set global debugger gdb
-#         debugger-enable-autojump
-#     }
-#     map global user x -docstring 'debugger' ': enter-user-mode debugger<ret>'
-# }
-plug 'occivink/kakoune-gdb'
-plug "eraserhd/parinfer-rust" do %{
-        cargo install --force --path .
-} config %{
-    hook global WinSetOption filetype=(clojure|lisp|scheme|racket|pollen|scribble) %{
-        parinfer-enable-window -smart
-    }
-}
-plug "kakoune-repl-send" %{
-    hook global BufSetOption filetype=scheme %{
-        map buffer normal <backspace> ': repl-send<ret>'
-        set buffer repl_send_command "stdbuf -o0 chicken-csi"
-        set buffer repl_send_exit_command "(exit)"
-    }
-}
-plug "https://gitlab.com/fsub/kakoune-mark" %{
-    declare-user-mode mark
-    map global mark -docstring "mark word" m ": mark-word<ret>"
-    map global mark -docstring "clear marks" c ": mark-clear<ret>"
-    map global user -docstring "mark" m ": enter-user-mode mark<ret>"
-}
-plug "andreyorst/tagbar.kak" defer "tagbar" %{
-    set-option global tagbar_sort false
-    set-option global tagbar_size 40
-    set-option global tagbar_display_anon false
-    set-option global tagbar_display_anon true
-} config %{
-    # if you have wrap highlighter enamled in you configuration
-    # files it's better to turn it off for tagbar, using this hook:
-    hook global WinSetOption filetype=tagbar %{
-        remove-highlighter window/wrap
-        # you can also disable rendering whitespaces here, line numbers, and
-        # matching characters
-    }
-}
-plug 'delapouite/kakoune-palette'
-plug 'TeddyDD/kakoune-edit-or-dir'
-plug 'jjk96/kakoune-rainbow'
-plug 'occivink/kakoune-find'
-# plug 'kak-spell' %{
-#     set-option global spell_lang en
-#     declare-user-mode spell
-#     map global spell -docstring "Enable" e ': spell %opt{spell_lang}<ret>'
-#     map global spell -docstring "Lint" u ': lint-buffer<ret>'
-#     map global spell -docstring "Next" n ': lint-next-message<ret>'
-#     map global spell -docstring "Replace" r ': spell-replace<ret>'
-#     map global spell -docstring "Clear" c ': spell-clear<ret>'
-# }
-plug "https://gitlab.com/listentolist/kakoune-table" config %{
-}
-plug "andreyorst/fzf.kak" config %{
-    map global user f -docstring "fzf" ': fzf-mode<ret>'
-}
-plug chambln/kakoune-kit config %{
-    map global user g ': git status -bs<ret>' -docstring 'git status'
-    hook global WinSetOption filetype=git-status %{
-        map window normal c ': git commit --verbose '
-        map window normal l ': git log --oneline --graph<ret>'
-        map window normal d ': -- %val{selections}<a-!><home> git diff '
-        map window normal D ': -- %val{selections}<a-!><home> git diff --cached '
-        map window normal a ': -- %val{selections}<a-!><home> git add '
-        map window normal A ': -- %val{selections}<a-!><home> repl git add -p '
-        map window normal r ': -- %val{selections}<a-!><home> git reset '
-        map window normal R ': -- %val{selections}<a-!><home> repl git reset -p '
-        map window normal o ': -- %val{selections}<a-!><home> git checkout '
-    }
-    hook global WinSetOption filetype=git-log %{
-        map window normal d     ': %val{selections}<a-!><home> git diff '
-        map window normal <ret> ': %val{selections}<a-!><home> git show '
-        map window normal r     ': %val{selections}<a-!><home> git reset '
-        map window normal R     ': %val{selections}<a-!><home> repl git reset -p '
-        map window normal o     ': %val{selections}<a-!><home> git checkout '
-    }
-}
-plug "https://bitbucket.org/KJ_Duncan/kakoune-racket.kak"
-# plug "danr/kakoune-easymotion" config %{
-#     map global user e ': enter-user-mode easymotion<ret>'
-# }
-plug "listentolist/kakoune-replicate"
-plug "h-youhei/kakoune-surround"
-plug "andreyorst/kaktree" config %{
-    define-command kaktree--left-action %{
-        evaluate-commands -save-regs "/" %{
-            # Check if the current directory is open
-            set-register "/" %opt{kaktree_dir_icon_open}
-            try %{
-                execute-keys xs<ret>
-            } catch %{
-                execute-keys <a-[>ik
-            }
-            kaktree--tab-action
+    } \
+    "https://github.com/Delapouite/kakoune-buffers" %{
+        map global user b ': enter-user-mode -lock buffers<ret>'   -docstring 'buffers (lock)…'
+    } \
+    "https://github.com/ul/kak-tree" %{
+        declare-user-mode tree
+        map global tree u ': tree-select-parent-node<ret>' -docstring 'parent'
+        map global tree n ': tree-select-next-node<ret>' -docstring 'next'
+        map global tree p ': tree-select-previous-node<ret>' -docstring 'previous'
+        map global tree c ': tree-select-children<ret>' -docstring 'children'
+        map global tree f ': tree-select-first-child<ret>' -docstring 'first child'
+        map global tree t ': tree-node-sexp<ret>' -docstring 'show syntax tree'
+        map global tree . ': enter-user-mode -lock tree<ret>' -docstring 'lock'
+        map global user t ': enter-user-mode tree<ret>' -docstring 'tree-sitter'
+    } \
+    'https://github.com/delapouite/kakoune-cd' %{
+        # Suggested aliases
+        alias global cdb change-directory-current-buffer
+        alias global cdr change-directory-project-root
+        alias global ecd edit-current-buffer-directory
+        alias global pwd print-working-directory
+    } \
+    'https://github.com/Delapouite/kakoune-mirror' %{
+        map global user o -docstring 'mirror' ': enter-user-mode mirror<ret>'
+        map global mirror * -docstring 'stars (markdown bold)' 'i**<esc>a**<esc>'
+        map global mirror $ -docstring '$ (latex math)' 'i$<esc>a$<esc>'
+        map global mirror . ': enter-user-mode -lock mirror<ret>'
+    } \
+    'https://github.com/alexherbo2/split-object.kak' %{
+        map global normal <a-L> ': enter-user-mode split-object<ret>'
+    } \
+    'https://github.com/eraserhd/kak-ansi' %{} \
+    'https://github.com/jjk96/kakoune-emmet' %{
+        # hook global WinSetOption filetype=(xml|html|svelte) %{
+        #     emmet-enable-autocomplete
+        # }
+    } \
+    'https://github.com/jjk96/kakoune-python-bridge' %{
+        # calculate
+        map global normal = ': python-bridge-send<ret>R'
+        map global normal <backspace> ': python-bridge-send<ret>'
+        python-bridge-send %{
+    from math import *
         }
-    }
-    hook global WinSetOption filetype=kaktree %{
-        remove-highlighter buffer/numbers
-        remove-highlighter buffer/matching
-        remove-highlighter buffer/wrap
-        remove-highlighter buffer/show-whitespaces
-        # t toggles keeping focus
-        map buffer normal t ': set buffer kaktree_keep_focus %sh{[ "$kak_opt_kaktree_keep_focus" = true ] && echo false || echo true ]}<ret>'
-        map buffer normal <left> ': kaktree--left-action<ret>'
-        map buffer normal <right> ': kaktree--tab-action<ret>'
-    }
-    kaktree-enable
-    set-option global kaktree_double_click_duration '0.5'
-    set-option global kaktree_indentation 2
-    set-option global kaktree_dir_icon_open  '▾ 📂'
-    set-option global kaktree_dir_icon_close '▸ 📁'
-    set-option global kaktree_file_icon      '⠀⠀📄'
-    set-option global kaktree_tab_open_file true
-}
+    } \
+    'https://github.com/jjk96/kakoune-repl-bridge' %{
+        hook global BufSetOption filetype=haskell %{
+            map buffer normal = ': repl-bridge haskell send<ret>R'
+            map buffer normal <backspace> ': repl-bridge haskell send<ret>'
+        }
+    } \
+    'https://github.com/jjk96/kakoune-dbgp' %{
+        hook global WinSetOption filetype=php %{
+            dbgp-enable-autojump
+            map global user x -docstring 'debugger' ': enter-user-mode dbgp<ret>'
+        }
+    } \
+    'https://github.com/occivink/kakoune-gdb' %{} \
+    "https://github.com/eraserhd/parinfer-rust" %{
+        hook global WinSetOption filetype=(clojure|lisp|scheme|racket|pollen|scribble) %{
+            parinfer-enable-window -smart
+        }
+    } \
+    "https://github.com/kakoune-repl-send" %{
+        hook global BufSetOption filetype=scheme %{
+            map buffer normal <backspace> ': repl-send<ret>'
+            set buffer repl_send_command "stdbuf -o0 chicken-csi"
+            set buffer repl_send_exit_command "(exit)"
+        }
+    } \
+    "https://github.com/https://gitlab.com/fsub/kakoune-mark" %{
+        declare-user-mode mark
+        map global mark -docstring "mark word" m ": mark-word<ret>"
+        map global mark -docstring "clear marks" c ": mark-clear<ret>"
+        map global user -docstring "mark" m ": enter-user-mode mark<ret>"
+    } \
+    "https://github.com/andreyorst/tagbar.kak" %{
+        hook global ModuleLoaded tagbar %{
+            set-option global tagbar_sort false
+            set-option global tagbar_size 40
+            set-option global tagbar_display_anon false
+            set-option global tagbar_display_anon true
+        }
+        # if you have wrap highlighter enamled in you configuration
+        # files it's better to turn it off for tagbar, using this hook:
+        hook global WinSetOption filetype=tagbar %{
+            remove-highlighter window/wrap
+            # you can also disable rendering whitespaces here, line numbers, and
+            # matching characters
+        }
+    } \
+    'https://github.com/delapouite/kakoune-palette' %{} \
+    'https://github.com/TeddyDD/kakoune-edit-or-dir' %{} \
+    'https://github.com/jjk96/kakoune-rainbow' %{} \
+    'https://github.com/occivink/kakoune-find' %{} \
+    "https://gitlab.com/listentolist/kakoune-table" %{} \
+    "https://github.com/andreyorst/fzf.kak" %{
+        map global user f -docstring "fzf" ': fzf-mode<ret>'
+    } \
+    'https://github.com/chambln/kakoune-kit' %{
+        map global user g ': git status -bs<ret>' -docstring 'git status'
+        hook global WinSetOption filetype=git-status %{
+            map window normal c ': git commit --verbose '
+            map window normal l ': git log --oneline --graph<ret>'
+            map window normal d ': -- %val{selections}<a-!><home> git diff '
+            map window normal D ': -- %val{selections}<a-!><home> git diff --cached '
+            map window normal a ': -- %val{selections}<a-!><home> git add '
+            map window normal A ': -- %val{selections}<a-!><home> repl git add -p '
+            map window normal r ': -- %val{selections}<a-!><home> git reset '
+            map window normal R ': -- %val{selections}<a-!><home> repl git reset -p '
+            map window normal o ': -- %val{selections}<a-!><home> git checkout '
+        }
+        hook global WinSetOption filetype=git-log %{
+            map window normal d     ': %val{selections}<a-!><home> git diff '
+            map window normal <ret> ': %val{selections}<a-!><home> git show '
+            map window normal r     ': %val{selections}<a-!><home> git reset '
+            map window normal R     ': %val{selections}<a-!><home> repl git reset -p '
+            map window normal o     ': %val{selections}<a-!><home> git checkout '
+        }
+    } \
+    "https://bitbucket.org/KJ_Duncan/kakoune-racket.kak" %{} \
+    "https://github.com/listentolist/kakoune-replicate" %{} \
+    "https://github.com/h-youhei/kakoune-surround" %{} \
+    "https://github.com/andreyorst/kaktree" %{
+        define-command kaktree--left-action %{
+            evaluate-commands -save-regs "/" %{
+                # Check if the current directory is open
+                set-register "/" %opt{kaktree_dir_icon_open}
+                try %{
+                    execute-keys xs<ret>
+                } catch %{
+                    execute-keys <a-[>ik
+                }
+                kaktree--tab-action
+            }
+        }
+        hook global WinSetOption filetype=kaktree %{
+            remove-highlighter buffer/numbers
+            remove-highlighter buffer/matching
+            remove-highlighter buffer/wrap
+            remove-highlighter buffer/show-whitespaces
+            # t toggles keeping focus
+            map buffer normal t ': set buffer kaktree_keep_focus %sh{[ "$kak_opt_kaktree_keep_focus" = true ] && echo false || echo true ]}<ret>'
+            map buffer normal <left> ': kaktree--left-action<ret>'
+            map buffer normal <right> ': kaktree--tab-action<ret>'
+        }
+        kaktree-enable
+        set-option global kaktree_double_click_duration '0.5'
+        set-option global kaktree_indentation 2
+        set-option global kaktree_dir_icon_open  '▾ 📂'
+        set-option global kaktree_dir_icon_close '▸ 📁'
+        set-option global kaktree_file_icon      '⠀⠀📄'
+        set-option global kaktree_tab_open_file true
+    } \
+    'ls ./northwave' %{}
 
-# plug 'occivink/kakoune-roguelight'
-# plug 'danr/neptyne'
-plug 'northwave'
 
 # Overwrites colors defined in kak-lsp
 colorscheme gruvbox

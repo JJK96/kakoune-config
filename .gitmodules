@@ -115,3 +115,6 @@
 [submodule "plugins/kaktree"]
 	path = plugins/kaktree
 	url = git@github.com:JJK96/kaktree.git
+[submodule "plugins/kak-bundle"]
+	path = plugins/kak-bundle
+	url = https://codeberg.org/jdugan6240/kak-bundle
