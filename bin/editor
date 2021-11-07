@@ -1,4 +1,4 @@
-#!/bin/bash
+#!bash
 # Wrapper around kakoune to automatically connect to a currently active session
 # or create a new one.
 # Also has some other tricks like opening standard input as a tmp file.
