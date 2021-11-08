@@ -389,6 +389,7 @@ bundle-register-and-load \
         set-option global kaktree_file_icon      '⠀⠀📄'
         set-option global kaktree_tab_open_file true
     } \
+    "https://github.com/andreyorst/fzf.kak" %{} \
     'ls ./northwave' %{}
 
 
