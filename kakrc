@@ -167,7 +167,7 @@ map global spell e -docstring 'enable'  ": spell-enable<ret>"
 map global spell r -docstring 'replace' ": spell-replace<ret>"
 map global spell n -docstring 'next'    ": spell-next<ret>"
 map global spell c -docstring 'clear'   ": spell-clear<ret>"
-map global user s -docstring 'spell' ": enter-user-mode -lock spell<ret>"
+# map global user s -docstring 'spell' ": enter-user-mode -lock spell<ret>"
 declare-option str language en-GB
 define-command spell-enable %{
     #hook global WinSetOption filetype=(latex|markdown|git-commit) %{
@@ -203,14 +203,6 @@ set-option global bundle_install_hooks %{
 
 bundle-register-and-load \
     "https://codeberg.org/jdugan6240/kak-bundle" %{} \
-    "https://github.com/occivink/kakoune-phantom-selection" %{
-        declare-user-mode phantom-selection
-        map global user h -docstring "Phantom selections" ": enter-user-mode phantom-selection<ret>"
-        map global phantom-selection n -docstring "Next" ": phantom-selection-iterate-next<ret>"
-        map global phantom-selection p -docstring "Previous" ": phantom-selection-iterate-prev<ret>"
-        map global phantom-selection c -docstring "Clear" ": phantom-selection-select-all; phantom-selection-clear<ret>"
-        map global phantom-selection a -docstring "Add" ": phantom-selection-add-selection<ret>"
-    } \
     "https://github.com/occivink/kakoune-snippets" %{
         set-option global snippets_auto_expand false
         declare-user-mode snippets
@@ -228,7 +220,7 @@ bundle-register-and-load \
     "https://github.com/jjk96/kakoune-fireplace" %{} \
     "https://github.com/jjk96/kakoune-extra-filetypes" %{} \
     "https://github.com/robertmeta/prelude.kak" %{} \
-    "https://github.com/robertmeta/connect.kak" %{
+    "https://github.com/jjk96/connect.kak" %{
         # depends on prelude.kak
         require-module connect
         require-module connect-broot
@@ -238,17 +230,6 @@ bundle-register-and-load \
     } \
     "https://github.com/Delapouite/kakoune-buffers" %{
         map global user b ': enter-user-mode -lock buffers<ret>'   -docstring 'buffers (lock)…'
-    } \
-    "https://github.com/ul/kak-tree" %{
-        declare-user-mode tree
-        map global tree u ': tree-select-parent-node<ret>' -docstring 'parent'
-        map global tree n ': tree-select-next-node<ret>' -docstring 'next'
-        map global tree p ': tree-select-previous-node<ret>' -docstring 'previous'
-        map global tree c ': tree-select-children<ret>' -docstring 'children'
-        map global tree f ': tree-select-first-child<ret>' -docstring 'first child'
-        map global tree t ': tree-node-sexp<ret>' -docstring 'show syntax tree'
-        map global tree . ': enter-user-mode -lock tree<ret>' -docstring 'lock'
-        map global user t ': enter-user-mode tree<ret>' -docstring 'tree-sitter'
     } \
     'https://github.com/delapouite/kakoune-cd' %{
         # Suggested aliases
@@ -335,7 +316,7 @@ bundle-register-and-load \
         map global user f -docstring "fzf" ': fzf-mode<ret>'
     } \
     'https://github.com/chambln/kakoune-kit' %{
-        map global user g ': git status -bs<ret>' -docstring 'git status'
+        # map global user g ': git status -bs<ret>' -docstring 'git status'
         hook global WinSetOption filetype=git-status %{
             map window normal c ': git commit --verbose '
             map window normal l ': git log --oneline --graph<ret>'
@@ -356,7 +337,6 @@ bundle-register-and-load \
         }
     } \
     "https://bitbucket.org/KJ_Duncan/kakoune-racket.kak" %{} \
-    "https://github.com/listentolist/kakoune-replicate" %{} \
     "https://github.com/h-youhei/kakoune-surround" %{} \
     "https://github.com/andreyorst/kaktree" %{
         define-command kaktree--left-action %{
