@@ -16,6 +16,6 @@ define-command woordenboek-mappings %{
     set-option buffer fzf_use_main_selection false
     set-option buffer fzf_preview_tmux_height 100%
     set-option buffer fzf_tmux_height 100%
-    map buffer user r %{: rijmwoorden %val{selection}<ret>}
-    map buffer user s %{: synoniemen %val{selection}<ret>}
+    map -docstring "Rijmwoorden" buffer user r %{: rijmwoorden %val{selection}<ret>}
+    map -docstring "Synoniemen" buffer user s %{: synoniemen %val{selection}<ret>}
 }
