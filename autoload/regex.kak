@@ -1,3 +1,3 @@
 define-command select-ip %{
-    execute-keys 's\d+\.\d+\.\d+\.\d+<ret>'
+    execute-keys 's\d{,3}\.\d{,3}\.\d{,3}\.\d{,3}<ret>'
 }
