@@ -338,7 +338,7 @@ bundle-register-and-load \
     } \
     "https://bitbucket.org/KJ_Duncan/kakoune-racket.kak" %{} \
     "https://github.com/h-youhei/kakoune-surround" %{} \
-    "https://github.com/andreyorst/kaktree" %{
+    "https://github.com/JJK96/kaktree" %{
         define-command kaktree--left-action %{
             evaluate-commands -save-regs "/" %{
                 # Check if the current directory is open
