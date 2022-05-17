@@ -118,3 +118,6 @@
 [submodule "plugins/kak-bundle"]
 	path = plugins/kak-bundle
 	url = https://codeberg.org/jdugan6240/kak-bundle
+[submodule "plugins/kakoune-buffer-switcher"]
+	path = plugins/kakoune-buffer-switcher
+	url = https://github.com/occivink/kakoune-buffer-switcher
