@@ -141,7 +141,7 @@ eval %sh{kak-lsp --kakoune -s $kak_session }
 # nop %sh{ (kak-lsp -s $kak_session -vvv ) > /tmp/kak-lsp.log 2>&1 < /dev/null & }
 # lsp-enable
 
-hook global WinSetOption filetype=(rust|python|php|haskell|c|cpp|latex|c#|racket) %{
+hook global WinSetOption filetype=(rust|python|php|haskell|cpp|latex|c#|racket) %{
     lsp-enable-window
     lsp-auto-hover-enable
     set global lsp_hover_anchor true
@@ -187,6 +187,10 @@ set global disabled_hooks '(sql-highlight|php-indent|php-trim-indent|php-insert)
 # Use ripgrep instead of grep
 set global grepcmd 'rg -n'
 
+# Editorconfig
+hook global BufOpenFile .* editorconfig-load
+hook global BufNewFile .* editorconfig-load
+
 # Plugins
 
 source "%val{config}/plugins/kak-bundle/rc/kak-bundle.kak"
@@ -212,7 +216,7 @@ bundle-register-and-load \
         map global snippets i -docstring "Info" ": snippets-info<ret>"
 
         add-highlighter global/ ranges snippets_placeholders 
-        set-option global snippets_directories "%opt{bundle_path}kakoune-snippet-collection/snippets" "%opt{bundle_path}northwave/snippets"
+        set-option global snippets_directories "%opt{bundle_path}/kakoune-snippet-collection/snippets" "%opt{bundle_path}/northwave/snippets"
         source "%val{config}/snippets.kak"
     } \
     "https://github.com/andreyorst/kakoune-snippet-collection" %{} \
@@ -370,6 +374,7 @@ bundle-register-and-load \
         set-option global kaktree_tab_open_file true
     } \
     "https://github.com/andreyorst/fzf.kak" %{} \
+    "https://github.com/occivink/kakoune-buffer-switcher" %{} \
     'ls ./northwave' %{}
 
 

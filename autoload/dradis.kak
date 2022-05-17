@@ -42,6 +42,6 @@ hook global BufSetOption filetype=dradis %{
     map -docstring "| Redact" buffer user R "|redact<ret>"
 }
 
-hook global WinCreate ".*(dradisfs.*|.issue$)" %{
+hook global WinCreate ".*(dradisfs/.*|.issue$)" %{
     set-option buffer filetype dradis
 }
