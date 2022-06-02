@@ -73,9 +73,9 @@ define-command paste %{
 }
 
 ## clipboard interaction
-map global user p -docstring 'paste from clipboard' ': paste<ret>'
-map global user y -docstring 'copy to clipboard' '<a-|>pbcopy<ret>'
-map global user d -docstring 'cut to clipboard' '|pbcopy<ret>'
+map global user p -docstring 'paste from clipboard' '! powershell.exe -Command get-clipboard<ret>'
+map global user y -docstring 'copy to clipboard' '<a-|>clip.exe<ret>'
+map global user d -docstring 'cut to clipboard' '|clip.exe<ret>'
 
 # format
 # map global user f -docstring 'format buffer' ':format<ret>'
