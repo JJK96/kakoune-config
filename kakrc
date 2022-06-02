@@ -283,7 +283,7 @@ bundle-register-and-load \
             parinfer-enable-window -smart
         }
     } \
-    "https://github.com/kakoune-repl-send" %{
+    "https://github.com/jjk96/kakoune-repl-send" %{
         hook global BufSetOption filetype=scheme %{
             map buffer normal <backspace> ': repl-send<ret>'
             set buffer repl_send_command "stdbuf -o0 chicken-csi"
@@ -373,7 +373,6 @@ bundle-register-and-load \
         set-option global kaktree_file_icon      '⠀⠀📄'
         set-option global kaktree_tab_open_file true
     } \
-    "https://github.com/andreyorst/fzf.kak" %{} \
     "https://github.com/occivink/kakoune-buffer-switcher" %{} \
     'ls ./northwave' %{}
 
