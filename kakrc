@@ -261,8 +261,35 @@ bundle-register-and-load \
         # calculate
         map global normal = ': python-bridge-send<ret>R'
         map global normal <backspace> ': python-bridge-send<ret>'
-        python-bridge-send %{
-    from math import *
+        try %{
+            python-bridge-send %{
+from math import *
+import struct
+import codecs
+# Display integers as hex
+oldprint = print
+def hexon():
+    global print
+    def print(item):
+        if isinstance(item, int) and not isinstance(item, bool):
+            oldprint(hex(item))
+        else:
+            oldprint(item)
+
+def hexoff():
+    global print
+    print = oldprint
+
+def unhex(val):
+    oldprint(val)
+
+def hex_to_long(hex):
+    return struct.unpack("<Q", codecs.decode(hex, "hex"))[0]
+
+hexon()
+            }
+        } catch %{
+            echo -debug "Python bridge: [ERROR]" %val{error}
         }
     } \
     'https://github.com/jjk96/kakoune-repl-bridge' %{
