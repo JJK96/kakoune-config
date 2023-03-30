@@ -136,7 +136,7 @@ hook global BufCreate .*\.xsd %{ set buffer filetype xml }
 # kakoune language server
 
 # Depends on https://github.com/ul/kak-lsp
-eval %sh{kak-lsp --kakoune -s $kak_session }
+# eval %sh{kak-lsp --kakoune -s $kak_session }
 # Debug output
 # nop %sh{ (kak-lsp -s $kak_session -vvv ) > /tmp/kak-lsp.log 2>&1 < /dev/null & }
 # lsp-enable
@@ -154,8 +154,8 @@ hook global WinSetOption filetype=(rust|python|php|haskell|c|cpp|latex|c#|racket
     }
 }
 
-set-option global lsp_server_configuration latex.build.onSave=true
-set-option -add global lsp_server_configuration latex.build.args=["-pdf","-pdflatex\=lualatex","-interaction\=nonstopmode","-synctex\=1","%f"]
+# set-option global lsp_server_configuration latex.build.onSave=true
+# set-option -add global lsp_server_configuration latex.build.args=["-pdf","-pdflatex\=lualatex","-interaction\=nonstopmode","-synctex\=1","%f"]
 # set-option -add global lsp_server_configuration latex.build.forwardSearchAfter=true
 # set-option -add global lsp_server_configuration latex.forwardSearch.executable="okular"
 # set-option -add global lsp_server_configuration latex.forwardSearch.args=["--noraise","--unique","file:%p#src:%l%f"]
@@ -200,6 +200,8 @@ set-option global bundle_install_hooks %{
   cd $kak_config/plugins/parinfer-rust
   cargo install --locked --force --path .
 }
+
+map global user f -docstring "fzf" ': fzf-mode<ret>'
 
 bundle-register-and-load \
     "https://codeberg.org/jdugan6240/kak-bundle" %{} \
@@ -253,44 +255,26 @@ bundle-register-and-load \
         #     emmet-enable-autocomplete
         # }
     } \
-    'https://github.com/jjk96/kakoune-python-bridge' %{
-        # calculate
-        map global normal = ': python-bridge-send<ret>R'
-        map global normal <backspace> ': python-bridge-send<ret>'
-        python-bridge-send %{
-    from math import *
-        }
-    } \
     'https://github.com/jjk96/kakoune-repl-bridge' %{
         hook global BufSetOption filetype=haskell %{
             map buffer normal = ': repl-bridge haskell send<ret>R'
             map buffer normal <backspace> ': repl-bridge haskell send<ret>'
         }
     } \
-    'https://github.com/jjk96/kakoune-dbgp' %{
-        hook global WinSetOption filetype=php %{
-            dbgp-enable-autojump
-            map global user x -docstring 'debugger' ': enter-user-mode dbgp<ret>'
+    'https://github.com/jjk96/kakoune-python-bridge' %{
+        # map global normal = ': python-bridge-send<ret>R'
+        # map global normal <backspace> ': python-bridge-send<ret>'
+    } \
+    'https://github.com/jjk96/kakoune-node-bridge' %{
+        hook global BufSetOption filetype=javascript %{
+            map buffer normal = ': node-bridge-send<ret>R'
+            map buffer normal <backspace> ': node-bridge-send<ret>'
         }
     } \
-    'https://github.com/occivink/kakoune-gdb' %{} \
     "https://github.com/eraserhd/parinfer-rust" %{
         hook global WinSetOption filetype=(clojure|lisp|scheme|racket|pollen|scribble) %{
             parinfer-enable-window -smart
         }
-    } \
-    "https://github.com/kakoune-repl-send" %{
-        hook global BufSetOption filetype=scheme %{
-            map buffer normal <backspace> ': repl-send<ret>'
-            set buffer repl_send_command "stdbuf -o0 chicken-csi"
-            set buffer repl_send_exit_command "(exit)"
-        }
-    } \
-    "https://github.com/https://gitlab.com/fsub/kakoune-mark" %{
-        declare-user-mode mark
-        map global mark -docstring "mark word" m ": mark-word<ret>"
-        map global mark -docstring "clear marks" c ": mark-clear<ret>"
-        map global user -docstring "mark" m ": enter-user-mode mark<ret>"
     } \
     "https://github.com/andreyorst/tagbar.kak" %{
         hook global ModuleLoaded tagbar %{
@@ -312,9 +296,6 @@ bundle-register-and-load \
     'https://github.com/jjk96/kakoune-rainbow' %{} \
     'https://github.com/occivink/kakoune-find' %{} \
     "https://gitlab.com/listentolist/kakoune-table" %{} \
-    "https://github.com/andreyorst/fzf.kak" %{
-        map global user f -docstring "fzf" ': fzf-mode<ret>'
-    } \
     'https://github.com/chambln/kakoune-kit' %{
         # map global user g ': git status -bs<ret>' -docstring 'git status'
         hook global WinSetOption filetype=git-status %{
@@ -370,7 +351,6 @@ bundle-register-and-load \
         set-option global kaktree_tab_open_file true
     } \
     "https://github.com/andreyorst/fzf.kak" %{} \
-    'ls ./northwave' %{}
 
 
 # Overwrites colors defined in kak-lsp
