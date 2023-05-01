@@ -78,7 +78,7 @@
 	url = https://github.com/eraserhd/parinfer-rust
 [submodule "plugins/kakoune-repl-send"]
 	path = plugins/kakoune-repl-send
-	url = git@github.com:JJK96/kakoune-repl-send.git
+	url = https://github.com/jjk96/kakoune-repl-send
 [submodule "plugins/kakoune-palette"]
 	path = plugins/kakoune-palette
 	url = https://github.com/delapouite/kakoune-palette
@@ -121,3 +121,6 @@
 [submodule "plugins/kakoune-buffer-switcher"]
 	path = plugins/kakoune-buffer-switcher
 	url = https://github.com/occivink/kakoune-buffer-switcher
+[submodule "plugins/kak-lsp"]
+	path = plugins/kak-lsp
+	url = https://github.com/kak-lsp/kak-lsp
