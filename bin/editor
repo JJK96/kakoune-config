@@ -58,7 +58,7 @@ fi
 
 # Build the command to give to kakoune
 for file in "${args[@]}"; do
-    filepath="$(realpath "$file")"
+    filepath="$(grealpath "$file")"
     if [ -z $in_terminal ]; then
         # Extra escape
         filepath="\"$filepath\""
