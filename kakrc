@@ -143,7 +143,7 @@ eval %sh{kak-lsp --kakoune -s $kak_session }
 
 hook global WinSetOption filetype=(rust|python|php|haskell|cpp|latex|c#|racket) %{
     lsp-enable-window
-    lsp-auto-hover-enable
+    #lsp-auto-hover-enable
     set global lsp_hover_anchor true
 
     hook window -group semantic-tokens BufReload .* lsp-semantic-tokens
@@ -210,10 +210,9 @@ bundle kakoune-snippets "https://github.com/occivink/kakoune-snippets" %{
     map global snippets i -docstring "Info" ": snippets-info<ret>"
 
     add-highlighter global/ ranges snippets_placeholders 
-    set-option global snippets_directories "%opt{bundle_path}/kakoune-snippet-collection/snippets" "%opt{bundle_path}/northwave/snippets"
+    set-option global snippets_directories "%opt{bundle_path}/northwave/snippets"
     source "%val{config}/snippets.kak"
 }
-bundle kakoune-snippet-collection "https://github.com/andreyorst/kakoune-snippet-collection"
 bundle kakoune-sudo-write "https://github.com/occivink/kakoune-sudo-write"
 bundle kakoune-extra-filetypes "https://github.com/jjk96/kakoune-extra-filetypes"
 bundle prelude "https://github.com/robertmeta/prelude.kak" %{
@@ -272,10 +271,13 @@ global print
 print = oldprint
 
 def unhex(val):
-oldprint(val)
+    oldprint(val)
 
 def hex_to_long(hex):
-return struct.unpack("<Q", codecs.decode(hex, "hex"))[0]
+    return struct.unpack("<Q", codecs.decode(hex, "hex"))[0]
+
+def twos_comp(x):
+    return hex(x+(2<<31))
 
 hexon()
         }

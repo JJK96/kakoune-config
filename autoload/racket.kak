@@ -36,7 +36,7 @@ hook global WinSetOption filetype=racket %{
     set window indentwidth 2
 }
 
-# hook global WinCreate .*\.rkt %{
-#     set buffer filetype lisp
-#     set buffer indentwidth 2
-# }
+hook global WinCreate .*\.rkt %{
+    set buffer filetype lisp
+    set buffer indentwidth 2
+}
