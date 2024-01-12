@@ -210,7 +210,7 @@ bundle kakoune-snippets "https://github.com/occivink/kakoune-snippets" %{
     map global snippets i -docstring "Info" ": snippets-info<ret>"
 
     add-highlighter global/ ranges snippets_placeholders 
-    set-option global snippets_directories "%opt{bundle_path}/northwave/snippets"
+    set-option global snippets_directories "%val{config}/autoload/northwave/snippets"
     source "%val{config}/snippets.kak"
 }
 bundle kakoune-sudo-write "https://github.com/occivink/kakoune-sudo-write"
@@ -367,7 +367,6 @@ bundle kaktree "https://github.com/JJK96/kaktree" %{
     set-option global kaktree_tab_open_file true
 }
 bundle kakoune-buffer-switcher "https://github.com/occivink/kakoune-buffer-switcher"
-bundle northwave 'ls ./northwave'
 
 # Overwrites colors defined in kak-lsp
 colorscheme gruvbox

@@ -109,9 +109,6 @@
 [submodule "plugins/kakoune-kit"]
 	path = plugins/kakoune-kit
 	url = https://github.com/chambln/kakoune-kit
-[submodule "plugins/northwave"]
-	path = plugins/northwave
-	url = git@github.com:JJK96/kakoune-northwave.git
 [submodule "plugins/kaktree"]
 	path = plugins/kaktree
 	url = git@github.com:JJK96/kaktree.git
@@ -124,3 +121,6 @@
 [submodule "plugins/kak-lsp"]
 	path = plugins/kak-lsp
 	url = https://github.com/kak-lsp/kak-lsp
+[submodule "autoload/northwave"]
+	path = autoload/northwave
+	url = git@github.com:JJK96/kakoune-northwave.git
