@@ -49,7 +49,7 @@ map global normal <a-h> Gi
 map global prompt <a-i> "<home>(?i)<end>"
 
 # user mappings
-map global user l -docstring 'lsp' ': enter-user-mode lsp<ret>'
+# map global user l -docstring 'lsp' ': enter-user-mode lsp<ret>'
 
 define-command paste %{
     evaluate-commands -save-regs ^ %{
@@ -136,26 +136,26 @@ hook global BufCreate .*\.xsd %{ set buffer filetype xml }
 # kakoune language server
 
 # Depends on https://github.com/ul/kak-lsp
-eval %sh{kak-lsp --kakoune -s $kak_session }
+# eval %sh{kak-lsp --kakoune -s $kak_session }
 # Debug output
 # nop %sh{ (kak-lsp -s $kak_session -vvv ) > /tmp/kak-lsp.log 2>&1 < /dev/null & }
 # lsp-enable
 
-hook global WinSetOption filetype=(rust|python|php|haskell|cpp|latex|c#|racket) %{
-    lsp-enable-window
-    #lsp-auto-hover-enable
-    set global lsp_hover_anchor true
+# hook global WinSetOption filetype=(rust|python|php|haskell|cpp|latex|c#|racket) %{
+#     lsp-enable-window
+#     #lsp-auto-hover-enable
+#     set global lsp_hover_anchor true
 
-    hook window -group semantic-tokens BufReload .* lsp-semantic-tokens
-    hook window -group semantic-tokens NormalIdle .* lsp-semantic-tokens
-    hook window -group semantic-tokens InsertIdle .* lsp-semantic-tokens
-    hook -once -always window WinSetOption filetype=.* %{
-        remove-hooks window semantic-tokens
-    }
-}
+#     hook window -group semantic-tokens BufReload .* lsp-semantic-tokens
+#     hook window -group semantic-tokens NormalIdle .* lsp-semantic-tokens
+#     hook window -group semantic-tokens InsertIdle .* lsp-semantic-tokens
+#     hook -once -always window WinSetOption filetype=.* %{
+#         remove-hooks window semantic-tokens
+#     }
+# }
 
-set-option global lsp_server_configuration latex.build.onSave=true
-set-option -add global lsp_server_configuration latex.build.args=["-pdf","-pdflatex\=lualatex","-interaction\=nonstopmode","-synctex\=1","%f"]
+# set-option global lsp_server_configuration latex.build.onSave=true
+# set-option -add global lsp_server_configuration latex.build.args=["-pdf","-pdflatex\=lualatex","-interaction\=nonstopmode","-synctex\=1","%f"]
 # set-option -add global lsp_server_configuration latex.build.forwardSearchAfter=true
 # set-option -add global lsp_server_configuration latex.forwardSearch.executable="okular"
 # set-option -add global lsp_server_configuration latex.forwardSearch.args=["--noraise","--unique","file:%p#src:%l%f"]
@@ -178,8 +178,8 @@ define-command spell-enable %{
 }
 
 # modeline
-set-option global modelinefmt %{{Error}%sh{[ $kak_opt_lsp_diagnostic_error_count -gt 0 ] && echo "$kak_opt_lsp_diagnostic_error_count"}{StatusLineInfo} %sh{ echo $kak_opt_debugger_indicator } {StatusLine}%val{bufname} %val{cursor_line}:%val{cursor_char_column} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]}
-#set-option global modelinefmt %{ %sh{ echo $kak_opt_debugger_indicator } {StatusLine}%val{bufname} %val{cursor_line}:%val{cursor_char_column} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]}
+# set-option global modelinefmt %{{Error}%sh{[ $kak_opt_lsp_diagnostic_error_count -gt 0 ] && echo "$kak_opt_lsp_diagnostic_error_count"}{StatusLineInfo} %sh{ echo $kak_opt_debugger_indicator } {StatusLine}%val{bufname} %val{cursor_line}:%val{cursor_char_column} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]}
+set-option global modelinefmt %{ %sh{ echo $kak_opt_debugger_indicator } {StatusLine}%val{bufname} %val{cursor_line}:%val{cursor_char_column} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]}
 
 # Disable sql highlighting
 set global disabled_hooks '(sql-highlight|php-indent|php-trim-indent|php-insert)'
@@ -197,10 +197,10 @@ source "%val{config}/plugins/kak-bundle/rc/kak-bundle.kak"
 set-option global bundle_path "%val{config}/plugins"
 
 bundle-noload kak-bundle "https://git.sr.ht/~jdugan6240/kak-bundle"
-bundle-noload kak-lsp https://github.com/kak-lsp/kak-lsp %{
-} %{
-  cargo install --locked --force --path .
-}
+# bundle-noload kak-lsp https://github.com/kak-lsp/kak-lsp %{
+# } %{
+#   cargo install --locked --force --path .
+# }
 bundle kakoune-snippets "https://github.com/occivink/kakoune-snippets" %{
     set-option global snippets_auto_expand false
     declare-user-mode snippets
