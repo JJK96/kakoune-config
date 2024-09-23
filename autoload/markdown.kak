@@ -44,6 +44,19 @@ define-command markdown_toggle_checkbox %{
     }
 }
 
+define-command enable-markdown-compile %{
+    # compile markdown in background on save.
+    hook window -group markdown-compile BufWritePost .* %{ nop %sh{ (
+        pandoc -o $kak_opt_markdown_out_file $kak_buffile && \
+        if [ "$kak_opt_markdown_filetype" = "pdf" ]; then
+            eval "$kak_opt_markdown_pdf_reset"
+        fi
+        ) > /dev/null 2>&1 < /dev/null &
+    }}
+    markdown_set_out_file
+}
+
+
 hook global WinSetOption filetype=markdown %{
 
     hook window WinSetOption markdown_tmp=.* %{
@@ -54,24 +67,12 @@ hook global WinSetOption filetype=markdown %{
         markdown_set_out_file
     }
 
-    define-command enable-markdown-compile %{
-        # compile markdown in background on save.
-        hook window -group markdown-compile BufWritePost .* %{ nop %sh{ (
-            pandoc -o $kak_opt_markdown_out_file $kak_buffile && \
-            if [ "$kak_opt_markdown_filetype" = "pdf" ]; then
-                eval "$kak_opt_markdown_pdf_reset"
-            fi
-            ) > /dev/null 2>&1 < /dev/null &
-        }}
-        markdown_set_out_file
-    }
-
     hook -once global WinSetOption filetype=(?!markdown).* %{
         remove-hooks window markdown-compile
     }
 
     map global insert <c-b> "****<esc>hhi"
-    map -docstring "Toggle checkbox" global user c ": markdown_toggle_checkbox<ret>"
+    map -docstring "Toggle checkbox" buffer user c ": markdown_toggle_checkbox<ret>"
 
 }
 
