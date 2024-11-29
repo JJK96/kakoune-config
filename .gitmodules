@@ -124,3 +124,6 @@
 [submodule "autoload/northwave"]
 	path = autoload/northwave
 	url = git@github.com:JJK96/kakoune-northwave.git
+[submodule "plugins/kakoune-node-bridge"]
+	path = plugins/kakoune-node-bridge
+	url = git@github.com:JJK96/kakoune-node-bridge
