@@ -285,6 +285,12 @@ hexon()
         echo -debug "Python bridge: [ERROR]" %val{error}
     }
 }
+bundle kakoune-node-bridge 'https://github.com/jjk96/kakoune-node-bridge' %{
+    hook global BufSetOption filetype=(html|javascript) %{
+        map buffer normal = ': node-bridge-send<ret>R'
+        map buffer normal <backspace> ': node-bridge-send<ret>'
+    }
+}
 bundle kakoune-repl-bridge 'https://github.com/jjk96/kakoune-repl-bridge' %{
     hook global BufSetOption filetype=haskell %{
         map buffer normal = ': repl-bridge haskell send<ret>R'
