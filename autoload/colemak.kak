@@ -23,8 +23,8 @@ map global normal <a-E> <a-K>
 map global normal <a-K> <a-E>
 
 # Select whole lines when moving selection with J or K
-map global normal N J<a-x>
-map global normal E K<a-x>
+map global normal N Jx
+map global normal E Kx
 
 # Make I insert before every line
 map global normal L "<a-s>I"

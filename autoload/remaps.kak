@@ -13,8 +13,8 @@
 # map global normal <a-B> B
 
 # Select whole lines when moving selection with J or K
-map global normal J J<a-x>
-map global normal K K<a-x>
+map global normal J Jx
+map global normal K Kx
 
 # Make I insert before every line
 map global normal I "<a-s>I"
@@ -22,9 +22,9 @@ map global normal I "<a-s>I"
 map global normal A "<a-s>A"
 
 # Swap escape and comma
-map global normal , <space>
-map global normal <a-,> <a-space>
-map global normal <space> ,
+#map global normal , <space>
+#map global normal <a-,> <a-space>
+#map global normal <space> ,
 map global normal <backspace> <space>
 map global normal <a-backspace> <a-space>
 
@@ -39,5 +39,5 @@ map global normal <c-f> <c-d>
 # map global normal } 10j
 
 # Better x
-map global normal x <a-x>
-map global normal <a-x> gi<a-l>
+#map global normal x <a-x>
+#map global normal <a-x> gi<a-l>
