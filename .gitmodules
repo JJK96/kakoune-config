@@ -127,3 +127,9 @@
 [submodule "plugins/kakoune-node-bridge"]
 	path = plugins/kakoune-node-bridge
 	url = git@github.com:JJK96/kakoune-node-bridge
+[submodule "plugins/prelude"]
+	path = plugins/prelude
+	url = https://github.com/robertmeta/prelude.kak
+[submodule "plugins/kakoune-racket"]
+	path = plugins/kakoune-racket
+	url = https://bitbucket.org/KJ_Duncan/kakoune-racket.kak
