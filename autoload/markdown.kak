@@ -29,7 +29,7 @@ define-command markdown_open_reader %{
 
 define-command markdown_toggle_checkbox %{
     evaluate-commands -draft %{
-        execute-keys -save-regs "" <a-x>s\[.\]<ret>h
+        execute-keys -save-regs "" xs\[.\]<ret>h
         evaluate-commands -itersel %{
             execute-keys -save-regs "" y
             set-register dquote %sh{
