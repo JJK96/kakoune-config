@@ -54,7 +54,7 @@ map global prompt <a-i> "<home>(?i)<end>"
 define-command paste %{
     evaluate-commands -save-regs ^ %{
         #Paste
-        execute-keys "!pbpaste<ret>"
+        execute-keys "!xclip -selection clipboard -o<ret>"
         #Select 
         execute-keys uU
         #Save selection
@@ -74,8 +74,8 @@ define-command paste %{
 
 ## clipboard interaction
 map global user p -docstring 'paste from clipboard' ': paste<ret>'
-map global user y -docstring 'copy to clipboard' '<a-|>pbcopy<ret>'
-map global user d -docstring 'cut to clipboard' '|pbcopy<ret>'
+map global user y -docstring 'copy to clipboard' '<a-|>xclip -selection clipboard<ret>'
+map global user d -docstring 'cut to clipboard' '|xclip -selection clipboard<ret>'
 
 # format
 # map global user f -docstring 'format buffer' ':format<ret>'
