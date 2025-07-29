@@ -1,4 +1,4 @@
-hook global BufOpenFile /private/var/folders.*batch\..* %[
+hook global BufOpenFile /tmp/batch_.* %[
     set buffer filetype batch
 ]
 
