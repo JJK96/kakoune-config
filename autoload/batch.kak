@@ -1,4 +1,4 @@
-hook global BufOpenFile /tmp/batch_.* %[
+hook global BufOpenFile /tmp/batch_.*/.* %[
     set buffer filetype batch
 ]
 
