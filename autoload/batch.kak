@@ -3,5 +3,5 @@ hook global BufOpenFile /tmp/batch_.*/.* %[
 ]
 
 hook global BufSetOption filetype=batch %[
-    map buffer normal x <a-s><a-x>H
+    map buffer normal x x<a-s><a-x>H
 ]
